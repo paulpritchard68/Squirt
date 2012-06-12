@@ -1,0 +1,153 @@
+SQUIRT
+======
+A collection of utilities that can be used to build, maintain and execute frequently used FTP scripts. The intention is to build a solution that is a bit more maintainable than having an ever-growing collection of bash scripts.
+
+Usage
+=====
+
+Synopsis
+--------
+usage: squirt.py [-h] {build,copy,delete,display,list,exec,init} …
+
+positional arguments:
+  {build,copy,delete,display,list,exec,init}
+                        Commands
+    build               Build script
+    copy                Copy script
+    delete              Delete script
+    display             Display script
+    list                List currently defined scripts
+    exec                Execute script
+    init                Initialise
+
+optional arguments:
+  -h, --help            show this help message and exit
+The Commands
+
+build
+-----
+usage: squirt.py build [-h] [--host HOST] [--user USER] [--password PASSWORD]
+                       [--local LOCAL] [--remote REMOTE] [--do DO]
+                       [--files FILES]
+                       script
+
+positional arguments:
+  script               Script name
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --host HOST          Host name
+  --user USER          User ID
+  --password PASSWORD  Password
+  --local LOCAL        Set local path
+  --remote REMOTE      Set remote path
+  --do DO              Do action
+  --files FILES        The files to be acted on
+
+copy
+----
+usage: squirt.py copy [-h] [--host HOST] [--user USER] [--password PASSWORD]
+                      [--local LOCAL] [--remote REMOTE] [--do DO]
+                      [--files FILES]
+                      cf ct
+
+positional arguments:
+  cf                   Copy from script
+  ct                   Copy to script
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --host HOST          Host name
+  --user USER          User ID
+  --password PASSWORD  Password
+  --local LOCAL        Set local path
+  --remote REMOTE      Set remote path
+  --do DO              Do action
+  --files FILES        The files to be acted on
+
+delete
+------
+usage: squirt.py delete [-h] script
+
+positional arguments:
+  script      Script name
+
+optional arguments:
+  -h, --help  show this help message and exit
+
+display
+-------
+usage: squirt.py display [-h] script
+
+positional arguments:
+  script      Script name
+
+optional arguments:
+  -h, --help  show this help message and exit
+
+exec
+----
+usage: squirt.py exec [-h] [--host HOST] [--user USER] [--password PASSWORD]
+                      [--local LOCAL] [--remote REMOTE] [--do DO]
+                      [--files FILES]
+                      script
+
+positional arguments:
+  script               Script name
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --host HOST          Host name
+  --user USER          User ID
+  --password PASSWORD  Password
+  --local LOCAL        Set local path
+  --remote REMOTE      Set remote path
+  --do DO              Do action
+  --files FILES        The files to be acted on
+
+init
+----
+usage: squirt.py init [-h]
+
+optional arguments:
+  -h, --help  show this help message and exit
+
+
+Options
+=======
+The optional parameters are consistent across all commands for which they apply. They will either temporarily override a script when executed, or update the script depending on the command being executed.
+
+–host
+The FTP host
+
+–user
+User ID on the host
+
+–pass
+Password to be used on the host
+
+–local
+Local path. If this option is not used, then the current local folder is used.
+
+–remote
+Remote path – this is the folder on the FTP host you want to access.
+
+–do
+Do action – what you actually want the script to do. Four values are allowed for do: put, get, list or del.
+
+–files
+The file or files on which the action is performed.
+
+Note
+====
+Squirt is designed to operate on groups of files and the file name entered is assumed to be the first len(file) characters of all files to be accessed.
+
+For example, if you have a remote folder containing files:
+
+testdoc.txt
+testfile.png
+testfile.txt
+notatestfile.txt
+… and you use:
+squirt exec ScriptName --do=del --files=testfile
+… the script will delete testfile.png and testfile.txt but not testdoc.txt or notatestfile.txt.

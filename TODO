@@ -1,0 +1,9 @@
+The outstanding functions
+-------------------------
+ftplayer.py
+    - Support some more actions
+        - Put
+        - Get
+    
+dblayer.py
+    - Automatically check for DB existence and level whenever a script is accessed
