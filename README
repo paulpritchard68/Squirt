@@ -2,115 +2,47 @@ SQUIRT
 ======
 A collection of utilities that can be used to build, maintain and execute frequently used FTP scripts. The intention is to build a solution that is a bit more maintainable than having an ever-growing collection of bash scripts.
 
-Usage
-=====
+Initialisation
+==============
+Before using Squirt for the first time, you will need to initialise the database. This is done with the command:
+squirt.py init
 
-Synopsis
---------
-usage: squirt.py [-h] {build,copy,delete,display,list,exec,init} …
+This will create the database if none exists or, if you are upgrading, update the database as necessary. 
 
-positional arguments:
-  {build,copy,delete,display,list,exec,init}
-                        Commands
-    build               Build script
-    copy                Copy script
-    delete              Delete script
-    display             Display script
-    list                List currently defined scripts
-    exec                Execute script
-    init                Initialise
+Commands
+========
+Squirt provides a number of commands (currently: build, copy, delete, display, list, exec, and init). You can display the details for any of these commands by typing:
+squirt.py [command] -h
 
-optional arguments:
-  -h, --help            show this help message and exit
-The Commands
+And overview of the commands is as follows
 
 build
 -----
-usage: squirt.py build [-h] [--host HOST] [--user USER] [--password PASSWORD]
-                       [--local LOCAL] [--remote REMOTE] [--do DO]
-                       [--files FILES]
-                       script
-
-positional arguments:
-  script               Script name
-
-optional arguments:
-  -h, --help           show this help message and exit
-  --host HOST          Host name
-  --user USER          User ID
-  --password PASSWORD  Password
-  --local LOCAL        Set local path
-  --remote REMOTE      Set remote path
-  --do DO              Do action
-  --files FILES        The files to be acted on
+Builds a script (writes a record to the database defining the default options to be used - any of these can be overridden when you execute the script). These options define the host, user ID and password, the action to be performed (see Supported Actions, below) and and which files and folders the action should be performed on.
 
 copy
 ----
-usage: squirt.py copy [-h] [--host HOST] [--user USER] [--password PASSWORD]
-                      [--local LOCAL] [--remote REMOTE] [--do DO]
-                      [--files FILES]
-                      cf ct
-
-positional arguments:
-  cf                   Copy from script
-  ct                   Copy to script
-
-optional arguments:
-  -h, --help           show this help message and exit
-  --host HOST          Host name
-  --user USER          User ID
-  --password PASSWORD  Password
-  --local LOCAL        Set local path
-  --remote REMOTE      Set remote path
-  --do DO              Do action
-  --files FILES        The files to be acted on
+Copies a script. Creates a new script (ct = copy to) based on an existing script (cf = copy from). This command includes a number of optional arguments which will be applied to the new script.
 
 delete
 ------
-usage: squirt.py delete [-h] script
-
-positional arguments:
-  script      Script name
-
-optional arguments:
-  -h, --help  show this help message and exit
+Deletes an existing script.
 
 display
 -------
-usage: squirt.py display [-h] script
-
-positional arguments:
-  script      Script name
-
-optional arguments:
-  -h, --help  show this help message and exit
+Displays a script.
 
 exec
 ----
-usage: squirt.py exec [-h] [--host HOST] [--user USER] [--password PASSWORD]
-                      [--local LOCAL] [--remote REMOTE] [--do DO]
-                      [--files FILES]
-                      script
-
-positional arguments:
-  script               Script name
-
-optional arguments:
-  -h, --help           show this help message and exit
-  --host HOST          Host name
-  --user USER          User ID
-  --password PASSWORD  Password
-  --local LOCAL        Set local path
-  --remote REMOTE      Set remote path
-  --do DO              Do action
-  --files FILES        The files to be acted on
+Executes a script
 
 init
 ----
-usage: squirt.py init [-h]
+Initialise (or upgrade) the database. If your database is already up to date, this command has no effect.
 
-optional arguments:
-  -h, --help  show this help message and exit
+list
+----
+Lists all currently defined scripts.
 
 
 Options
@@ -137,6 +69,19 @@ Do action – what you actually want the script to do. Four values are allowed f
 
 –files
 The file or files on which the action is performed.
+
+Supported Actions
+=================
+The --do option on the build and exec commands defines the action to be performed. At present, the following actions are supported:
+del     Delete files matching the pattern described by --files
+ls      List files matching the pattern described by --files
+
+More will be added as and when I get around to it.
+
+
+Warning
+=======
+All user IDs and Passwords are stored in the database in plain text. If this bothers you, do not enter the password when you build the script, but enter it as an override when you exec the script instead. 
 
 Note
 ====

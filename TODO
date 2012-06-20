@@ -7,3 +7,6 @@ ftplayer.py
     
 dblayer.py
     - Automatically check for DB existence and level whenever a script is accessed
+
+funlayer.py
+    - Apply some consistency to the return values of the various functions
