@@ -65,7 +65,7 @@ Local path. If this option is not used, then the current local folder is used.
 Remote path – this is the folder on the FTP host you want to access.
 
 –do
-Do action – what you actually want the script to do. Four values are allowed for do: put, get, list or del.
+Do action – what you actually want the script to do. See Supported Actions, below, for details.
 
 –files
 The file or files on which the action is performed.
