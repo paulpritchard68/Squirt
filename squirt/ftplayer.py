@@ -30,7 +30,11 @@ def ftp_del(script):
 
     entries = ftp.nlst()
 
-    name_length = len(script.get('files'))
+    if script.get('files') != None:
+        name_length = len(script.get('files'))
+    else:
+        name_length = 0
+
     for entry in entries:
         if script.get('files') == entry[0:name_length] or script.get('files') == None:
             ftp.delete(entry)
@@ -51,7 +55,11 @@ def ftp_ls(script):
 
     entries = ftp.nlst()
 
-    name_length = len(script.get('files'))
+    if script.get('files') != None:
+        name_length = len(script.get('files'))
+    else:
+        name_length = 0
+
     for entry in entries:
         if script.get('files') == entry[0:name_length] or script.get('files') == None:
             yield entry
