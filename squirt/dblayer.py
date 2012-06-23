@@ -55,7 +55,7 @@ def db_list_scripts():
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
-    cursor.execute('select script from scripts')
+    cursor.execute('select script from scripts order by script')
     
     rows = cursor.fetchall()
     for row in rows:
