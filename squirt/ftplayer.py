@@ -38,10 +38,9 @@ def ftp_del(script):
     for entry in entries:
         if script.get('files') == entry[0:name_length] or script.get('files') == None:
             ftp.delete(entry)
+            yield entry
 
     ftp.close
-
-    return True
 
 def ftp_ls(script):
     """ Lists remote files matching file mask

@@ -92,13 +92,15 @@ def fn_execute_script(script):
         script.update(files=db_retrieve_script_files(script.get('script')))
 
     result = dict(script=script.get('script'))
+    file_list = []
     if script.get('do') == 'del':
-        status =  ftp_del(script)
-        result.update(status=status)
+        for found_file in ftp_del(script):
+            file_list.append(found_file)
+        result.update(files=file_list)
+        result.update(status=True)
     if script.get('do') == 'ls':
-        file_list = []
-        for ls in ftp_ls(script):
-            file_list.append(ls)
+        for found_file in ftp_ls(script):
+            file_list.append(found_file)
         result.update(files=file_list)
         result.update(status=True)
     
