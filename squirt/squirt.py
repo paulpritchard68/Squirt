@@ -116,7 +116,10 @@ def execute_script(options):
 def initialise_db():
     """ Initialise the database
         Use with care because if anything already exists - it will be deleted """
-    return fn_initialise()
+    if fn_initialise() == True:
+        print "Squirt initialised. You are good to go."
+    else:
+        print "Database initialisation failed"
 
 def main():
     """ The main event 
@@ -197,7 +200,7 @@ def main():
     elif command_line.command == 'exec':
         execute_script(command_line)
     elif command_line.command == 'init':
-        print initialise_db()
+        initialise_db()
     else:
         print "Oops"
         sys.exit(2)

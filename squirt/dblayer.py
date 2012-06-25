@@ -205,7 +205,7 @@ def db_init():
     try:
         connection = sqlite3.connect(os.path.expanduser(db_path))
     except:
-        return 0
+        return False
 
     # Check version or create database
     try:
@@ -213,7 +213,8 @@ def db_init():
         cursor.execute('select current_version from config')
         rows = cursor.fetchall()
         for row in rows:
-            return row
+            if row[0] == 1: #Cureenet DB level
+                return True
     except:
         with connection:
             cursor = connection.cursor()
@@ -225,4 +226,4 @@ def db_init():
             # Create the squirt scripts table
             cursor.execute('create table scripts(ID integer primary key, script TEXT, host TEXT, user TEXT, pass TEXT, local TEXT, remote TEXT, do TEXT, files TEXT)') 
 
-        return 1
+        return True
