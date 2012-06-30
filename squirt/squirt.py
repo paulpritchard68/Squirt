@@ -36,9 +36,9 @@ def build_script(options):
 
     can_we_build_it = fn_build_script(script)
     if can_we_build_it == 'Fail':
-        return "Build of script %s failed. Check your options" % script.get('script')
+        print "Build of script %s failed. Check your options" % script.get('script')
     else:
-        return "Script %s successfully %s" % (script.get('script'), can_we_build_it)
+        print "Script %s successfully %s" % (script.get('script'), can_we_build_it)
 
 def copy_script(settings):
     """ Copy an existing script 
@@ -188,8 +188,8 @@ def main():
         sys.exit(2)
 
     if command_line.command == 'build':
-        print build_script(command_line)
-    if command_line.command == 'copy':
+        build_script(command_line)
+    elif command_line.command == 'copy':
         copy_script(command_line)
     elif command_line.command == 'delete':
         delete_script(command_line)
@@ -202,7 +202,7 @@ def main():
     elif command_line.command == 'init':
         initialise_db()
     else:
-        print "Oops"
+        print "Command not recognised. Try using --help"
         sys.exit(2)
 
 if __name__ == "__main__":
