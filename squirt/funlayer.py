@@ -94,11 +94,13 @@ def fn_execute_script(script):
     result = dict(script=script.get('script'))
     file_list = []
     if script.get('do') == 'del':
+        result.update(action='Files deleted')
         for found_file in ftp_del(script):
             file_list.append(found_file)
         result.update(files=file_list)
         result.update(status=True)
     if script.get('do') == 'ls':
+        result.update(action='Files found')
         for found_file in ftp_ls(script):
             file_list.append(found_file)
         result.update(files=file_list)

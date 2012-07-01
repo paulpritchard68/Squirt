@@ -103,7 +103,7 @@ def execute_script(options):
     result = fn_execute_script(script)
     file_list = result.get('files')
     if file_list != None and file_list != []:
-        print "Files found..."
+        print result.get('action') 
         for filename in file_list:
             print "   " + filename
     else:
