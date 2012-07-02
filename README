@@ -74,6 +74,7 @@ Supported Actions
 =================
 The --do option on the build and exec commands defines the action to be performed. At present, the following actions are supported:
 del     Delete files matching the pattern described by --files
+get     Retrieves files matching the pattern described by --files. Files are retrieved to folder --local - this must be a full pathname (for now)
 ls      List files matching the pattern described by --files
 
 More will be added as and when I get around to it.
