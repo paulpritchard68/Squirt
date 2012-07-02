@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
+import os
 from ftplib import FTP
 
 def ftp_del(script):
@@ -39,6 +40,40 @@ def ftp_del(script):
         if script.get('files') == entry[0:name_length] or script.get('files') == None:
             ftp.delete(entry)
             yield entry
+
+    ftp.close
+
+def ftp_get(script):
+    """ Retrieves remote files matching file mask
+        Parameter script is a dictionary object 
+        Returns True if successful
+        Failure is not an option """
+    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+    if script.get('remote') != None:
+        ftp.cwd(script.get('remote'))
+
+    if script.get('local') != None:
+        local = script.get('local')
+    else:
+        local = os.getcwd()
+
+    entries = ftp.nlst()
+
+    if script.get('files') != None:
+        name_length = len(script.get('files'))
+    else:
+        name_length = 0
+
+    for entry in entries:
+        if script.get('files') == entry[0:name_length] or script.get('files') == None:
+            local_file = os.path.join(local, entry)
+            try:
+                with open(local_file, 'wb') as f:
+                    ftp.retrbinary('RETR %s' % entry, lambda data: f.write(data))
+                yield entry
+            except:
+                yield '%s Found but not retrieved' % entry
 
     ftp.close
 
