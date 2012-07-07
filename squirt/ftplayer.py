@@ -20,6 +20,15 @@ import os
 from ftplib import FTP
 import re
 
+
+def __get_file_name__(text):
+    """ Returns the file name from an ftp LIST """
+    count = 0
+    for chunk in text.split(' '):
+        count += 1
+        if count == 10:
+            return chunk
+
 def ftp_del(script):
     """ Deletes remote files matching file mask
         Parameter script is a dictionary object 
@@ -40,11 +49,7 @@ def ftp_del(script):
 
     for entry in entries:
         if pattern.search(entry) != None or script.get('files') == None:
-            count = 0
-            for text in entry.split(' '):
-                count += 1
-                if count == 10:
-                    ftp.delete(text)
+            ftp.delete(__get_file_name__(entry))
             yield entry
 
     ftp.close
