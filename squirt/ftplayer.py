@@ -21,14 +21,6 @@ from ftplib import FTP
 import re
 
 
-def __get_file_name__(text):
-    """ Returns the file name from an ftp LIST """
-    count = 0
-    for chunk in text.split(' '):
-        count += 1
-        if count == 10:
-            return chunk
-
 def ftp_del(script):
     """ Deletes remote files matching file mask
         Parameter script is a dictionary object 
@@ -49,7 +41,7 @@ def ftp_del(script):
 
     for entry in entries:
         if pattern.search(entry) != None or script.get('files') == None:
-            ftp.delete(__get_file_name__(entry))
+            ftp.delete(entry.split(' ')[-1])
             yield entry
 
     ftp.close
@@ -57,8 +49,8 @@ def ftp_del(script):
 def ftp_get(script):
     """ Retrieves remote files matching file mask
         Parameter script is a dictionary object 
-        Returns True if successful
-        Failure is not an option """
+        Yields each of the found files """
+
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
     if script.get('remote') != None:
@@ -69,19 +61,21 @@ def ftp_get(script):
     else:
         local = os.getcwd()
 
-    entries = ftp.nlst()
+    entries = []
+    ftp.retrlines('LIST', lambda data: entries.append(data))
 
     if script.get('files') != None:
-        name_length = len(script.get('files'))
+        pattern = re.compile(script.get('files'))
     else:
-        name_length = 0
+        pattern = re.compile('')
 
     for entry in entries:
-        if script.get('files') == entry[0:name_length] or script.get('files') == None:
-            local_file = os.path.join(local, entry)
+        if pattern.search(entry) != None or script.get('files') == None:
+            file_name =  entry.split(' ')[-1]
+            local_file = os.path.join(local, file_name)
             try:
                 with open(local_file, 'wb') as f:
-                    ftp.retrbinary('RETR %s' % entry, lambda data: f.write(data))
+                    ftp.retrbinary('RETR %s' % file_name, lambda data: f.write(data))
                 yield entry
             except:
                 yield '%s Found but not retrieved' % entry
