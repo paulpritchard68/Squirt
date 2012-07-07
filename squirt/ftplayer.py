@@ -30,16 +30,18 @@ def ftp_del(script):
     if script.get('remote') != None:
         ftp.cwd(script.get('remote'))
 
-    entries = ftp.nlst()
+    entries = []
+    ftp.retrlines('LIST', lambda data: entries.append(data))
 
     if script.get('files') != None:
-        name_length = len(script.get('files'))
+        pattern = re.compile(script.get('files'))
     else:
-        name_length = 0
+        pattern = re.compile('')
 
     for entry in entries:
-        if script.get('files') == entry[0:name_length] or script.get('files') == None:
-            ftp.delete(entry)
+        if pattern.search(entry) != None or script.get('files') == None:
+            filename = entry[42:len(entry)]
+            ftp.delete(filename)
             yield entry
 
     ftp.close
