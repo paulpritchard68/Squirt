@@ -44,7 +44,7 @@ def ftp_del(script):
             ftp.delete(entry.split(' ')[-1])
             yield entry
 
-    ftp.close
+    ftp.quit()
 
 def ftp_get(script):
     """ Retrieves remote files matching file mask
@@ -80,7 +80,7 @@ def ftp_get(script):
             except:
                 yield '%s Found but not retrieved' % entry
 
-    ftp.close
+    ftp.quit()
 
 def ftp_ls(script):
     """ Lists remote files matching file mask
@@ -104,4 +104,4 @@ def ftp_ls(script):
         if pattern.search(entry) != None or script.get('files') == None:
             yield entry
 
-    ftp.close
+    ftp.quit()
