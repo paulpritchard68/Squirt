@@ -40,8 +40,11 @@ def ftp_del(script):
 
     for entry in entries:
         if pattern.search(entry) != None or script.get('files') == None:
-            filename = entry[42:len(entry)]
-            ftp.delete(filename)
+            count = 0
+            for text in entry.split(' '):
+                count += 1
+                if count == 10:
+                    ftp.delete(text)
             yield entry
 
     ftp.close
