@@ -1,9 +1,14 @@
 The outstanding functions
 -------------------------
 ftplayer.py
+    - Fix the Get functionality
+        - Better handling of local file path: Should be able to handle both full and ~ path names
+        - Proper handling of sub-folders is needed. When encountered, the script should work through the sub-folder as well
+
+
+ftplayer.py
     - Support some more actions
         - Put
-        - Get
     
 dblayer.py
     - Automatically check for DB existence and level whenever a script is accessed

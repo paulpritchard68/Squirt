@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
 import os
 from ftplib import FTP
+import re
 
 def ftp_del(script):
     """ Deletes remote files matching file mask
@@ -87,15 +88,16 @@ def ftp_ls(script):
     if script.get('remote') != None:
         ftp.cwd(script.get('remote'))
 
-    entries = ftp.nlst()
+    entries = []
+    ftp.retrlines('LIST', lambda data: entries.append(data))
 
     if script.get('files') != None:
-        name_length = len(script.get('files'))
+        pattern = re.compile(script.get('files'))
     else:
-        name_length = 0
+        pattern = re.compile('')
 
     for entry in entries:
-        if script.get('files') == entry[0:name_length] or script.get('files') == None:
+        if pattern.search(entry) != None or script.get('files') == None:
             yield entry
 
     ftp.close
