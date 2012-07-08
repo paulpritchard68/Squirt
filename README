@@ -83,17 +83,3 @@ More will be added as and when I get around to it.
 Warning
 =======
 All user IDs and Passwords are stored in the database in plain text. If this bothers you, do not enter the password when you build the script, but enter it as an override when you exec the script instead. 
-
-Note
-====
-Squirt is designed to operate on groups of files and the file name entered is assumed to be the first len(file) characters of all files to be accessed.
-
-For example, if you have a remote folder containing files:
-
-testdoc.txt
-testfile.png
-testfile.txt
-notatestfile.txt
-… and you use:
-squirt exec ScriptName --do=del --files=testfile
-… the script will delete testfile.png and testfile.txt but not testdoc.txt or notatestfile.txt.
