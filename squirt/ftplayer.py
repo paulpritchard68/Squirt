@@ -105,3 +105,34 @@ def ftp_ls(script):
             yield entry
 
     ftp.quit()
+
+def ftp_put(script):
+    """ Sends local files matching file mask to remote server
+        Parameter script is a dictionary object 
+        Yields each of the found files """
+
+    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+    if script.get('remote') != None:
+        ftp.cwd(script.get('remote'))
+
+    if script.get('local') != None:
+        local = script.get('local')
+        os.chdir(local)
+    else:
+        local = os.getcwd()
+
+    entries = os.listdir(local) 
+
+    if script.get('files') != None:
+        pattern = re.compile(script.get('files'))
+    else:
+        pattern = re.compile('')
+
+    for entry in entries:
+        if pattern.search(entry) != None or script.get('files') == None:
+            print 'STOR %s/%s' % (local, entry)
+            ftp.storbinary('STOR %s' % entry, open(entry, 'rb'), 1024)
+            yield entry
+
+    ftp.quit()

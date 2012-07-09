@@ -9,7 +9,7 @@ ftplayer.py
 
 ftplayer.py
     - Support some more actions
-        - Put
+        - GetNew    Like Get but only retrieves new files
     
 dblayer.py
     - Automatically check for DB existence and level whenever a script is accessed

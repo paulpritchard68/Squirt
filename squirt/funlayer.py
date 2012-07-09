@@ -111,6 +111,12 @@ def fn_execute_script(script):
             file_list.append(found_file)
         result.update(files=file_list)
         result.update(status=True)
+    if script.get('do') == 'put':
+        result.update(action='Files sent')
+        for found_file in ftp_put(script):
+            file_list.append(found_file)
+        result.update(files=file_list)
+        result.update(status=True)
     
     return result
 

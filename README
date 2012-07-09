@@ -76,6 +76,7 @@ The --do option on the build and exec commands defines the action to be performe
 del     Delete files matching the pattern described by --files
 get     Retrieves files matching the pattern described by --files. Files are retrieved to folder --local - this must be a full pathname (for now)
 ls      List files matching the pattern described by --files
+put     Puts files matching the pattern described by --files to server. Files are sent from folder --local to --remote
 
 More will be added as and when I get around to it.
 
