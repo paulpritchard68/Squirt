@@ -2,9 +2,8 @@ The outstanding functions
 -------------------------
 ftplayer.py
     - Improve the Get functionality
-        - Amend function to use RETRLINES for listing, then slice to establish whether this is a directory or not
-        - Better handling of local file path: Should be able to handle both full and ~ path names
         - Proper handling of sub-folders is needed. When encountered, the script should work through the sub-folder as well
+        - Better handling of local file path: Should be able to handle both full and ~ path names
 
 
 ftplayer.py

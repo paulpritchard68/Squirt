@@ -21,6 +21,32 @@ from ftplib import FTP
 import re
 
 
+def ftp_chmod(script):
+    """ Chmods the remote files matching the file mask
+        Parameter script is a dictionary object
+        returns True if successful
+        Failure is not an option """
+    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+    if script.get('remote') != None:
+        ftp.cwd(script.get('remote'))
+
+    entries = []
+    ftp.retrlines('LIST', lambda data: entries.append(data))
+
+    if script.get('files') != None:
+        pattern = re.compile(script.get('files'))
+    else:
+        pattern = re.compile('')
+
+    for entry in entries:
+        if pattern.search(entry) != None or script.get('files') == None:
+            ftp.sendcmd('site chmod %s %s' % (script.get('do').split('-')[-1] , entry.split(' ')[-1]))
+            yield entry
+
+    ftp.quit()
+
+
 def ftp_del(script):
     """ Deletes remote files matching file mask
         Parameter script is a dictionary object 

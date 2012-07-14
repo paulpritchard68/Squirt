@@ -93,6 +93,12 @@ def fn_execute_script(script):
 
     result = dict(script=script.get('script'))
     file_list = []
+    if script.get('do').split('-')[0] == 'chmod':
+        result.update(action='Permissions changed for files...')
+        for found_file in ftp_chmod(script):
+            file_list.append(found_file)
+        result.update(files=file_list)
+        result.update(status=True)
     if script.get('do') == 'del':
         result.update(action='Files deleted')
         for found_file in ftp_del(script):

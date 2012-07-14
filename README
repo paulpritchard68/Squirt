@@ -73,10 +73,14 @@ The file or files on which the action is performed.
 Supported Actions
 =================
 The --do option on the build and exec commands defines the action to be performed. At present, the following actions are supported:
-del     Delete files matching the pattern described by --files
-get     Retrieves files matching the pattern described by --files. Files are retrieved to folder --local - this must be a full pathname (for now)
-ls      List files matching the pattern described by --files
-put     Puts files matching the pattern described by --files to server. Files are sent from folder --local to --remote
+chmod-xxx   Changes the access permissions of the file.
+            This action is in two parts, split by a single -
+            The first part of the command is the chmod
+            The second part is the access permissions to apply
+del         Delete files matching the pattern described by --files
+get         Retrieves files matching the pattern described by --files. Files are retrieved to folder --local - this must be a full pathname (for now)
+ls          List files matching the pattern described by --files
+put         Puts files matching the pattern described by --files to server. Files are sent from folder --local to --remote
 
 More will be added as and when I get around to it.
 
