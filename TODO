@@ -10,6 +10,9 @@ ftplayer.py
         - Better handling of local file path: Should be able to handle both full and ~ path names
 
 ftplayer.py
+    - Implement some support for failing downloads
+        - If the FTP connection breaks, the script should stop and exit rather than continuing to attempt to download every file in the entries list
+
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
     
@@ -17,4 +20,5 @@ dblayer.py
     - Automatically check for DB existence and level whenever a script is accessed
 
 funlayer.py
+    - Yield retrieved files rather than passing them all back in a single block
     - Apply some consistency to the return values of the various functions
