@@ -20,5 +20,4 @@ dblayer.py
     - Automatically check for DB existence and level whenever a script is accessed
 
 funlayer.py
-    - Yield retrieved files rather than passing them all back in a single block
     - Apply some consistency to the return values of the various functions

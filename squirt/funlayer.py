@@ -91,41 +91,27 @@ def fn_execute_script(script):
     if script.get('files') == None:
         script.update(files=db_retrieve_script_files(script.get('script')))
 
-    result = dict(script=script.get('script'))
-    file_list = []
     if script.get('do').split('-')[0] == 'chmod':
-        result.update(action='Permissions changed for files...')
+        yield 'Permissions changed for files...'
         for found_file in ftp_chmod(script):
-            file_list.append(found_file)
-        result.update(files=file_list)
-        result.update(status=True)
+            yield found_file
     if script.get('do') == 'del':
-        result.update(action='Files deleted')
+        yield 'Files deleted...'
         for found_file in ftp_del(script):
-            file_list.append(found_file)
-        result.update(files=file_list)
-        result.update(status=True)
+            yield found_file
     if script.get('do') == 'get':
-        result.update(action='Files retrieved')
+        yield 'Files retrieved...'
         for found_file in ftp_get(script):
-            file_list.append(found_file)
-        result.update(files=file_list)
-        result.update(status=True)
+            yield found_file
     if script.get('do') == 'ls':
-        result.update(action='Files found')
+        yield 'Files found...'
         for found_file in ftp_ls(script):
-            file_list.append(found_file)
-        result.update(files=file_list)
-        result.update(status=True)
+            yield found_file
     if script.get('do') == 'put':
-        result.update(action='Files sent')
+        yield 'Files sent'
         for found_file in ftp_put(script):
-            file_list.append(found_file)
-        result.update(files=file_list)
-        result.update(status=True)
+            yield found_file
     
-    return result
-
 
 def fn_retrieve_script(script_name):
     """ Retrieves the settings for an existing script """

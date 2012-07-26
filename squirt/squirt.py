@@ -100,18 +100,9 @@ def execute_script(options):
     script.update(files=options.files)
 
     print "Script %s..." % script.get('script')
-    result = fn_execute_script(script)
-    file_list = result.get('files')
-    if file_list != None and file_list != []:
-        print result.get('action') 
-        for filename in file_list:
-            print "   " + filename
-    else:
-        print "No files found"
-    if result.get('status') == True:
-        print "completed normally" 
-    else:
-        print "Failed"
+    for filename in fn_execute_script(script):
+        print "   " + filename
+    print "All done" 
 
 def initialise_db():
     """ Initialise the database
