@@ -99,10 +99,8 @@ def execute_script(options):
     script.update(do=options.do)
     script.update(files=options.files)
 
-    print "Script %s..." % script.get('script')
     for filename in fn_execute_script(script):
-        print "   " + filename
-    print "All done" 
+        print filename
 
 def initialise_db():
     """ Initialise the database

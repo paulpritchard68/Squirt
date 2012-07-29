@@ -92,23 +92,18 @@ def fn_execute_script(script):
         script.update(files=db_retrieve_script_files(script.get('script')))
 
     if script.get('do').split('-')[0] == 'chmod':
-        yield 'Permissions changed for files...'
         for found_file in ftp_chmod(script):
             yield found_file
     if script.get('do') == 'del':
-        yield 'Files deleted...'
         for found_file in ftp_del(script):
             yield found_file
     if script.get('do') == 'get':
-        yield 'Files retrieved...'
         for found_file in ftp_get(script):
             yield found_file
     if script.get('do') == 'ls':
-        yield 'Files found...'
         for found_file in ftp_ls(script):
             yield found_file
     if script.get('do') == 'put':
-        yield 'Files sent'
         for found_file in ftp_put(script):
             yield found_file
     
