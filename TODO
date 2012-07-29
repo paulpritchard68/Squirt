@@ -11,7 +11,7 @@ ftplayer.py
 
 ftplayer.py
     - Implement some support for failing downloads
-        - If the FTP connection breaks, the script should stop and exit rather than continuing to attempt to download every file in the entries list
+        - If the FTP connection breaks or times out, the script should stop and attempt to reconnect rather than continuing to attempt to download every file in the entries list
 
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
