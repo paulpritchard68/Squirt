@@ -77,15 +77,11 @@ def ftp_get(script):
         Parameter script is a dictionary object 
         Yields each of the found files """
 
+    # First build a list of files to retrieve
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
     if script.get('remote') != None:
         ftp.cwd(script.get('remote'))
-
-    if script.get('local') != None:
-        local = script.get('local')
-    else:
-        local = os.getcwd()
 
     entries = []
     ftp.retrlines('LIST', lambda data: entries.append(data))
@@ -95,18 +91,32 @@ def ftp_get(script):
     else:
         pattern = re.compile('')
 
+    ftp.quit()
+
+    # Position to the local folder
+    if script.get('local') != None:
+        local = script.get('local')
+    else:
+        local = os.getcwd()
+
+    # Then retrieve the files
     for entry in entries:
         if pattern.search(entry) != None or script.get('files') == None:
             file_name =  entry.split(' ')[-1]
             local_file = os.path.join(local, file_name)
             try:
+                ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+                if script.get('remote') != None:
+                    ftp.cwd(script.get('remote'))
                 with open(local_file, 'wb') as f:
                     ftp.retrbinary('RETR %s' % file_name, lambda data: f.write(data))
                 yield entry
+                try:
+                    ftp.quit()
+                except:
+                    pass
             except:
                 yield '%s Found but not retrieved' % entry
-
-    ftp.quit()
 
 def ftp_ls(script):
     """ Lists remote files matching file mask
