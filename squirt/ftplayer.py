@@ -147,17 +147,14 @@ def ftp_put(script):
         Parameter script is a dictionary object 
         Yields each of the found files """
 
-    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
-
-    if script.get('remote') != None:
-        ftp.cwd(script.get('remote'))
-
+    # Position to the local folder
     if script.get('local') != None:
         local = script.get('local')
         os.chdir(local)
     else:
         local = os.getcwd()
 
+    # Build the list of files to send
     entries = os.listdir(local) 
 
     if script.get('files') != None:
@@ -165,10 +162,19 @@ def ftp_put(script):
     else:
         pattern = re.compile('')
 
+    # And start sending
     for entry in entries:
         if pattern.search(entry) != None or script.get('files') == None:
-            print 'STOR %s/%s' % (local, entry)
-            ftp.storbinary('STOR %s' % entry, open(entry, 'rb'), 1024)
-            yield entry
+            try:
+                ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+                if script.get('remote') != None:
+                    ftp.cwd(script.get('remote'))
 
-    ftp.quit()
+                ftp.storbinary('STOR %s' % entry, open(entry, 'rb'), 1024)
+                yield entry
+                try:
+                    ftp.quit()
+                except:
+                    pass
+            except:
+                yield 'Send failed for file %s' % entry 
