@@ -213,7 +213,7 @@ def db_init():
         cursor.execute('select current_version from config')
         rows = cursor.fetchall()
         for row in rows:
-            if row[0] == 1: #Currenet DB level
+            if row[0] == 1: #Current DB level
                 return True
     except:
         with connection:
