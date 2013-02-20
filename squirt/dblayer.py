@@ -24,6 +24,11 @@ db_path = '~/.squirt.db'
 def db_delete_script(script):
     """ Delete an existng script 
         Parameter script is the script name (character) """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -37,6 +42,11 @@ def db_delete_script(script):
 
 def db_script_exists(script):
     """ Returns True if the named script exists, else False """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -52,6 +62,11 @@ def db_script_exists(script):
 
 def db_list_scripts():
     """ Lists all of the currently defined scripts """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -62,7 +77,12 @@ def db_list_scripts():
         yield row[0]
 
 def db_retrieve_script_host(script):
-    """ Rertrieves a script value """
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -74,7 +94,12 @@ def db_retrieve_script_host(script):
         return row[0]
 
 def db_retrieve_script_user(script):
-    """ Rertrieves a script value """
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -86,7 +111,12 @@ def db_retrieve_script_user(script):
         return row[0]
 
 def db_retrieve_script_pass(script):
-    """ Rertrieves a script value """
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -98,7 +128,12 @@ def db_retrieve_script_pass(script):
         return row[0]
 
 def db_retrieve_script_local(script):
-    """ Rertrieves a script value """
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -110,7 +145,12 @@ def db_retrieve_script_local(script):
         return row[0]
 
 def db_retrieve_script_remote(script):
-    """ Rertrieves a script value """
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -122,7 +162,12 @@ def db_retrieve_script_remote(script):
         return row[0]
 
 def db_retrieve_script_do(script):
-    """ Rertrieves a script value """
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -134,7 +179,12 @@ def db_retrieve_script_do(script):
         return row[0]
 
 def db_retrieve_script_files(script):
-    """ Rertrieves a script value """
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
@@ -147,6 +197,11 @@ def db_retrieve_script_files(script):
 
 def db_write_script(options):
     """ Write a new script definition to database """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
         
@@ -161,6 +216,11 @@ def db_write_script(options):
 
 def db_update_script(options):
     """ Update an existing script definition """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 

@@ -13,8 +13,5 @@ ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
     
-dblayer.py
-    - Automatically check for DB existence and level whenever a script is accessed
-
 funlayer.py
     - Apply some consistency to the return values of the various functions
