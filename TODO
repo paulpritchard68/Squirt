@@ -3,11 +3,9 @@ The outstanding functions
 ftplayer.py
     - Improve the Get functionality
         - Proper handling of sub-folders is needed. When encountered, the script should work through the sub-folder as well
-        - Better handling of local file path: Should be able to handle both full and ~ path names
 
     - Improve the Put functionality
         - Proper handling of sub-folders is needed. When encountered, the script should work through the sub-folder as well
-        - Better handling of local file path: Should be able to handle both full and ~ path names
 
 ftplayer.py
     - Support some more actions

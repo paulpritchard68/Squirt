@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
 import os
+from os.path import isabs, expanduser
 from ftplib import FTP
 import re
 
@@ -96,6 +97,8 @@ def ftp_get(script):
     # Position to the local folder
     if script.get('local') != None:
         local = script.get('local')
+        if not isabs(local):
+            local = expanduser(local)
     else:
         local = os.getcwd()
 
@@ -150,6 +153,8 @@ def ftp_put(script):
     # Position to the local folder
     if script.get('local') != None:
         local = script.get('local')
+        if not isabs(local):
+            local = expanduser(local)
         os.chdir(local)
     else:
         local = os.getcwd()
