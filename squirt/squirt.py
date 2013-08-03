@@ -75,7 +75,8 @@ def display_script(options):
         print "Script:        %s " % script.get('script')
         print "Host:          %s " % script.get('host')
         print "User:          %s " % script.get('user')
-        print "Password:      %s " % script.get('password')
+        if options.showpass == 'yes':
+            print "Password:      %s " % script.get('password')
         print "Local folder:  %s " % script.get('local')
         print "Remote folder: %s " % script.get('remote')
         print "Action:        %s " % script.get('do')
@@ -149,6 +150,7 @@ def main():
     # The display command
     display_parser = subparsers.add_parser('display', help='Display script')
     display_parser.add_argument('script', action='store', help='Script name')
+    display_parser.add_argument('--showpass', action='store', help='Show password (yes/no)')
     display_parser.set_defaults(command='display')
 
     # The list command
