@@ -262,28 +262,42 @@ def db_init():
         If the database is not found, create it """
     
     # Connect
-    try:
-        connection = sqlite3.connect(os.path.expanduser(db_path))
-    except:
-        return False
+    connection = sqlite3.connect(os.path.expanduser(db_path))
 
-    # Check version or create database
-    try:
-        cursor = connection.cursor()
-        cursor.execute('select current_version from config')
+    # First check whether the database exists and find its version
+    database_version = 0
+    cursor = connection.cursor()
+    cursor.execute('select name from sqlite_master where name = \'squirt_config\' and type = \'table\' ');
+    table_rows = cursor.fetchall()
+    for table_rows in table_rows:
+        cursor.execute('select current_version from squirt_config')
         rows = cursor.fetchall()
         for row in rows:
-            if row[0] == 1: #Current DB level
-                return True
-    except:
-        with connection:
-            cursor = connection.cursor()
+            database_version = row[0]
+            break
+        break
 
-            # Create the config table
-            cursor.execute('create table config(ID integer primary key, current_version integer)')
-            cursor.execute('insert into config(current_version) values(1)')
+    # If no database exists, create it
+    if database_version == 0:
+        
+        # Create the config table
+        cursor.execute('create table squirt_config(ID integer primary key, current_version integer)')
+        cursor.execute('insert into squirt_config(current_version) values(1)')
+        
+        # Create the squirt scripts table
+        cursor.execute('create table scripts(ID integer primary key, script TEXT, host TEXT, user TEXT, pass TEXT, local TEXT, remote TEXT, do TEXT, files TEXT)') 
+    
+        database_version = 1
 
-            # Create the squirt scripts table
-            cursor.execute('create table scripts(ID integer primary key, script TEXT, host TEXT, user TEXT, pass TEXT, local TEXT, remote TEXT, do TEXT, files TEXT)') 
+    # Update as necessary
+    if database_version == 1:
 
-        return True
+        cursor.execute('alter table scripts add column protocol TEXT default \'FTP\' ')
+        cursor.execute('update squirt_config set current_version = 2')
+
+        database_version = 2
+
+    connection.commit()
+    connection.close()
+
+    return True

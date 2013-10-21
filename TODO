@@ -1,5 +1,9 @@
 The outstanding functions
 -------------------------
+dblayer.py
+    - Rename scripts to squirt_scripts
+    - Since the database needs rebuilding anyway, move the update step into the original create step
+
 squirt.py
     - Add a protocol parameter to ArgParse so build becomes build ftp, etc.
     - Ensure that this works for the current funlayer and ftplayer functions
