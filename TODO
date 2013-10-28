@@ -1,9 +1,5 @@
 The outstanding functions
 -------------------------
-dblayer.py
-    - Rename scripts to squirt_scripts
-    - Since the database needs rebuilding anyway, move the update step into the original create step
-
 squirt.py
     - Add a protocol parameter to ArgParse so build becomes build ftp, etc.
     - Ensure that this works for the current funlayer and ftplayer functions
@@ -23,3 +19,17 @@ ftplayer.py
     
 funlayer.py
     - Apply some consistency to the return values of the various functions
+
+
+New functionality
+-----------------
+New table: squirt_streams
+    ID          integer
+    stream_name text
+
+New table: squirt_stream_detail
+    ID          integer
+    streamID    integer; foreign key: squirt_streams
+    scriptID    integer; foreign key: squirt_scripts
+
+Then figure out how to string scripts together into streams

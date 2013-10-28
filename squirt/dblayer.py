@@ -33,7 +33,7 @@ def db_delete_script(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('delete from scripts where script = ?', parameters)
+    cursor.execute('delete from squirt_scripts where script = ?', parameters)
 
     connection.commit()
     connection.close()
@@ -51,7 +51,7 @@ def db_script_exists(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select count(*) from scripts where script = ?', parameters)
+    cursor.execute('select count(*) from squirt_scripts where script = ?', parameters)
     
     rows = cursor.fetchall()
     for row in rows:
@@ -70,7 +70,7 @@ def db_list_scripts():
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
-    cursor.execute('select script from scripts order by script')
+    cursor.execute('select script from squirt_scripts order by script')
     
     rows = cursor.fetchall()
     for row in rows:
@@ -87,7 +87,7 @@ def db_retrieve_script_host(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select host from scripts where script = ?', parameters)
+    cursor.execute('select host from squirt_scripts where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -104,7 +104,7 @@ def db_retrieve_script_user(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select user from scripts where script = ?', parameters)
+    cursor.execute('select user from squirt_scripts where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -121,7 +121,7 @@ def db_retrieve_script_pass(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select pass from scripts where script = ?', parameters)
+    cursor.execute('select pass from squirt_scripts where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -138,7 +138,7 @@ def db_retrieve_script_local(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select local from scripts where script = ?', parameters)
+    cursor.execute('select local from squirt_scripts where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -155,7 +155,7 @@ def db_retrieve_script_remote(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select remote from scripts where script = ?', parameters)
+    cursor.execute('select remote from squirt_scripts where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -172,7 +172,7 @@ def db_retrieve_script_do(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select do from scripts where script = ?', parameters)
+    cursor.execute('select do from squirt_scripts where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -189,7 +189,7 @@ def db_retrieve_script_files(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select files from scripts where script = ?', parameters)
+    cursor.execute('select files from squirt_scripts where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -206,7 +206,7 @@ def db_write_script(options):
     cursor = connection.cursor()
         
     parameters = (options.get('script'), options.get('host'), options.get('user'), options.get('password'), options.get('local'), options.get('remote'), options.get('do'), options.get('files'))
-    cursor.execute('insert into scripts (script, host, user, pass, local, remote, do, files) \
+    cursor.execute('insert into squirt_scripts (script, host, user, pass, local, remote, do, files) \
                    values(?, ?, ?, ?, ?, ?, ?, ?)', parameters)
 
     connection.commit()
@@ -226,31 +226,31 @@ def db_update_script(options):
 
     if options.get('host') != None:
         parameters = (options.get('host'), options.get('script'))
-        cursor.execute('update scripts set host = ? where script = ?', parameters)
+        cursor.execute('update squirt_scripts set host = ? where script = ?', parameters)
     
     if options.get('user') != None:
         parameters = (options.get('user'), options.get('script'))
-        cursor.execute('update scripts set user = ? where script = ?', parameters)
+        cursor.execute('update squirt_scripts set user = ? where script = ?', parameters)
 
     if options.get('password') != None:
         parameters = (options.get('password'), options.get('script'))
-        cursor.execute('update scripts set pass = ? where script = ?', parameters)
+        cursor.execute('update squirt_scripts set pass = ? where script = ?', parameters)
        
     if options.get('local') != None:
         parameters = (options.get('local'), options.get('script'))
-        cursor.execute('update scripts set local = ? where script = ?', parameters)
+        cursor.execute('update squirt_scripts set local = ? where script = ?', parameters)
 
     if options.get('remote') != None:
         parameters = (options.get('remote'), options.get('script'))
-        cursor.execute('update scripts set remote = ? where script = ?', parameters)
+        cursor.execute('update squirt_scripts set remote = ? where script = ?', parameters)
 
     if options.get('do') != None:
         parameters = (options.get('do'), options.get('script'))
-        cursor.execute('update scripts set do = ? where script = ?', parameters)
+        cursor.execute('update squirt_scripts set do = ? where script = ?', parameters)
 
     if options.get('files') != None:
         parameters = (options.get('files'), options.get('script'))
-        cursor.execute('update scripts set files = ? where script = ?', parameters)
+        cursor.execute('update squirt_scripts set files = ? where script = ?', parameters)
 
     connection.commit()
     connection.close()
@@ -285,14 +285,14 @@ def db_init():
         cursor.execute('insert into squirt_config(current_version) values(1)')
         
         # Create the squirt scripts table
-        cursor.execute('create table scripts(ID integer primary key, script TEXT, host TEXT, user TEXT, pass TEXT, local TEXT, remote TEXT, do TEXT, files TEXT)') 
+        cursor.execute('create table squirt_scripts(ID integer primary key, script TEXT, host TEXT, user TEXT, pass TEXT, local TEXT, remote TEXT, do TEXT, files TEXT)') 
     
         database_version = 1
 
     # Update as necessary
     if database_version == 1:
 
-        cursor.execute('alter table scripts add column protocol TEXT default \'FTP\' ')
+        cursor.execute('alter table squirt_scripts add column protocol TEXT default \'FTP\' ')
         cursor.execute('update squirt_config set current_version = 2')
 
         database_version = 2
