@@ -2,12 +2,19 @@ SQUIRT
 ======
 A collection of utilities that can be used to build, maintain and execute frequently used FTP scripts. The intention is to build a solution that is a bit more maintainable than having an ever-growing collection of bash scripts.
 
-Initialisation
-==============
-Before using Squirt for the first time, you will need to initialise the database. This is done with the command:
-squirt.py init
+0.1 Release Note
+================
+This branch will break your database (sort of). When you run Squirt for the first time, the database will be created or updated. This time around the update will involve renaming the tables. In order to recover any pre-existing scripts you will need to go into sqlite with:
 
-This will create the database if none exists or, if you are upgrading, update the database as necessary. 
+sqlite2 .squirt.db
+
+... and then execute the following scripts. In order
+
+insert into squirt_scripts select * from scripts;
+drop table scripts;
+drop table config;
+
+From this point forward, any database changes should be seamless.
 
 Commands
 ========
