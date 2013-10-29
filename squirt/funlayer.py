@@ -115,6 +115,7 @@ def fn_retrieve_script(script_name):
         script.update(exists=False)
     else:
         script.update(exists=True)
+        script.update(protocol=db_retrieve_script_protocol(script_name))
         script.update(host=db_retrieve_script_host(script_name))
         script.update(user=db_retrieve_script_user(script_name))
         script.update(password=db_retrieve_script_pass(script_name))

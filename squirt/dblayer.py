@@ -76,6 +76,24 @@ def db_list_scripts():
     for row in rows:
         yield row[0]
 
+def db_retrieve_script_protocol(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select protocol from squirt_scripts where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+
 def db_retrieve_script_host(script):
     """ Retrieves a script value """
 

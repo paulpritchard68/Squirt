@@ -73,6 +73,7 @@ def display_script(options):
         print "Script %s not defined" % script.get('script')
     else:
         print "Script:        %s " % script.get('script')
+        print "Protocol:      %s " % script.get('protocol')
         print "Host:          %s " % script.get('host')
         print "User:          %s " % script.get('user')
         if options.showpass == 'yes':
