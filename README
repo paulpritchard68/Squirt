@@ -1,12 +1,12 @@
 SQUIRT
 ======
-A collection of utilities that can be used to build, maintain and execute frequently used FTP scripts. The intention is to build a solution that is a bit more maintainable than having an ever-growing collection of bash scripts.
+Squirt started as an attempt to provide a simple way of maintaing frequently used simple FTP scripts. The FTP functionality is far from complete but the scope is expanding and my aim is to develop a simple mechanism for managing scripts across a variety of protocols and, eventually, a mechanism for piping these scripts together.
 
 0.1 Release Note
 ================
 This branch will break your database (sort of). When you run Squirt for the first time, the database will be created or updated. This time around the update will involve renaming the tables. In order to recover any pre-existing scripts you will need to go into sqlite with:
 
-sqlite2 .squirt.db
+sqlite3 .squirt.db
 
 ... and then execute the following scripts. In order
 
@@ -45,7 +45,7 @@ Executes a script
 
 init
 ----
-Initialise (or upgrade) the database. If your database is already up to date, this command has no effect.
+This option is deprecated already and shouldn't be used. Database initialisation and maintenace is now handled automatically.
 
 list
 ----
@@ -90,7 +90,6 @@ ls          List files matching the pattern described by --files
 put         Puts files matching the pattern described by --files to server. Files are sent from folder --local to --remote
 
 More will be added as and when I get around to it.
-
 
 Warning
 =======
