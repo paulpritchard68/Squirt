@@ -24,6 +24,10 @@ ftplayer.py
 funlayer.py
     - Apply some consistency to the return values of the various functions
 
+New Layer
+---------
+sshlayer.py
+    - Implement scp
 
 New functionality
 -----------------
