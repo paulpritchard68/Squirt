@@ -3,8 +3,6 @@ The outstanding functions
 squirt.py
     - Add a protocol parameter to ArgParse so build becomes build ftp, etc.
     - Ensure that this works for the current funlayer and ftplayer functions
-    - Start adding additional protocol layers
-    - May need to rethink the scripts database
 
 ftplayer.py
     - Improve the Get functionality
