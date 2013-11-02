@@ -1,9 +1,5 @@
 The outstanding functions
 -------------------------
-Documentation
-    - Fix the project page on expatpaul.eu. It's a bit of a mess at the moment.
-    - Review and rewrite the README
-
 squirt.py
     - Add a protocol parameter to ArgParse so build becomes build ftp, etc.
     - Ensure that this works for the current funlayer and ftplayer functions
