@@ -38,6 +38,9 @@ def fn_copy_script(settings):
     if db_script_exists(settings.get('cf')) == True:
         settings.update(script = settings.get('ct'))
 
+        if settings.get('protocol') == None:
+            settings.update(protocol = db_retrieve_script_protocol(settings.get('cf')))
+    
         if settings.get('host') == None:
             settings.update(host = db_retrieve_script_host(settings.get('cf')))
     
@@ -91,21 +94,24 @@ def fn_execute_script(script):
     if script.get('files') == None:
         script.update(files=db_retrieve_script_files(script.get('script')))
 
-    if script.get('do').split('-')[0] == 'chmod':
-        for found_file in ftp_chmod(script):
-            yield found_file
-    if script.get('do') == 'del':
-        for found_file in ftp_del(script):
-            yield found_file
-    if script.get('do') == 'get':
-        for found_file in ftp_get(script):
-            yield found_file
-    if script.get('do') == 'ls':
-        for found_file in ftp_ls(script):
-            yield found_file
-    if script.get('do') == 'put':
-        for found_file in ftp_put(script):
-            yield found_file
+    if db_retrieve_script_protocol(script.get('script')) == 'FTP':
+        if script.get('do').split('-')[0] == 'chmod':
+            for found_file in ftp_chmod(script):
+                yield found_file
+        if script.get('do') == 'del':
+            for found_file in ftp_del(script):
+                yield found_file
+        if script.get('do') == 'get':
+            for found_file in ftp_get(script):
+                yield found_file
+        if script.get('do') == 'ls':
+            for found_file in ftp_ls(script):
+                yield found_file
+        if script.get('do') == 'put':
+            for found_file in ftp_put(script):
+                yield found_file
+    else:
+        yield 'Error: Unrecognised Protocol'
     
 
 def fn_retrieve_script(script_name):

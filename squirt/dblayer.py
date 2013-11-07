@@ -223,9 +223,11 @@ def db_write_script(options):
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
         
-    parameters = (options.get('script'), options.get('host'), options.get('user'), options.get('password'), options.get('local'), options.get('remote'), options.get('do'), options.get('files'))
-    cursor.execute('insert into squirt_scripts (script, host, user, pass, local, remote, do, files) \
-                   values(?, ?, ?, ?, ?, ?, ?, ?)', parameters)
+    parameters = (options.get('script'), options.get('host'), options.get('user'), \
+        options.get('password'), options.get('local'), options.get('remote'), \
+        options.get('do'), options.get('files'), options.get('protocol'))
+    cursor.execute('insert into squirt_scripts (script, host, user, pass, local, remote, do, files, protocol) \
+                   values(?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
 
     connection.commit()
     connection.close()
@@ -241,6 +243,10 @@ def db_update_script(options):
     # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
+
+    if options.get('protocol') != None:
+        parameters = (options.get('protocol'), options.get('script'))
+        cursor.execute('update squirt_scripts set protocol = ? where script = ?', parameters)
 
     if options.get('host') != None:
         parameters = (options.get('host'), options.get('script'))
