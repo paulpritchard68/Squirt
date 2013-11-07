@@ -137,7 +137,3 @@ def fn_list_scripts():
     for script in db_list_scripts():
         script_list.append(script)
     return script_list
-
-def fn_initialise():
-    """ Initialise the database """
-    return db_init()

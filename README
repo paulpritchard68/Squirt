@@ -43,10 +43,6 @@ exec
 ----
 Executes a script
 
-init
-----
-This option is deprecated already and shouldn't be used. Database initialisation and maintenace is now handled automatically.
-
 list
 ----
 Lists all currently defined scripts.

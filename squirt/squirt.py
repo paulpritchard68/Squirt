@@ -105,14 +105,6 @@ def execute_script(options):
     for filename in fn_execute_script(script):
         print filename
 
-def initialise_db():
-    """ Initialise the database
-        Use with care because if anything already exists - it will be deleted """
-    if fn_initialise() == True:
-        print "Squirt initialised. You are good to go."
-    else:
-        print "Database initialisation failed"
-
 def main():
     """ The main event 
         Parses the entered arguments and figures out what to do with them """
@@ -171,10 +163,6 @@ def main():
     exec_parser.add_argument('--do', action='store', help='Do action')
     exec_parser.add_argument('--files', action='store', help='The files to be acted on')
     exec_parser.set_defaults(command='exec')
-
-    # The init command
-    init_parser = subparsers.add_parser('init', help='Initialise')
-    init_parser.set_defaults(command='init')
 
     try:
         command_line = parser.parse_args()
