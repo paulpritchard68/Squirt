@@ -2,8 +2,10 @@ SQUIRT
 ======
 Squirt started as an attempt to provide a simple way of maintaing frequently used simple FTP scripts. The FTP functionality is far from complete but the scope is expanding and my aim is to develop a simple mechanism for managing scripts across a variety of protocols and, eventually, a mechanism for piping these scripts together.
 
-0.1 Release Note
-================
+0.1 Release Notes
+=================
+Python 3 is now a requirement.
+
 This branch will break your database (sort of). When you run Squirt for the first time, the database will be created or updated. This time around the update will involve renaming the tables. In order to recover any pre-existing scripts you will need to go into sqlite with:
 
 sqlite3 .squirt.db
@@ -46,6 +48,11 @@ Executes a script
 list
 ----
 Lists all currently defined scripts.
+
+tree
+----
+Returns a directory tree starting at --remote. 
+Currently, this command does not check the --files parameter. This may change in the future.
 
 
 Options

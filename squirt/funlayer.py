@@ -98,18 +98,23 @@ def fn_execute_script(script):
         if script.get('do').split('-')[0] == 'chmod':
             for found_file in ftp_chmod(script):
                 yield found_file
-        if script.get('do') == 'del':
+        elif script.get('do') == 'del':
             for found_file in ftp_del(script):
                 yield found_file
-        if script.get('do') == 'get':
+        elif script.get('do') == 'get':
             for found_file in ftp_get(script):
                 yield found_file
-        if script.get('do') == 'ls':
+        elif script.get('do') == 'ls':
             for found_file in ftp_ls(script):
                 yield found_file
-        if script.get('do') == 'put':
+        elif script.get('do') == 'put':
             for found_file in ftp_put(script):
                 yield found_file
+        elif script.get('do') == 'tree':
+            for directory in ftp_tree(None, script.get('remote'), script):
+                yield directory
+        else:
+            yield "Error: Unrecognised FTP command"
     else:
         yield 'Error: Unrecognised Protocol'
     

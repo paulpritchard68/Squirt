@@ -184,3 +184,19 @@ def ftp_put(script):
             except:
                 yield 'Send failed for file %s' % entry 
 
+def ftp_tree(ftp, path, script):
+    """ Returns the directory tree starting at path """
+    if not hasattr(ftp, 'attr_name'):
+        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+    try:
+        for entry in ftp.mlsd(path, facts=["type"]):
+            if entry[1].get('type') == 'dir':
+                dir_path = path + '/' + entry[0]
+                yield dir_path
+                for search_path in ftp_tree(ftp, dir_path, script):
+                    yield search_path
+    except:
+        pass
+
+    ftp.quit()
+

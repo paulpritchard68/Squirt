@@ -37,9 +37,9 @@ def build_script(options):
 
     can_we_build_it = fn_build_script(script)
     if can_we_build_it == 'Fail':
-        print "Build of script %s failed. Check your options" % script.get('script')
+        print("Build of script %s failed. Check your options" % script.get('script'))
     else:
-        print "Script %s successfully %s" % (script.get('script'), can_we_build_it)
+        print("Script %s successfully %s" % (script.get('script'), can_we_build_it))
 
 def copy_script(settings):
     """ Copy an existing script 
@@ -55,40 +55,40 @@ def copy_script(settings):
     script.update(files=settings.files)
 
     if fn_copy_script(script) == True:
-        print "Script %s successfully copied to %s" % (script.get('cf'), script.get('ct'))
+        print("Script %s successfully copied to %s" % (script.get('cf'), script.get('ct')))
     else:
-        print "Copy of script %s to %s failed. Check your settings" % (script.get('cf'), script.get('ct'))
+        print("Copy of script %s to %s failed. Check your settings" % (script.get('cf'), script.get('ct')))
 
 def delete_script(options):
     """ Delete an existing script """
     if fn_delete_script(options.script) == True:
-        print "Script %s deleted" % options.script
+        print("Script %s deleted" % options.script)
     else:
-        print "Error: Script %s not deleted" % options.script
+        print("Error: Script %s not deleted" % options.script)
 
 def display_script(options):
     """ Displays a script
         options is a dictionay that contains one value - the script name """
     script = fn_retrieve_script(options.script)
     if script.get('exists') == False:
-        print "Script %s not defined" % script.get('script')
+        print("Script %s not defined" % script.get('script'))
     else:
-        print "Script:        %s " % script.get('script')
-        print "Protocol:      %s " % script.get('protocol')
-        print "Host:          %s " % script.get('host')
-        print "User:          %s " % script.get('user')
+        print("Script:        %s " % script.get('script'))
+        print("Protocol:      %s " % script.get('protocol'))
+        print("Host:          %s " % script.get('host'))
+        print("User:          %s " % script.get('user'))
         if options.showpass == 'yes':
-            print "Password:      %s " % script.get('password')
-        print "Local folder:  %s " % script.get('local')
-        print "Remote folder: %s " % script.get('remote')
-        print "Action:        %s " % script.get('do')
-        print "Files:         %s " % script.get('files')
+            print("Password:      %s " % script.get('password'))
+        print("Local folder:  %s " % script.get('local'))
+        print("Remote folder: %s " % script.get('remote'))
+        print("Action:        %s " % script.get('do'))
+        print("Files:         %s " % script.get('files'))
 
 def list_scripts():
     """ Lists the currently defined set of scripts 
         No paramerters this time """
     for script in  fn_list_scripts():
-        print script
+        print(script)
 
 def execute_script(options):
     """ Execute a built script
@@ -103,7 +103,7 @@ def execute_script(options):
     script.update(files=options.files)
 
     for filename in fn_execute_script(script):
-        print filename
+        print(filename)
 
 def main():
     """ The main event 
@@ -184,7 +184,7 @@ def main():
     elif command_line.command == 'init':
         initialise_db()
     else:
-        print "Command not recognised. Try using --help"
+        print("Command not recognised. Try using --help")
         sys.exit(2)
 
 if __name__ == "__main__":
