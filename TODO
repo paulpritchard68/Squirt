@@ -1,8 +1,6 @@
 The outstanding functions
 -------------------------
 ftplayer.py
-    - Recursive tree function - generate a directory tree
-
     - Improve the Get functionality
         - Proper handling of sub-folders is needed. When encountered, the script should work through the sub-folder as well
 
