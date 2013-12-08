@@ -192,7 +192,7 @@ def ftp_tree(ftp, path, script):
         for entry in ftp.mlsd(path, facts=["type"]):
             if entry[1].get('type') == 'dir':
                 dir_path = path + '/' + entry[0]
-                yield dir_path
+                yield dir_path 
                 for search_path in ftp_tree(ftp, dir_path, script):
                     yield search_path
     except:
