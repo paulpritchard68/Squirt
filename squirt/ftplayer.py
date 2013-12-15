@@ -73,54 +73,6 @@ def ftp_del(script):
 
     ftp.quit()
 
-def ftp_get(script):
-    """ Retrieves remote files matching file mask
-        Parameter script is a dictionary object 
-        Yields each of the found files """
-
-    # First build a list of files to retrieve
-    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
-
-    if script.get('remote') != None:
-        ftp.cwd(script.get('remote'))
-
-    entries = []
-    ftp.retrlines('LIST', lambda data: entries.append(data))
-
-    if script.get('files') != None:
-        pattern = re.compile(script.get('files'))
-    else:
-        pattern = re.compile('')
-
-    ftp.quit()
-
-    # Position to the local folder
-    if script.get('local') != None:
-        local = script.get('local')
-        if not isabs(local):
-            local = expanduser(local)
-    else:
-        local = os.getcwd()
-
-    # Then retrieve the files
-    for entry in entries:
-        if pattern.search(entry) != None or script.get('files') == None:
-            file_name =  entry.split(' ')[-1]
-            local_file = os.path.join(local, file_name)
-            try:
-                ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
-                if script.get('remote') != None:
-                    ftp.cwd(script.get('remote'))
-                with open(local_file, 'wb') as f:
-                    ftp.retrbinary('RETR %s' % file_name, lambda data: f.write(data))
-                yield entry
-                try:
-                    ftp.quit()
-                except:
-                    pass
-            except:
-                yield '%s Found but not retrieved' % entry
-
 def ftp_ls(script):
     """ Lists remote files matching file mask
         Parameter script is a dictionary object 
@@ -200,3 +152,39 @@ def ftp_tree(ftp, path, script):
 
     ftp.quit()
 
+def ftp_get(ftp, local_path, remote_path, script):
+    """ Recursively retrieve files, starting at path """
+    if not hasattr(ftp, 'attr_name'):
+        if script.get('files') != None:
+            pattern = re.compile(script.get('files'))
+        else:
+            pattern = re.compile('')
+
+        if local_path == None:
+            local_path = os.getcwd()
+        else:
+            if not isabs(local_path):
+                local_path = expanduser(local_path)
+
+        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+    try:
+        for entry in ftp.mlsd(remote_path, facts=["type"]):
+            if entry[1].get('type') == 'dir':
+                new_remote_path = remote_path + '/' + entry[0]
+                new_local_path = local_path + '/' + entry[0]
+                if not os.path.exists(new_local_path):
+                    os.makedirs(new_local_path)
+                for new_entry in ftp_get(ftp, new_local_path, new_remote_path, script):
+                    yield new_entry 
+
+            if entry[1].get('type') == 'file' and (pattern.search(entry[0]) != None or script.get('files') == None):
+                local_file = os.path.join(local_path, entry[0])
+                remote_file = remote_path + '/' + entry[0]
+                yield remote_file
+                with open(local_file, 'wb') as f:
+                    ftp.retrbinary('RETR %s' % remote_file, lambda data: f.write(data))
+    except:
+        pass
+
+    ftp.quit()

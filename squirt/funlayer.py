@@ -102,7 +102,7 @@ def fn_execute_script(script):
             for found_file in ftp_del(script):
                 yield found_file
         elif script.get('do') == 'get':
-            for found_file in ftp_get(script):
+            for found_file in ftp_get(None, script.get('local'), script.get('remote'), script):
                 yield found_file
         elif script.get('do') == 'ls':
             for found_file in ftp_ls(script):
