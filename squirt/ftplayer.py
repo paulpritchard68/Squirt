@@ -110,6 +110,14 @@ def ftp_put(script):
         os.chdir(local)
     else:
         local = os.getcwd()
+    local_root = len(local)
+
+    # Remote positioning
+    if script.get('remote') != None:
+        remote = script.get('remote')
+    else:
+        remote = ''
+    remote_root = len(remote)
 
     # Build the list of files to send
     entries = os.listdir(local) 
@@ -120,21 +128,29 @@ def ftp_put(script):
         pattern = re.compile('')
 
     # And start sending
-    for entry in entries:
-        if pattern.search(entry) != None or script.get('files') == None:
-            try:
-                ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
-                if script.get('remote') != None:
-                    ftp.cwd(script.get('remote'))
+    for dirname, dirnames, filenames in os.walk(local):
 
-                ftp.storbinary('STOR %s' % entry, open(entry, 'rb'), 1024)
-                yield entry
+        remote_dir = dirname[local_root: len(dirname)]
+        remote_full_path = remote + remote_dir
+        os.chdir(dirname)
+        if remote_dir != '':
+            ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+            try:
+                ftp.cwd(remote_full_path)
+            except:
+                ftp.mkd(remote_full_path)
+            ftp.quit()
+
+        for filename in filenames:
+            if pattern.search(filename) != None or script.get('files') == None:
                 try:
+                    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+                    ftp.cwd(remote_full_path)
+                    ftp.storbinary('STOR %s' % filename, open(filename, 'rb'), 1024)
+                    yield remote_full_path + '/' + filename
                     ftp.quit()
                 except:
                     pass
-            except:
-                yield 'Send failed for file %s' % entry 
 
 def ftp_tree(ftp, path, script):
     """ Returns the directory tree starting at path """
