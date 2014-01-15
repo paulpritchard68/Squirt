@@ -73,6 +73,43 @@ def ftp_del(script):
 
     ftp.quit()
 
+def ftp_get(ftp, local_path, remote_path, script):
+    """ Recursively retrieve files, starting at path """
+    if not hasattr(ftp, 'attr_name'):
+        if script.get('files') != None:
+            pattern = re.compile(script.get('files'))
+        else:
+            pattern = re.compile('')
+
+        if local_path == None:
+            local_path = os.getcwd()
+        else:
+            if not isabs(local_path):
+                local_path = expanduser(local_path)
+
+        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+    try:
+        for entry in ftp.mlsd(remote_path, facts=["type"]):
+            if entry[1].get('type') == 'dir':
+                new_remote_path = remote_path + '/' + entry[0]
+                new_local_path = local_path + '/' + entry[0]
+                if not os.path.exists(new_local_path):
+                    os.makedirs(new_local_path)
+                for new_entry in ftp_get(ftp, new_local_path, new_remote_path, script):
+                    yield new_entry 
+
+            if entry[1].get('type') == 'file' and (pattern.search(entry[0]) != None or script.get('files') == None):
+                local_file = os.path.join(local_path, entry[0])
+                remote_file = remote_path + '/' + entry[0]
+                yield remote_file
+                with open(local_file, 'wb') as f:
+                    ftp.retrbinary('RETR %s' % remote_file, lambda data: f.write(data))
+    except:
+        pass
+
+    ftp.quit()
+
 def ftp_ls(script):
     """ Lists remote files matching file mask
         Parameter script is a dictionary object 
@@ -139,6 +176,7 @@ def ftp_put(script):
                 ftp.cwd(remote_full_path)
             except:
                 ftp.mkd(remote_full_path)
+                yield remote_full_path
             ftp.quit()
 
         for filename in filenames:
@@ -163,43 +201,6 @@ def ftp_tree(ftp, path, script):
                 yield dir_path 
                 for search_path in ftp_tree(ftp, dir_path, script):
                     yield search_path
-    except:
-        pass
-
-    ftp.quit()
-
-def ftp_get(ftp, local_path, remote_path, script):
-    """ Recursively retrieve files, starting at path """
-    if not hasattr(ftp, 'attr_name'):
-        if script.get('files') != None:
-            pattern = re.compile(script.get('files'))
-        else:
-            pattern = re.compile('')
-
-        if local_path == None:
-            local_path = os.getcwd()
-        else:
-            if not isabs(local_path):
-                local_path = expanduser(local_path)
-
-        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
-
-    try:
-        for entry in ftp.mlsd(remote_path, facts=["type"]):
-            if entry[1].get('type') == 'dir':
-                new_remote_path = remote_path + '/' + entry[0]
-                new_local_path = local_path + '/' + entry[0]
-                if not os.path.exists(new_local_path):
-                    os.makedirs(new_local_path)
-                for new_entry in ftp_get(ftp, new_local_path, new_remote_path, script):
-                    yield new_entry 
-
-            if entry[1].get('type') == 'file' and (pattern.search(entry[0]) != None or script.get('files') == None):
-                local_file = os.path.join(local_path, entry[0])
-                remote_file = remote_path + '/' + entry[0]
-                yield remote_file
-                with open(local_file, 'wb') as f:
-                    ftp.retrbinary('RETR %s' % remote_file, lambda data: f.write(data))
     except:
         pass
 
