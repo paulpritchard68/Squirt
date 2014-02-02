@@ -1,12 +1,12 @@
 The outstanding functions
 -------------------------
+funlayer.py
+    - Apply some consistency to the return values of the various functions
+
 ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
     
-funlayer.py
-    - Apply some consistency to the return values of the various functions
-
 New Layer
 ---------
 sshlayer.py
