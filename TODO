@@ -6,7 +6,12 @@ funlayer.py
 ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
-    
+
+New Layer
+---------
+smtp.py
+    - Because retrieving remote files and emailing them sounds like fun
+
 New Layer
 ---------
 sshlayer.py
