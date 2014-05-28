@@ -16,7 +16,6 @@ New Layer
 ---------
 smtp.py
     - Because retrieving remote files and emailing them sounds like fun
-        - Database changes implemented
 
 New Layer
 ---------
