@@ -1,7 +1,12 @@
 The outstanding functions
 -------------------------
+dblayer.py
+    - Start returning more useful error codes
+    - Implement SMTP support
+
 funlayer.py
     - Apply some consistency to the return values of the various functions
+    - Update script should not allow change to Protocol
 
 ftplayer.py
     - Support some more actions
@@ -11,6 +16,7 @@ New Layer
 ---------
 smtp.py
     - Because retrieving remote files and emailing them sounds like fun
+        - Database changes implemented
 
 New Layer
 ---------
