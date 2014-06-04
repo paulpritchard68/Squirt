@@ -1,3 +1,12 @@
+New Layer
+---------
+smtplayer.py
+    - Because retrieving remote files and emailing them sounds like fun
+        - First function in progress. 
+            - This may well turn out to be the the only function.
+            - Unit test to destruction.
+        - Needs to be tied into everything else.
+
 The outstanding functions
 -------------------------
 dblayer.py
@@ -7,16 +16,11 @@ dblayer.py
 funlayer.py
     - Apply some consistency to the return values of the various functions
     - Update script should not allow change to Protocol
+    - Needs to access smtp.py
 
 ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
-
-New Layer
----------
-smtp.py
-    - Because retrieving remote files and emailing them sounds like fun
-        - Database changes implemented
 
 New Layer
 ---------
