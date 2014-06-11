@@ -407,6 +407,12 @@ def db_init():
 
         database_version = 3
 
+    # Files! There's no point if the SMTP doesn't send any files.
+    if database_version == 3:
+        cursor.execute('alter table squirt_smtp add column files TEXT')
+        cursor.execute('update squirt_config set current_version = 4')
+        database_version = 4
+
     connection.commit()
     connection.close()
 

@@ -1,3 +1,9 @@
+New Layer
+---------
+smtplayer.py
+    - First function written and unit tested.
+    - Now it needs to be tied into everything else.
+
 The outstanding functions
 -------------------------
 dblayer.py
@@ -7,6 +13,7 @@ dblayer.py
 funlayer.py
     - Apply some consistency to the return values of the various functions
     - Update script should not allow change to Protocol
+    - Needs to access smtp.py
 
 ftplayer.py
     - Support some more actions
@@ -14,11 +21,14 @@ ftplayer.py
 
 New Layer
 ---------
+<<<<<<< HEAD
 smtp.py
     - Because retrieving remote files and emailing them sounds like fun
 
 New Layer
 ---------
+=======
+>>>>>>> 0.2.1-smtp
 sshlayer.py
     - Implement scp
 

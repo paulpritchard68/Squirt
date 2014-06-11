@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 0.2
 ===
 Database changes - now ready to start providing multi-protocol support
+=======
+0.2.1-SMTP
+==========
+Development of SMTP functionality in progress.
+>>>>>>> 0.2.1-smtp
