@@ -1,8 +1,9 @@
 New Layer
 ---------
 smtplayer.py
-    - First function written and unit tested.
-    - Now it needs to be tied into everything else.
+    - Function send_smtp written and unit tested.
+    - Needs to be able to send attachments. Otherwise it's pretty pointless.
+    - Then it needs to be tied into everything else.
 
 The outstanding functions
 -------------------------

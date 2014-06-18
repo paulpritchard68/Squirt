@@ -413,6 +413,11 @@ def db_init():
         cursor.execute('update squirt_config set current_version = 4')
         database_version = 4
 
+    # And folders. You forgot to include the folders, Gromit!
+    if database_version == 4:
+        cursor.execute('alter table squirt_smtp add column folder TEXT')
+        cursor.execute('update squirt_config set current_version = 5')
+
     connection.commit()
     connection.close()
 
