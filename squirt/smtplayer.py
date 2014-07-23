@@ -20,21 +20,83 @@ import os
 from os.path import isabs, expanduser
 import re
 import smtplib
+import mimetypes
+
+from email import encoders
+from email.message import Message
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 def smtp_send(script):
     """ Sends an email with whatever attachment was requested """
     COMMASPACE = ", "
 
+    # Create the enclosing (outer) message
+    outer = MIMEMultipart()
+    outer['Subject'] = script.get('subject')
+    outer['To'] = COMMASPACE.join([script.get('mailto')])
+    outer['From'] = script.get('mailfrom')
+    outer.preamble = 'You will not see this in a MIME-aware mail reader.\n'
+
+    # Message Body
+    msg = MIMEText(script.get('body'), _subtype='plain')
+    outer.attach(msg)
+
+    # Retrieve the files
+    # This needs to be amended to take account of the --files argument
+    # Also, check how ftplayer is handling the folder resolution
+    folder = script.get('folder')
+    files = script.get('files')
+
+    for filename in os.listdir(folder):
+        path = os.path.join(folder, filename)
+        if not os.path.isfile(path):
+            continue
+        # Guess the content type based on the file's extension.  Encoding
+        # will be ignored, although we should check for simple things like
+        # gzip'd or compressed files.
+        ctype, encoding = mimetypes.guess_type(path)
+        if ctype is None or encoding is not None:
+            # No guess could be made, or the file is encoded (compressed), so
+            # use a generic bag-of-bits type.
+            ctype = 'application/octet-stream'
+        maintype, subtype = ctype.split('/', 1)
+        if maintype == 'text':
+            with open(path) as fp:
+                # Note: we should handle calculating the charset
+                msg = MIMEText(fp.read(), _subtype=subtype)
+        elif maintype == 'image':
+            with open(path, 'rb') as fp:
+                msg = MIMEImage(fp.read(), _subtype=subtype)
+        elif maintype == 'audio':
+            with open(path, 'rb') as fp:
+                msg = MIMEAudio(fp.read(), _subtype=subtype)
+        else:
+            with open(path, 'rb') as fp:
+                msg = MIMEBase(maintype, subtype)
+                msg.set_payload(fp.read())
+            # Encode the payload using Base64
+            encoders.encode_base64(msg)
+        # Set the filename parameter
+        msg.add_header('Content-Disposition', 'attachment', filename=filename)
+        outer.attach(msg)
+
+    # And then send the message
+    smtp_message = outer.as_string()
+
     server = smtplib.SMTP(script.get('server'), script.get('port'))
     server.starttls()
     server.ehlo_or_helo_if_needed()
     server.login(script.get('user'), script.get('password'))
-    
+
     smtp_from = script.get('mailfrom')
-    smtp_to = [script.get('mailto')]
-    smtp_message = """From: %s\nTo: %s\nSubject: %s\n\n%s""" % (smtp_from, COMMASPACE.join(smtp_to), script.get('subject'), script.get('body'))
+    smtp_to = script.get('mailto')
 
     server.sendmail(smtp_from, smtp_to, smtp_message)
     server.close()
+
     return(True, 'Mail sent successfully')
     
