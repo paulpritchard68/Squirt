@@ -45,44 +45,56 @@ def smtp_send(script):
     msg = MIMEText(script.get('body'), _subtype='plain')
     outer.attach(msg)
 
-    # Retrieve the files
-    # This needs to be amended to take account of the --files argument
-    # Also, check how ftplayer is handling the folder resolution
+    # The attachments folder
     folder = script.get('folder')
-    files = script.get('files')
+    if folder == None:
+        folder = os.getcwd()
+    else:
+        if not isabs(folder):
+            folder = expanduser(folder)
+
+    # The attachments
+    if script.get('files') != None:
+        try:
+            pattern = re.compile(script.get('files'))
+        except:
+            return(False, 'Invalid file pattern')
+    else:
+        pattern = re.compile('')
 
     for filename in os.listdir(folder):
-        path = os.path.join(folder, filename)
-        if not os.path.isfile(path):
-            continue
-        # Guess the content type based on the file's extension.  Encoding
-        # will be ignored, although we should check for simple things like
-        # gzip'd or compressed files.
-        ctype, encoding = mimetypes.guess_type(path)
-        if ctype is None or encoding is not None:
-            # No guess could be made, or the file is encoded (compressed), so
-            # use a generic bag-of-bits type.
-            ctype = 'application/octet-stream'
-        maintype, subtype = ctype.split('/', 1)
-        if maintype == 'text':
-            with open(path) as fp:
-                # Note: we should handle calculating the charset
-                msg = MIMEText(fp.read(), _subtype=subtype)
-        elif maintype == 'image':
-            with open(path, 'rb') as fp:
-                msg = MIMEImage(fp.read(), _subtype=subtype)
-        elif maintype == 'audio':
-            with open(path, 'rb') as fp:
-                msg = MIMEAudio(fp.read(), _subtype=subtype)
-        else:
-            with open(path, 'rb') as fp:
-                msg = MIMEBase(maintype, subtype)
-                msg.set_payload(fp.read())
-            # Encode the payload using Base64
-            encoders.encode_base64(msg)
-        # Set the filename parameter
-        msg.add_header('Content-Disposition', 'attachment', filename=filename)
-        outer.attach(msg)
+        if pattern.search(filename) != None or script.get('files') == None:
+            path = os.path.join(folder, filename)
+            if not os.path.isfile(path):
+                continue
+            # Guess the content type based on the file's extension.  Encoding
+            # will be ignored, although we should check for simple things like
+            # gzip'd or compressed files.
+            ctype, encoding = mimetypes.guess_type(path)
+            if ctype is None or encoding is not None:
+                # No guess could be made, or the file is encoded (compressed), so
+                # use a generic bag-of-bits type.
+                ctype = 'application/octet-stream'
+            maintype, subtype = ctype.split('/', 1)
+            if maintype == 'text':
+                with open(path) as fp:
+                    # Note: we should handle calculating the charset
+                    msg = MIMEText(fp.read(), _subtype=subtype)
+            elif maintype == 'image':
+                with open(path, 'rb') as fp:
+                    msg = MIMEImage(fp.read(), _subtype=subtype)
+            elif maintype == 'audio':
+                with open(path, 'rb') as fp:
+                    msg = MIMEAudio(fp.read(), _subtype=subtype)
+            else:
+                with open(path, 'rb') as fp:
+                    msg = MIMEBase(maintype, subtype)
+                    msg.set_payload(fp.read())
+                # Encode the payload using Base64
+                encoders.encode_base64(msg)
+            # Set the filename parameter
+            msg.add_header('Content-Disposition', 'attachment', filename=filename)
+            outer.attach(msg)
 
     # And then send the message
     smtp_message = outer.as_string()

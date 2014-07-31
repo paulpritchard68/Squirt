@@ -1,9 +1,7 @@
 New Layer
 ---------
 smtplayer.py
-    - Function send_smtp in progress
-        - Broadly working but...
-            - See comments re files and folders
+    - Function send_smtp is working
     - Then it needs to be tied into everything else.
 
 The outstanding functions
