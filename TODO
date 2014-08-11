@@ -1,36 +1,32 @@
-New Layer
----------
+SMTP Support
+------------
 smtplayer.py
     - Function send_smtp is working
     - Then it needs to be tied into everything else.
 
-The outstanding functions
--------------------------
+dblayer.py
+    - Implement SMTP support
+
+funlayer.py
+    - Needs to access smtp.py
+
+
+Other fixes
+-----------
+ftplayer.py
+    - needs to support explicit mode switching (binary or ascii)
+
 dblayer.py
     - Start returning more useful error codes
-    - Implement SMTP support
 
 funlayer.py
     - Apply some consistency to the return values of the various functions
     - Update script should not allow change to Protocol
-    - Needs to access smtp.py
 
 ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
 
-New Layer
----------
-<<<<<<< HEAD
-smtp.py
-    - Because retrieving remote files and emailing them sounds like fun
-
-New Layer
----------
-=======
->>>>>>> 0.2.1-smtp
-sshlayer.py
-    - Implement scp
 
 New functionality
 -----------------
