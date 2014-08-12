@@ -30,7 +30,7 @@ def ftp_chmod(script):
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
     if script.get('namefmt') != None:
-        sndcmd = 'namefmt ' + str(script.get('namefmt'))
+        sndcmd = 'site namefmt ' + str(script.get('namefmt'))
         ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
@@ -59,7 +59,7 @@ def ftp_del(script):
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
     if script.get('namefmt') != None:
-        sndcmd = 'namefmt ' + str(script.get('namefmt'))
+        sndcmd = 'site namefmt ' + str(script.get('namefmt'))
         ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
@@ -97,7 +97,7 @@ def ftp_get(ftp, local_path, remote_path, script):
         ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
         if script.get('namefmt') != None:
-            sndcmd = 'namefmt ' + str(script.get('namefmt'))
+            sndcmd = 'site namefmt ' + str(script.get('namefmt'))
             ftp.sendcmd(sndcmd)
 
     try:
@@ -129,7 +129,7 @@ def ftp_ls(script):
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
     if script.get('namefmt') != None:
-        sndcmd = 'namefmt ' + str(script.get('namefmt'))
+        sndcmd = 'site namefmt ' + str(script.get('namefmt'))
         ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
@@ -189,7 +189,7 @@ def ftp_put(script):
             ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
             if script.get('namefmt') != None:
-                sndcmd = 'namefmt ' + str(script.get('namefmt'))
+                sndcmd = 'site namefmt ' + str(script.get('namefmt'))
                 ftp.sendcmd(sndcmd)
 
             try:
@@ -216,7 +216,7 @@ def ftp_tree(ftp, path, script):
         ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
         if script.get('namefmt') != None:
-            sndcmd = 'namefmt ' + str(script.get('namefmt'))
+            sndcmd = 'site namefmt ' + str(script.get('namefmt'))
             print(sndcmd)
             try:
                 ftp.sendcmd(sndcmd)
