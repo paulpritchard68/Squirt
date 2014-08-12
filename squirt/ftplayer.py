@@ -217,7 +217,11 @@ def ftp_tree(ftp, path, script):
 
         if script.get('namefmt') != None:
             sndcmd = 'namefmt ' + str(script.get('namefmt'))
-            ftp.sendcmd(sndcmd)
+            print(sndcmd)
+            try:
+                ftp.sendcmd(sndcmd)
+            except:
+                pass
 
     try:
         for entry in ftp.mlsd(path, facts=["type"]):

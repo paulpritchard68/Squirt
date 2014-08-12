@@ -26,7 +26,7 @@ def build_script(options):
     """ Build a reusable FTP script 
         options is the dictionary of options that define the script """
     script = dict(script=options.script)
-    script.update(protocol=options.protocol)
+    script.update(protocol=options.protocol.upper())
     script.update(host=options.host)
     script.update(user=options.user)
     script.update(password=options.password)

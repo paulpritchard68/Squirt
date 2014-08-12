@@ -272,7 +272,7 @@ def db_write_script(options):
                       options.get('files'), options.get('mode'), \
                       options.get('namefmt'))
         cursor.execute('insert into squirt_ftp \
-                        (script_id, host, user, pass, local, remote, do, files) \
+                        (script_id, host, user, pass, local, remote, do, files, mode, namefmt) \
                         values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
 
     connection.commit()
@@ -325,7 +325,7 @@ def db_update_script(options):
         if options.get('password') != None:
             parameters = (options.get('password'), options.get('script'))
             cursor.execute('update squirt_ftp \
-                            set password = ? \
+                            set pass = ? \
                             where script_id in \
                                 (select script_id \
                                  from squirt_scripts where script = ?)' \
