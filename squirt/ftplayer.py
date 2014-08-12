@@ -29,6 +29,10 @@ def ftp_chmod(script):
         Failure is not an option """
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
+    if script.get('namefmt') != None:
+        sndcmd = 'namefmt ' + str(script.get('namefmt'))
+        ftp.sendcmd(sndcmd)
+
     if script.get('remote') != None:
         ftp.cwd(script.get('remote'))
 
@@ -51,9 +55,12 @@ def ftp_chmod(script):
 def ftp_del(script):
     """ Deletes remote files matching file mask
         Parameter script is a dictionary object 
-        Returns True if successful
-        Failure is not an option """
+        Returns file names as they are deleted """
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+    if script.get('namefmt') != None:
+        sndcmd = 'namefmt ' + str(script.get('namefmt'))
+        ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
         ftp.cwd(script.get('remote'))
@@ -89,6 +96,10 @@ def ftp_get(ftp, local_path, remote_path, script):
 
         ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
+        if script.get('namefmt') != None:
+            sndcmd = 'namefmt ' + str(script.get('namefmt'))
+            ftp.sendcmd(sndcmd)
+
     try:
         for entry in ftp.mlsd(remote_path, facts=["type"]):
             if entry[1].get('type') == 'dir':
@@ -116,6 +127,10 @@ def ftp_ls(script):
         Yields each of the found files """
 
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+    if script.get('namefmt') != None:
+        sndcmd = 'namefmt ' + str(script.get('namefmt'))
+        ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
         ftp.cwd(script.get('remote'))
@@ -172,6 +187,11 @@ def ftp_put(script):
         os.chdir(dirname)
         if remote_dir != '':
             ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+            if script.get('namefmt') != None:
+                sndcmd = 'namefmt ' + str(script.get('namefmt'))
+                ftp.sendcmd(sndcmd)
+
             try:
                 ftp.cwd(remote_full_path)
             except:
@@ -194,6 +214,11 @@ def ftp_tree(ftp, path, script):
     """ Returns the directory tree starting at path """
     if not hasattr(ftp, 'attr_name'):
         ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+
+        if script.get('namefmt') != None:
+            sndcmd = 'namefmt ' + str(script.get('namefmt'))
+            ftp.sendcmd(sndcmd)
+
     try:
         for entry in ftp.mlsd(path, facts=["type"]):
             if entry[1].get('type') == 'dir':

@@ -215,6 +215,40 @@ def db_retrieve_script_files(script):
     for row in rows:
         return row[0]
 
+def db_retrieve_script_mode(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select mode from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+def db_retrieve_script_namefmt(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select namefmt from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
 def db_write_script(options):
     """ Write a new script definition to database """
 
@@ -235,10 +269,11 @@ def db_write_script(options):
         parameters = (script_id, options.get('host'), options.get('user'), \
                       options.get('password'), options.get('local'), \
                       options.get('remote'), options.get('do'), \
-                      options.get('files'))
+                      options.get('files'), options.get('mode'), \
+                      options.get('namefmt'))
         cursor.execute('insert into squirt_ftp \
                         (script_id, host, user, pass, local, remote, do, files) \
-                        values(?, ?, ?, ?, ?, ?, ?, ?)', parameters)
+                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
 
     connection.commit()
     connection.close()
@@ -332,6 +367,24 @@ def db_update_script(options):
                                  from squirt_scripts where script = ?)' \
                             , parameters)
 
+        if options.get('mode') != None:
+            parameters = (options.get('mode'), options.get('script'))
+            cursor.execute('update squirt_ftp \
+                            set mode = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+
+        if options.get('namefmt') != None:
+            parameters = (options.get('namefmt'), options.get('script'))
+            cursor.execute('update squirt_ftp \
+                            set namefmt = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+
     connection.commit()
     connection.close()
 
@@ -418,6 +471,13 @@ def db_init():
         cursor.execute('alter table squirt_smtp add column folder TEXT')
         cursor.execute('update squirt_config set current_version = 5')
         database_version = 5
+
+    # Two more FTP options
+    if database_version == 5:
+        cursor.execute('alter table squirt_ftp add column mode TEXT')
+        cursor.execute('alter table squirt_ftp add column namefmt integer')
+        cursor.execute('update squirt_config set current_version = 6')
+        database_version = 6
 
     connection.commit()
     connection.close()

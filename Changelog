@@ -1,9 +1,13 @@
-<<<<<<< HEAD
 0.2
 ===
-Database changes - now ready to start providing multi-protocol support
-=======
-0.2.1-SMTP
-==========
-Development of SMTP functionality in progress.
->>>>>>> 0.2.1-smtp
+SMTP support...
+MODE (ascii or binary) is added to the database, but not used
+NAMEFMT (Select File Naming Format) is now supported. You'll need this to connect to an i (or iSeries or AS/400)
+Database redesigned. This should now provide the flexibility to support more protocols.
+
+0.1
+===
+FTP Put and FTP Get now support subfolders
+FTP Tree is now a command - this returns the directory tree starting at --remote
+Protocol (Currently only FTP is supported) is now a parameter
+Automatic database updates now implemented

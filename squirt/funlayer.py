@@ -62,6 +62,12 @@ def fn_copy_script(settings):
         if settings.get('files') == None:
             settings.update(files = db_retrieve_script_files(settings.get('cf')))
 
+        if settings.get('mode') == None:
+            settings.update(mode = db_retrieve_script_mode(settings.get('cf')))
+
+        if settings.get('namefmt') == None:
+            settings.update(namefmt = db_retrieve_script_namefmt(settings.get('cf')))
+
         return db_write_script(settings)
     else:
         return False
@@ -93,6 +99,10 @@ def fn_execute_script(script):
         script.update(do=db_retrieve_script_do(script.get('script')))
     if script.get('files') == None:
         script.update(files=db_retrieve_script_files(script.get('script')))
+    if script.get('mode') == None:
+        script.update(mode=db_retrieve_script_mode(script.get('script')))
+    if script.get('namefmt') == None:
+        script.update(namefmt=db_retrieve_script_namefmt(script.get('script')))
 
     if db_retrieve_script_protocol(script.get('script')) == 'FTP':
         if script.get('do').split('-')[0] == 'chmod':
@@ -134,6 +144,8 @@ def fn_retrieve_script(script_name):
         script.update(remote=db_retrieve_script_remote(script_name))
         script.update(do=db_retrieve_script_do(script_name))
         script.update(files=db_retrieve_script_files(script_name))
+        script.update(mode=db_retrieve_script_mode(script_name))
+        script.update(namefmt=db_retrieve_script_namefmt(script_name))
     return script
 
 def fn_list_scripts():

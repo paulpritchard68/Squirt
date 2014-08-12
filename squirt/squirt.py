@@ -34,6 +34,8 @@ def build_script(options):
     script.update(remote=options.remote)
     script.update(do=options.do)
     script.update(files=options.files)
+    script.update(mode=options.mode)
+    script.update(namefmt=options.namefmt)
 
     can_we_build_it = fn_build_script(script)
     if can_we_build_it == 'Fail':
@@ -53,6 +55,8 @@ def copy_script(settings):
     script.update(remote=settings.remote)
     script.update(do=settings.do)
     script.update(files=settings.files)
+    script.update(mode=settings.mode)
+    script.update(namefmt=settings.namefmt)
 
     if fn_copy_script(script) == True:
         print("Script %s successfully copied to %s" % (script.get('cf'), script.get('ct')))
@@ -79,10 +83,14 @@ def display_script(options):
         print("User:          %s " % script.get('user'))
         if options.showpass == 'yes':
             print("Password:      %s " % script.get('password'))
+        if  script.get('namefmt') != None:
+            print("Naming format: %s " % script.get('namefmt'))
         print("Local folder:  %s " % script.get('local'))
         print("Remote folder: %s " % script.get('remote'))
         print("Action:        %s " % script.get('do'))
         print("Files:         %s " % script.get('files'))
+        if script.get('mode') != None:
+            print("Mode:          %s " % script.get('mode'))
 
 def list_scripts():
     """ Lists the currently defined set of scripts 
@@ -101,6 +109,8 @@ def execute_script(options):
     script.update(remote=options.remote)
     script.update(do=options.do)
     script.update(files=options.files)
+    script.update(mode=options.mode)
+    script.update(namefmt=options.namefmt)
 
     for filename in fn_execute_script(script):
         print(filename)
@@ -122,6 +132,8 @@ def main():
     build_parser.add_argument('--remote', action='store', help='Set remote path')
     build_parser.add_argument('--do', action='store', help='Do action')
     build_parser.add_argument('--files', action='store', help='The files to be acted on')
+    build_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
+    build_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
     build_parser.set_defaults(command='build')
 
     # The copy command
@@ -135,6 +147,8 @@ def main():
     copy_parser.add_argument('--remote', action='store', help='Set remote path')
     copy_parser.add_argument('--do', action='store', help='Do action')
     copy_parser.add_argument('--files', action='store', help='The files to be acted on')
+    copy_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
+    copy_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
     copy_parser.set_defaults(command='copy')
 
     # The delete command
@@ -162,6 +176,8 @@ def main():
     exec_parser.add_argument('--remote', action='store', help='Set remote path')
     exec_parser.add_argument('--do', action='store', help='Do action')
     exec_parser.add_argument('--files', action='store', help='The files to be acted on')
+    exec_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
+    exec_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
     exec_parser.set_defaults(command='exec')
 
     try:
