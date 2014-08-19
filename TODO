@@ -2,7 +2,10 @@ SMTP Support
 ------------
 smtplayer.py
     - Function send_smtp is working
-    - Then it needs to be tied into everything else.
+        - Then it needs to be tied into everything else.
+            dblayer.py - Done. Not tested
+            funlayer.py
+            squirt.py
 
 dblayer.py
     - Implement SMTP support

@@ -116,15 +116,20 @@ def db_retrieve_script_host(script):
 def db_retrieve_script_user(script):
     """ Retrieves a script value """
 
-    # First check the database is current
-    db_init()
+    # First check the protocol
+    protocol = db_retrieve_script_protocol(script)
 
     # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select user from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    if protocol == 'FTP':
+        cursor.execute('select user from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    elif protocol == 'SMTP':
+        cursor.execute('select user from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    else:
+        return 'Error: Unknown protocol'
 
     rows = cursor.fetchall()
     for row in rows:
@@ -133,15 +138,18 @@ def db_retrieve_script_user(script):
 def db_retrieve_script_pass(script):
     """ Retrieves a script value """
 
-    # First check the database is current
-    db_init()
+    # First check the protocol
+    protocol = db_retrieve_script_protocol(script)
 
     # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select pass from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    if protocol == 'FTP':
+        cursor.execute('select pass from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    if protocol == 'SMPT':
+        cursor.execute('select pass from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -201,15 +209,20 @@ def db_retrieve_script_do(script):
 def db_retrieve_script_files(script):
     """ Retrieves a script value """
 
-    # First check the database is current
-    db_init()
+    # First check the protocol
+    protocol = db_retrieve_script_protocol(script)
 
     # Then the function
     connection = sqlite3.connect(os.path.expanduser(db_path))
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select files from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    if protocol == 'FTP':
+        cursor.execute('select files from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    elif protocol == 'SMTP':
+        cursor.execute('select files from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+    else:
+        return 'Error: Unknown protocol'
 
     rows = cursor.fetchall()
     for row in rows:
@@ -249,6 +262,125 @@ def db_retrieve_script_namefmt(script):
     for row in rows:
         return row[0]
 
+def db_retrieve_script_server(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select server from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+def db_retrieve_script_port(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select port from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+def db_retrieve_script_mailfrom(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select mailfrom from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+def db_retrieve_script_mailto(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select mailto from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+def db_retrieve_script_subject(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select subject from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+def db_retrieve_script_body(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select body from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
+def db_retrieve_script_folder(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(db_path))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select folder from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
 def db_write_script(options):
     """ Write a new script definition to database """
 
@@ -274,6 +406,17 @@ def db_write_script(options):
         cursor.execute('insert into squirt_ftp \
                         (script_id, host, user, pass, local, remote, do, files, mode, namefmt) \
                         values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
+    elif protocol == 'SMTP':
+        parameters = (script_id, options.get('server'), options.get('port'), \
+                      options.get('user'), options.get('pass'), \
+                      options.get('mailfrom'), options.get('mailto'), \
+                      options.get('subject'), options.get('body'), \
+                      options.get('files'), options.get('folder'))
+        cursor.execute('insert into squirt_smtp \
+                        (script_id, server, port, user, pass, mailfrom, mailto, subject, body, files, folder) \
+                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
+    else:
+        return False
 
     connection.commit()
     connection.close()
@@ -380,6 +523,87 @@ def db_update_script(options):
             parameters = (options.get('namefmt'), options.get('script'))
             cursor.execute('update squirt_ftp \
                             set namefmt = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+    elif protocol == 'SMTP':
+        if options.get('server') != None:
+            parameters = (options.get('server'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set server = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('port') != None:
+            parameters = (options.get('port'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set port = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('user') != None:
+            parameters = (options.get('user'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set user = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('pass') != None:
+            parameters = (options.get('pass'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set pass = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('mailfrom') != None:
+            parameters = (options.get('mailfrom'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set mailfrom = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('mailto') != None:
+            parameters = (options.get('mailto'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set mailto = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('subject') != None:
+            parameters = (options.get('subject'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set subject = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('body') != None:
+            parameters = (options.get('body'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set body = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('files') != None:
+            parameters = (options.get('files'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set files = ? \
+                            where script_id in \
+                                (select script_id \
+                                 from squirt_scripts where script = ?)' \
+                            , parameters)
+        if options.get('folder') != None:
+            parameters = (options.get('folder'), options.get('script'))
+            cursor.execute('update squirt_smtp \
+                            set folder = ? \
                             where script_id in \
                                 (select script_id \
                                  from squirt_scripts where script = ?)' \
