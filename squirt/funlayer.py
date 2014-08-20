@@ -68,6 +68,30 @@ def fn_copy_script(settings):
         if settings.get('namefmt') == None:
             settings.update(namefmt = db_retrieve_script_namefmt(settings.get('cf')))
 
+        if settings.get('server') == None:
+            settings.update(server = db_retrieve_script_server(settings.get('cf')))
+
+        if settings.get('port') == None:
+            settings.update(port = db_retrieve_script_port(settings.get('cf')))
+
+        if settings.get('pass') == None:
+            settings.update(pass = db_retrieve_script_pass(settings.get('cf')))
+
+        if settings.get('mailfrom') == None:
+            settings.update(mailfrom = db_retrieve_script_mailfrom(settings.get('cf')))
+
+        if settings.get('mailto') == None:
+            settings.update(mailto = db_retrieve_script_mailto(settings.get('cf')))
+
+        if settings.get('subject') == None:
+            settings.update(subject = db_retrieve_script_subject(settings.get('cf')))
+
+        if settings.get('body') == None:
+            settings.update(body = db_retrieve_script_body(settings.get('cf')))
+
+        if settings.get('folder') == None:
+            settings.update(folder = db_retrieve_script_folder(settings.get('cf')))
+
         return db_write_script(settings)
     else:
         return False
@@ -103,6 +127,22 @@ def fn_execute_script(script):
         script.update(mode=db_retrieve_script_mode(script.get('script')))
     if script.get('namefmt') == None:
         script.update(namefmt=db_retrieve_script_namefmt(script.get('script')))
+    if settings.get('server') == None:
+        settings.update(server = db_retrieve_script_server(settings.get('cf')))
+    if settings.get('port') == None:
+        settings.update(port = db_retrieve_script_port(settings.get('cf')))
+    if settings.get('pass') == None:
+        settings.update(pass = db_retrieve_script_pass(settings.get('cf')))
+    if settings.get('mailfrom') == None:
+        settings.update(mailfrom = db_retrieve_script_mailfrom(settings.get('cf')))
+    if settings.get('mailto') == None:
+        settings.update(mailto = db_retrieve_script_mailto(settings.get('cf')))
+    if settings.get('subject') == None:
+        settings.update(subject = db_retrieve_script_subject(settings.get('cf')))
+    if settings.get('body') == None:
+        settings.update(body = db_retrieve_script_body(settings.get('cf')))
+    if settings.get('folder') == None:
+        settings.update(folder = db_retrieve_script_folder(settings.get('cf')))
 
     if db_retrieve_script_protocol(script.get('script')) == 'FTP':
         if script.get('do').split('-')[0] == 'chmod':
@@ -125,6 +165,8 @@ def fn_execute_script(script):
                 yield directory
         else:
             yield "Error: Unrecognised FTP command"
+    elif db_retrieve_script_protocol(script.get('script')) == 'SMTP':
+        yield smtp_send(script)
     else:
         yield 'Error: Unrecognised Protocol'
     
@@ -137,15 +179,27 @@ def fn_retrieve_script(script_name):
     else:
         script.update(exists=True)
         script.update(protocol=db_retrieve_script_protocol(script_name))
-        script.update(host=db_retrieve_script_host(script_name))
-        script.update(user=db_retrieve_script_user(script_name))
-        script.update(password=db_retrieve_script_pass(script_name))
-        script.update(local=db_retrieve_script_local(script_name))
-        script.update(remote=db_retrieve_script_remote(script_name))
-        script.update(do=db_retrieve_script_do(script_name))
-        script.update(files=db_retrieve_script_files(script_name))
-        script.update(mode=db_retrieve_script_mode(script_name))
-        script.update(namefmt=db_retrieve_script_namefmt(script_name))
+        if script.get('protocol') == 'FTP':
+            script.update(host=db_retrieve_script_host(script_name))
+            script.update(user=db_retrieve_script_user(script_name))
+            script.update(password=db_retrieve_script_pass(script_name))
+            script.update(local=db_retrieve_script_local(script_name))
+            script.update(remote=db_retrieve_script_remote(script_name))
+            script.update(do=db_retrieve_script_do(script_name))
+            script.update(files=db_retrieve_script_files(script_name))
+            script.update(mode=db_retrieve_script_mode(script_name))
+            script.update(namefmt=db_retrieve_script_namefmt(script_name))
+        elif script.get('protocol') == 'SMTP':
+            script.update(server=db_retrieve_script_server(script_name))
+            script.update(port=db_retrieve_script_port(script_name))
+            script.update(user=db_retrieve_script_user(script_name))
+            script.update(pass=db_retrieve_script_pass(script_name))
+            script.update(mailfrom=db_retrieve_script_mailfrom(script_name))
+            script.update(mailto=db_retrieve_script_mailto(script_name))
+            script.update(subject=db_retrieve_script_subject(script_name))
+            script.update(body=db_retrieve_script_body(script_name))
+            script.update(files=db_retrieve_script_files(script_name))
+            script.update(folder=db_retrieve_script_folder(script_name))
     return script
 
 def fn_list_scripts():

@@ -4,15 +4,8 @@ smtplayer.py
     - Function send_smtp is working
         - Then it needs to be tied into everything else.
             dblayer.py - Done. Not tested
-            funlayer.py
+            funlayer.py - Done. Not tested
             squirt.py
-
-dblayer.py
-    - Implement SMTP support
-
-funlayer.py
-    - Needs to access smtp.py
-
 
 Other fixes
 -----------
@@ -30,6 +23,9 @@ ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
 
+The Database
+------------
+Clean up and improve condidtency
 
 New functionality
 -----------------
