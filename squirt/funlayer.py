@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
 from dblayer import *
 from ftplayer import *
+from smtplayer import *
 
 def fn_build_script(script):
     """ Build a new script or update an existing script """
@@ -111,7 +112,7 @@ def fn_execute_script(script):
     if script.get('user') == None:
         script.update(user=db_retrieve_script_user(script.get('script')))
     if script.get('password') == None:
-        script.update(password=db_retrieve_script_pass(script.get('script')))
+        script.update(password=db_retrieve_script_password(script.get('script')))
     if script.get('local') == None:
         script.update(local=db_retrieve_script_local(script.get('script')))
     if script.get('remote') == None:
@@ -124,20 +125,20 @@ def fn_execute_script(script):
         script.update(mode=db_retrieve_script_mode(script.get('script')))
     if script.get('namefmt') == None:
         script.update(namefmt=db_retrieve_script_namefmt(script.get('script')))
-    if settings.get('server') == None:
-        settings.update(server = db_retrieve_script_server(settings.get('cf')))
-    if settings.get('port') == None:
-        settings.update(port = db_retrieve_script_port(settings.get('cf')))
-    if settings.get('mailfrom') == None:
-        settings.update(mailfrom = db_retrieve_script_mailfrom(settings.get('cf')))
-    if settings.get('mailto') == None:
-        settings.update(mailto = db_retrieve_script_mailto(settings.get('cf')))
-    if settings.get('subject') == None:
-        settings.update(subject = db_retrieve_script_subject(settings.get('cf')))
-    if settings.get('body') == None:
-        settings.update(body = db_retrieve_script_body(settings.get('cf')))
-    if settings.get('folder') == None:
-        settings.update(folder = db_retrieve_script_folder(settings.get('cf')))
+    if script.get('server') == None:
+        script.update(server = db_retrieve_script_server(script.get('script')))
+    if script.get('port') == None:
+        script.update(port = db_retrieve_script_port(script.get('script')))
+    if script.get('mailfrom') == None:
+        script.update(mailfrom = db_retrieve_script_mailfrom(script.get('script')))
+    if script.get('mailto') == None:
+        script.update(mailto = db_retrieve_script_mailto(script.get('script')))
+    if script.get('subject') == None:
+        script.update(subject = db_retrieve_script_subject(script.get('script')))
+    if script.get('body') == None:
+        script.update(body = db_retrieve_script_body(script.get('script')))
+    if script.get('folder') == None:
+        script.update(folder = db_retrieve_script_folder(script.get('script')))
 
     if db_retrieve_script_protocol(script.get('script')) == 'FTP':
         if script.get('do').split('-')[0] == 'chmod':
