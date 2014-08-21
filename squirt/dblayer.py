@@ -148,7 +148,7 @@ def db_retrieve_script_password(script):
     parameters = (script, )
     if protocol == 'FTP':
         cursor.execute('select pass from squirt_ftp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
-    if protocol == 'SMPT':
+    if protocol == 'SMTP':
         cursor.execute('select pass from squirt_smtp f join squirt_scripts s on f.script_id = s.script_id where script = ?', parameters)
 
     rows = cursor.fetchall()
