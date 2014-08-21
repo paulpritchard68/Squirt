@@ -135,7 +135,7 @@ def db_retrieve_script_user(script):
     for row in rows:
         return row[0]
 
-def db_retrieve_script_pass(script):
+def db_retrieve_script_password(script):
     """ Retrieves a script value """
 
     # First check the protocol
