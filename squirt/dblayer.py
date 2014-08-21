@@ -408,7 +408,7 @@ def db_write_script(options):
                         values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
     elif protocol == 'SMTP':
         parameters = (script_id, options.get('server'), options.get('port'), \
-                      options.get('user'), options.get('pass'), \
+                      options.get('user'), options.get('password'), \
                       options.get('mailfrom'), options.get('mailto'), \
                       options.get('subject'), options.get('body'), \
                       options.get('files'), options.get('folder'))
@@ -552,8 +552,8 @@ def db_update_script(options):
                                 (select script_id \
                                  from squirt_scripts where script = ?)' \
                             , parameters)
-        if options.get('pass') != None:
-            parameters = (options.get('pass'), options.get('script'))
+        if options.get('password') != None:
+            parameters = (options.get('password'), options.get('script'))
             cursor.execute('update squirt_smtp \
                             set pass = ? \
                             where script_id in \

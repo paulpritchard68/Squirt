@@ -74,9 +74,6 @@ def fn_copy_script(settings):
         if settings.get('port') == None:
             settings.update(port = db_retrieve_script_port(settings.get('cf')))
 
-        if settings.get('pass') == None:
-            settings.update(pass = db_retrieve_script_pass(settings.get('cf')))
-
         if settings.get('mailfrom') == None:
             settings.update(mailfrom = db_retrieve_script_mailfrom(settings.get('cf')))
 
@@ -131,8 +128,6 @@ def fn_execute_script(script):
         settings.update(server = db_retrieve_script_server(settings.get('cf')))
     if settings.get('port') == None:
         settings.update(port = db_retrieve_script_port(settings.get('cf')))
-    if settings.get('pass') == None:
-        settings.update(pass = db_retrieve_script_pass(settings.get('cf')))
     if settings.get('mailfrom') == None:
         settings.update(mailfrom = db_retrieve_script_mailfrom(settings.get('cf')))
     if settings.get('mailto') == None:
@@ -193,7 +188,7 @@ def fn_retrieve_script(script_name):
             script.update(server=db_retrieve_script_server(script_name))
             script.update(port=db_retrieve_script_port(script_name))
             script.update(user=db_retrieve_script_user(script_name))
-            script.update(pass=db_retrieve_script_pass(script_name))
+            script.update(password=db_retrieve_script_password(script_name))
             script.update(mailfrom=db_retrieve_script_mailfrom(script_name))
             script.update(mailto=db_retrieve_script_mailto(script_name))
             script.update(subject=db_retrieve_script_subject(script_name))
