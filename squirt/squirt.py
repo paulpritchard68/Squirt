@@ -36,6 +36,14 @@ def build_script(options):
     script.update(files=options.files)
     script.update(mode=options.mode)
     script.update(namefmt=options.namefmt)
+    script.update(server=options.server)
+    script.update(port=options.port)
+    script.update(pass=options.pass)
+    script.update(mailfrom=options.mailfrom)
+    script.update(mailto=options.mailto)
+    script.update(subject=options.subject)
+    script.update(body=options.body)
+    script.update(folder=options.folder)
 
     can_we_build_it = fn_build_script(script)
     if can_we_build_it == 'Fail':
@@ -57,6 +65,14 @@ def copy_script(settings):
     script.update(files=settings.files)
     script.update(mode=settings.mode)
     script.update(namefmt=settings.namefmt)
+    script.update(server=options.server)
+    script.update(port=options.port)
+    script.update(pass=options.pass)
+    script.update(mailfrom=options.mailfrom)
+    script.update(mailto=options.mailto)
+    script.update(subject=options.subject)
+    script.update(body=options.body)
+    script.update(folder=options.folder)
 
     if fn_copy_script(script) == True:
         print("Script %s successfully copied to %s" % (script.get('cf'), script.get('ct')))
@@ -79,18 +95,31 @@ def display_script(options):
     else:
         print("Script:        %s " % script.get('script'))
         print("Protocol:      %s " % script.get('protocol'))
-        print("Host:          %s " % script.get('host'))
-        print("User:          %s " % script.get('user'))
-        if options.showpass == 'yes':
-            print("Password:      %s " % script.get('password'))
-        if  script.get('namefmt') != None:
-            print("Naming format: %s " % script.get('namefmt'))
-        print("Local folder:  %s " % script.get('local'))
-        print("Remote folder: %s " % script.get('remote'))
-        print("Action:        %s " % script.get('do'))
-        print("Files:         %s " % script.get('files'))
-        if script.get('mode') != None:
-            print("Mode:          %s " % script.get('mode'))
+        if script.get('protocol') == 'FTP':
+            print("Host:          %s " % script.get('host'))
+            print("User:          %s " % script.get('user'))
+            if options.showpass == 'yes':
+                print("Password:      %s " % script.get('password'))
+            if  script.get('namefmt') != None:
+                print("Naming format: %s " % script.get('namefmt'))
+            print("Local folder:  %s " % script.get('local'))
+            print("Remote folder: %s " % script.get('remote'))
+            print("Action:        %s " % script.get('do'))
+            print("Files:         %s " % script.get('files'))
+            if script.get('mode') != None:
+                print("Mode:          %s " % script.get('mode'))
+        elif script.get('protocol') == 'SMTP':
+            print("Server:        %s " % script.get('server'))
+            print("Port:          %s " % script.get('port'))
+            print("User:          %s " % script.get('user'))
+            if options.showpass == 'yes':
+                print("Password:      %s " % script.get('pass'))
+            print("Mail from:     %s " % script.get('mailfrom'))
+            print("Mail to:       %s " % script.get('mailto'))
+            print("Subject:       %s " % script.get('subject'))
+            print("Body:          %s " % script.get('body'))
+            print("Files:         %s " % script.get('files'))
+            print("Folder:        %s " % script.get('folder'))
 
 def list_scripts():
     """ Lists the currently defined set of scripts 
@@ -111,6 +140,15 @@ def execute_script(options):
     script.update(files=options.files)
     script.update(mode=options.mode)
     script.update(namefmt=options.namefmt)
+    script.update(server=options.server)
+    script.update(port=options.port)
+    script.update(pass=options.pass)
+    script.update(mailfrom=options.mailfrom)
+    script.update(mailto=options.mailto)
+    script.update(subject=options.subject)
+    script.update(body=options.body)
+    script.update(folder=options.folder)
+
 
     for filename in fn_execute_script(script):
         print(filename)
@@ -134,6 +172,14 @@ def main():
     build_parser.add_argument('--files', action='store', help='The files to be acted on')
     build_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
     build_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
+    build_parser.add_argument('--server', action='store', help='SMTP mail server')
+    build_parser.add_argument('--port', action='store', help='SMTP server port')
+    build_parser.add_argument('--pass', action='store', help='SMTP mail server password')
+    build_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
+    build_parser.add_argument('--mailto', action='store', help='SMTP to email address')
+    build_parser.add_argument('--subject', action='store', help='SMTP email subject')
+    build_parser.add_argument('--body', action='store', help='SMTP email message body')
+    build_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
     build_parser.set_defaults(command='build')
 
     # The copy command
@@ -149,6 +195,14 @@ def main():
     copy_parser.add_argument('--files', action='store', help='The files to be acted on')
     copy_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
     copy_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
+    copy_parser.add_argument('--server', action='store', help='SMTP mail server')
+    copy_parser.add_argument('--port', action='store', help='SMTP server port')
+    copy_parser.add_argument('--pass', action='store', help='SMTP mail server password')
+    copy_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
+    copy_parser.add_argument('--mailto', action='store', help='SMTP to email address')
+    copy_parser.add_argument('--subject', action='store', help='SMTP email subject')
+    copy_parser.add_argument('--body', action='store', help='SMTP email message body')
+    copy_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
     copy_parser.set_defaults(command='copy')
 
     # The delete command
@@ -178,6 +232,14 @@ def main():
     exec_parser.add_argument('--files', action='store', help='The files to be acted on')
     exec_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
     exec_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
+    exec_parser.add_argument('--server', action='store', help='SMTP mail server')
+    exec_parser.add_argument('--port', action='store', help='SMTP server port')
+    exec_parser.add_argument('--pass', action='store', help='SMTP mail server password')
+    exec_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
+    exec_parser.add_argument('--mailto', action='store', help='SMTP to email address')
+    exec_parser.add_argument('--subject', action='store', help='SMTP email subject')
+    exec_parser.add_argument('--body', action='store', help='SMTP email message body')
+    exec_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
     exec_parser.set_defaults(command='exec')
 
     try:
