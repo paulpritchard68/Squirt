@@ -178,7 +178,7 @@ def fn_retrieve_script(script_name):
         if script.get('protocol') == 'FTP':
             script.update(host=db_retrieve_script_host(script_name))
             script.update(user=db_retrieve_script_user(script_name))
-            script.update(password=db_retrieve_script_pass(script_name))
+            script.update(password=db_retrieve_script_password(script_name))
             script.update(local=db_retrieve_script_local(script_name))
             script.update(remote=db_retrieve_script_remote(script_name))
             script.update(do=db_retrieve_script_do(script_name))
