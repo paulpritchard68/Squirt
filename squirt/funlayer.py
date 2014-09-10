@@ -49,7 +49,7 @@ def fn_copy_script(settings):
             settings.update(user = db_retrieve_script_user(settings.get('cf')))
 
         if settings.get('password') == None:
-            settings.update(password = db_retrieve_script_pass(settings.get('cf')))
+            settings.update(password = db_retrieve_script_password(settings.get('cf')))
 
         if settings.get('local') == None:
             settings.update(local = db_retrieve_script_local(settings.get('cf')))
