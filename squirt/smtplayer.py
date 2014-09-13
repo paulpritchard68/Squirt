@@ -107,7 +107,8 @@ def smtp_send(script):
     smtp_from = script.get('mailfrom')
     smtp_to = script.get('mailto')
 
-    server.sendmail(smtp_from, smtp_to, smtp_message)
+    if script.get('test') == False:
+        server.sendmail(smtp_from, smtp_to, smtp_message)
     server.close()
 
     return(True, 'Mail sent successfully')

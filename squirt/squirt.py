@@ -145,7 +145,7 @@ def execute_script(options):
     script.update(subject=options.subject)
     script.update(body=options.body)
     script.update(folder=options.folder)
-
+    script.update(test=options.test)
 
     for filename in fn_execute_script(script):
         print(filename)
@@ -234,6 +234,7 @@ def main():
     exec_parser.add_argument('--subject', action='store', help='SMTP email subject')
     exec_parser.add_argument('--body', action='store', help='SMTP email message body')
     exec_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
+    exec_parser.add_argument('--test', action='store_const', const=True, default=False, help='Run in test mode')
     exec_parser.set_defaults(command='exec')
 
     try:
