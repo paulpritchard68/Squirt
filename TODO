@@ -1,7 +1,3 @@
-Enhancement
------------
-Add a --Test flag to Squirt Exec so that I can see what is about to be put without exploding the remote server
-
 Other fixes
 -----------
 ftplayer.py

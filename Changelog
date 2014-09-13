@@ -1,5 +1,6 @@
 0.2
 ===
+Add a --test flag to squirt exec
 SMTP support...
 MODE (ascii or binary) is added to the database, but not used
 NAMEFMT (Select File Naming Format) is now supported. You'll need this to connect to an i (or iSeries or AS/400)
