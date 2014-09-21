@@ -45,10 +45,10 @@ def build_script(options):
     script.update(folder=options.folder)
 
     can_we_build_it = fn_build_script(script)
-    if can_we_build_it == 'Fail':
-        print("Build of script %s failed. Check your options" % script.get('script'))
+    if can_we_build_it[0] == False:
+        print("Build of script %s failed. %s." % (script.get('script'), can_we_build_it[1]))
     else:
-        print("Script %s successfully %s" % (script.get('script'), can_we_build_it))
+        print("Script %s successfully %s" % (script.get('script'), can_we_build_it[1]))
 
 def copy_script(settings):
     """ Copy an existing script 

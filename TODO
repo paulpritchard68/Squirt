@@ -8,7 +8,6 @@ dblayer.py
 
 funlayer.py
     - Apply some consistency to the return values of the various functions
-    - Update script should not allow change to Protocol
 
 ftplayer.py
     - Support some more actions

@@ -23,15 +23,18 @@ from smtplayer import *
 def fn_build_script(script):
     """ Build a new script or update an existing script """
     if db_script_exists(script.get('script')) == True:
+        if db_retrieve_script_protocol(script.get('script')) != script.get('protocol'):
+            return(False, 'Changing protocol is not allowed')
+
         if db_update_script(script) == True:
-            return 'updated'
+            return(True, 'updated')
         else:
-            return 'Fail'
+            return(False, 'Database error')
     else:
         if db_write_script(script) == True:
-            return 'built'
+            return(True, 'built')
         else:
-            return 'Fail'
+            return(False, 'Dabase error')
 
 def fn_copy_script(settings):
     """ Copy a script definition
