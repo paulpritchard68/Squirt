@@ -254,8 +254,6 @@ def main():
         list_scripts()
     elif command_line.command == 'exec':
         execute_script(command_line)
-    elif command_line.command == 'init':
-        initialise_db()
     else:
         print("Command not recognised. Try using --help")
         sys.exit(2)
