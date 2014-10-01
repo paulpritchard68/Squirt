@@ -107,7 +107,7 @@ def ftp_get(ftp, local_path, remote_path, script):
             if entry[1].get('type') == 'dir':
                 new_remote_path = remote_path + '/' + entry[0]
                 new_local_path = local_path + '/' + entry[0]
-                if not os.path.exists(new_local_path) and script.get(test) == False:
+                if not os.path.exists(new_local_path) and script.get('test') == False:
                     os.makedirs(new_local_path)
                 for new_entry in ftp_get(ftp, new_local_path, new_remote_path, script):
                     yield new_entry 
