@@ -624,7 +624,7 @@ def db_init():
     # First check whether the database exists and find its version
     database_version = 0
     cursor = connection.cursor()
-    cursor.execute('select name from sqlite_master where name = \'squirt_config\' and type = \'table\' ');
+    cursor.execute('select name from sqlite_master where name = \'squirt_config\' and type = \'table\' ')
     table_rows = cursor.fetchall()
     for table_rows in table_rows:
         cursor.execute('select current_version from squirt_config')
