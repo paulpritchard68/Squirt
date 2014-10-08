@@ -40,58 +40,58 @@ def fn_copy_script(settings):
     """ Copy a script definition
         Any optional settings are applied to the new script """
     if db_script_exists(settings.get('cf')) == True:
-        settings.update(script = settings.get('ct'))
+        settings.update(script=settings.get('ct'))
 
         if settings.get('protocol') == None:
-            settings.update(protocol = db_retrieve_script_protocol(settings.get('cf')))
-    
+            settings.update(protocol=db_retrieve_script_protocol(settings.get('cf')))
+
         if settings.get('host') == None:
-            settings.update(host = db_retrieve_script_host(settings.get('cf')))
-    
+            settings.update(host=db_retrieve_script_host(settings.get('cf')))
+
         if settings.get('user') == None:
-            settings.update(user = db_retrieve_script_user(settings.get('cf')))
+            settings.update(user=db_retrieve_script_user(settings.get('cf')))
 
         if settings.get('password') == None:
-            settings.update(password = db_retrieve_script_password(settings.get('cf')))
+            settings.update(password=db_retrieve_script_password(settings.get('cf')))
 
         if settings.get('local') == None:
-            settings.update(local = db_retrieve_script_local(settings.get('cf')))
+            settings.update(local=db_retrieve_script_local(settings.get('cf')))
 
         if settings.get('remote') == None:
-            settings.update(remote = db_retrieve_script_remote(settings.get('cf')))
+            settings.update(remote=db_retrieve_script_remote(settings.get('cf')))
 
         if settings.get('do') == None:
-            settings.update(do = db_retrieve_script_do(settings.get('cf')))
+            settings.update(do=db_retrieve_script_do(settings.get('cf')))
 
         if settings.get('files') == None:
-            settings.update(files = db_retrieve_script_files(settings.get('cf')))
+            settings.update(files=db_retrieve_script_files(settings.get('cf')))
 
         if settings.get('mode') == None:
-            settings.update(mode = db_retrieve_script_mode(settings.get('cf')))
+            settings.update(mode=db_retrieve_script_mode(settings.get('cf')))
 
         if settings.get('namefmt') == None:
-            settings.update(namefmt = db_retrieve_script_namefmt(settings.get('cf')))
+            settings.update(namefmt=db_retrieve_script_namefmt(settings.get('cf')))
 
         if settings.get('server') == None:
-            settings.update(server = db_retrieve_script_server(settings.get('cf')))
+            settings.update(server=db_retrieve_script_server(settings.get('cf')))
 
         if settings.get('port') == None:
-            settings.update(port = db_retrieve_script_port(settings.get('cf')))
+            settings.update(port=db_retrieve_script_port(settings.get('cf')))
 
         if settings.get('mailfrom') == None:
-            settings.update(mailfrom = db_retrieve_script_mailfrom(settings.get('cf')))
+            settings.update(mailfrom=db_retrieve_script_mailfrom(settings.get('cf')))
 
         if settings.get('mailto') == None:
-            settings.update(mailto = db_retrieve_script_mailto(settings.get('cf')))
+            settings.update(mailto=db_retrieve_script_mailto(settings.get('cf')))
 
         if settings.get('subject') == None:
-            settings.update(subject = db_retrieve_script_subject(settings.get('cf')))
+            settings.update(subject=db_retrieve_script_subject(settings.get('cf')))
 
         if settings.get('body') == None:
-            settings.update(body = db_retrieve_script_body(settings.get('cf')))
+            settings.update(body=db_retrieve_script_body(settings.get('cf')))
 
         if settings.get('folder') == None:
-            settings.update(folder = db_retrieve_script_folder(settings.get('cf')))
+            settings.update(folder=db_retrieve_script_folder(settings.get('cf')))
 
         return db_write_script(settings)
     else:
@@ -129,19 +129,19 @@ def fn_execute_script(script):
     if script.get('namefmt') == None:
         script.update(namefmt=db_retrieve_script_namefmt(script.get('script')))
     if script.get('server') == None:
-        script.update(server = db_retrieve_script_server(script.get('script')))
+        script.update(server=db_retrieve_script_server(script.get('script')))
     if script.get('port') == None:
-        script.update(port = db_retrieve_script_port(script.get('script')))
+        script.update(port=db_retrieve_script_port(script.get('script')))
     if script.get('mailfrom') == None:
-        script.update(mailfrom = db_retrieve_script_mailfrom(script.get('script')))
+        script.update(mailfrom=db_retrieve_script_mailfrom(script.get('script')))
     if script.get('mailto') == None:
-        script.update(mailto = db_retrieve_script_mailto(script.get('script')))
+        script.update(mailto=db_retrieve_script_mailto(script.get('script')))
     if script.get('subject') == None:
-        script.update(subject = db_retrieve_script_subject(script.get('script')))
+        script.update(subject=db_retrieve_script_subject(script.get('script')))
     if script.get('body') == None:
-        script.update(body = db_retrieve_script_body(script.get('script')))
+        script.update(body=db_retrieve_script_body(script.get('script')))
     if script.get('folder') == None:
-        script.update(folder = db_retrieve_script_folder(script.get('script')))
+        script.update(folder=db_retrieve_script_folder(script.get('script')))
 
     if db_retrieve_script_protocol(script.get('script')) == 'FTP':
         if script.get('do').split('-')[0] == 'chmod':
@@ -168,7 +168,7 @@ def fn_execute_script(script):
         yield smtp_send(script)
     else:
         yield 'Error: Unrecognised Protocol'
-    
+
 
 def fn_retrieve_script(script_name):
     """ Retrieves the settings for an existing script """

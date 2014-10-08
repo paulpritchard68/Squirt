@@ -112,4 +112,4 @@ def smtp_send(script):
     server.close()
 
     return(True, 'Mail sent successfully')
-    
+

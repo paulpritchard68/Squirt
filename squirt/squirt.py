@@ -23,7 +23,7 @@ import argparse
 from funlayer import *
 
 def build_script(options):
-    """ Build a reusable FTP script 
+    """ Build a reusable FTP script
         options is the dictionary of options that define the script """
     script = dict(script=options.script)
     script.update(protocol=options.protocol.upper())
@@ -51,7 +51,7 @@ def build_script(options):
         print("Script %s successfully %s" % (script.get('script'), can_we_build_it[1]))
 
 def copy_script(settings):
-    """ Copy an existing script 
+    """ Copy an existing script
         options is the dictionary of options that define the script """
     script = dict(cf=settings.cf)
     script.update(ct=settings.ct)
@@ -120,7 +120,7 @@ def display_script(options):
             print("Folder:        %s " % script.get('folder'))
 
 def list_scripts():
-    """ Lists the currently defined set of scripts 
+    """ Lists the currently defined set of scripts
         No paramerters this time """
     for script in  fn_list_scripts():
         print(script)
@@ -151,11 +151,11 @@ def execute_script(options):
         print(filename)
 
 def main():
-    """ The main event 
+    """ The main event
         Parses the entered arguments and figures out what to do with them """
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help='Commands')
-    
+
     # The build command
     build_parser = subparsers.add_parser('build', help='Build script')
     build_parser.add_argument('protocol', action='store', help='Protocol')

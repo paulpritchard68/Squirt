@@ -47,7 +47,7 @@ def ftp_chmod(script):
     for entry in entries:
         if pattern.search(entry) != None or script.get('files') == None:
             if script.get('test') == False:
-                ftp.sendcmd('site chmod %s %s' % (script.get('do').split('-')[-1] , entry.split(' ')[-1]))
+                ftp.sendcmd('site chmod %s %s' % (script.get('do').split('-')[-1], entry.split(' ')[-1]))
             yield entry
 
     ftp.quit()
@@ -55,7 +55,7 @@ def ftp_chmod(script):
 
 def ftp_del(script):
     """ Deletes remote files matching file mask
-        Parameter script is a dictionary object 
+        Parameter script is a dictionary object
         Returns file names as they are deleted """
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
 
@@ -110,7 +110,7 @@ def ftp_get(ftp, local_path, remote_path, script):
                 if not os.path.exists(new_local_path) and script.get('test') == False:
                     os.makedirs(new_local_path)
                 for new_entry in ftp_get(ftp, new_local_path, new_remote_path, script):
-                    yield new_entry 
+                    yield new_entry
 
             if entry[1].get('type') == 'file' and (pattern.search(entry[0]) != None or script.get('files') == None):
                 local_file = os.path.join(local_path, entry[0])
@@ -126,7 +126,7 @@ def ftp_get(ftp, local_path, remote_path, script):
 
 def ftp_ls(script):
     """ Lists remote files matching file mask
-        Parameter script is a dictionary object 
+        Parameter script is a dictionary object
         Yields each of the found files """
 
     ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
@@ -154,7 +154,7 @@ def ftp_ls(script):
 
 def ftp_put(script):
     """ Sends local files matching file mask to remote server
-        Parameter script is a dictionary object 
+        Parameter script is a dictionary object
         Yields each of the found files """
 
     # Position to the local folder
@@ -174,7 +174,7 @@ def ftp_put(script):
         remote = ''
 
     # Build the list of files to send
-    entries = os.listdir(local) 
+    entries = os.listdir(local)
 
     if script.get('files') != None:
         pattern = re.compile(script.get('files'))
@@ -231,7 +231,7 @@ def ftp_tree(ftp, path, script):
         for entry in ftp.mlsd(path, facts=["type"]):
             if entry[1].get('type') == 'dir':
                 dir_path = path + '/' + entry[0]
-                yield dir_path 
+                yield dir_path
                 for search_path in ftp_tree(ftp, dir_path, script):
                     yield search_path
     except:

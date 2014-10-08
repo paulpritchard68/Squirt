@@ -22,7 +22,7 @@ import os
 db_path = '~/.squirt.db'
 
 def db_delete_script(script):
-    """ Delete an existng script 
+    """ Delete an existng script
         Parameter script is the script name (character) """
 
     # First check the database is current
@@ -54,7 +54,7 @@ def db_script_exists(script):
 
     parameters = (script, )
     cursor.execute('select count(*) from squirt_scripts where script = ?', parameters)
-    
+
     rows = cursor.fetchall()
     for row in rows:
         if row[0] == 0:
@@ -73,7 +73,7 @@ def db_list_scripts():
     cursor = connection.cursor()
 
     cursor.execute('select script from squirt_scripts order by script')
-    
+
     rows = cursor.fetchall()
     for row in rows:
         yield row[0]
@@ -455,7 +455,7 @@ def db_update_script(options):
                                 (select script_id \
                                  from squirt_scripts where script = ?)' \
                             , parameters)
-    
+
         if options.get('user') != None:
             parameters = (options.get('user'), options.get('script'))
             cursor.execute('update squirt_ftp \
@@ -473,7 +473,7 @@ def db_update_script(options):
                                 (select script_id \
                                  from squirt_scripts where script = ?)' \
                             , parameters)
-       
+
         if options.get('local') != None:
             parameters = (options.get('local'), options.get('script'))
             cursor.execute('update squirt_ftp \
@@ -617,7 +617,7 @@ def db_update_script(options):
 def db_init():
     """ Checks if the database exists and returns the current level
         If the database is not found, create it """
-    
+
     # Connect
     connection = sqlite3.connect(os.path.expanduser(db_path))
 
@@ -636,14 +636,14 @@ def db_init():
 
     # If no database exists, create it
     if database_version == 0:
-        
+
         # Create the config table
         cursor.execute('create table squirt_config(ID integer primary key, current_version integer)')
         cursor.execute('insert into squirt_config(current_version) values(1)')
-        
+
         # Create the squirt scripts table
-        cursor.execute('create table squirt_scripts(ID integer primary key, script TEXT, host TEXT, user TEXT, pass TEXT, local TEXT, remote TEXT, do TEXT, files TEXT)') 
-    
+        cursor.execute('create table squirt_scripts(ID integer primary key, script TEXT, host TEXT, user TEXT, pass TEXT, local TEXT, remote TEXT, do TEXT, files TEXT)')
+
         database_version = 1
 
     # A small update to version 1
