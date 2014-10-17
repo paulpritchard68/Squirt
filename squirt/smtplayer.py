@@ -30,9 +30,10 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+COMMASPACE = ", "
+
 def smtp_send(script):
     """ Sends an email with whatever attachment was requested """
-    COMMASPACE = ", "
 
     # Create the enclosing (outer) message
     outer = MIMEMultipart()
@@ -72,8 +73,8 @@ def smtp_send(script):
             # gzip'd or compressed files.
             ctype, encoding = mimetypes.guess_type(path)
             if ctype is None or encoding is not None:
-                # No guess could be made, or the file is encoded (compressed), so
-                # use a generic bag-of-bits type.
+                # No guess could be made, or the file is encoded (compressed)
+                # Use a generic bag-of-bits type.
                 ctype = 'application/octet-stream'
             maintype, subtype = ctype.split('/', 1)
             if maintype == 'text':
@@ -93,7 +94,8 @@ def smtp_send(script):
                 # Encode the payload using Base64
                 encoders.encode_base64(msg)
             # Set the filename parameter
-            msg.add_header('Content-Disposition', 'attachment', filename=filename)
+            msg.add_header('Content-Disposition', 'attachment', \
+                           filename=filename)
             outer.attach(msg)
 
     # And then send the message
