@@ -26,15 +26,9 @@ def fn_build_script(script):
         if db_retrieve_script_protocol(script.get('script')) != script.get('protocol'):
             return(False, 'Changing protocol is not allowed')
 
-        if db_update_script(script) == True:
-            return(True, 'updated')
-        else:
-            return(False, 'Database error')
+        return db_update_script(script)
     else:
-        if db_write_script(script) == True:
-            return(True, 'built')
-        else:
-            return(False, 'Dabase error')
+        return db_write_script(script)
 
 def fn_copy_script(settings):
     """ Copy a script definition
@@ -101,7 +95,7 @@ def fn_delete_script(script):
     """ Deletes an existing script
         script is the script name (character) """
     if db_script_exists(script) == True:
-        if db_delete_script(script) == True:
+        if db_delete_script(script)[0] == True:
             return True
         else:
             return False

@@ -46,7 +46,7 @@ def db_delete_script(script):
     connection.commit()
     connection.close()
 
-    return True
+    return (True, 'Script deleted')
 
 def db_script_exists(script):
     """ Returns True if the named script exists, else False """
@@ -102,7 +102,6 @@ def db_retrieve_script_protocol(script):
     rows = cursor.fetchall()
     for row in rows:
         return row[0]
-
 
 def db_retrieve_script_host(script):
     """ Retrieves a script value """
@@ -491,12 +490,12 @@ def db_write_script(options):
                         (script_id, server, port, user, pass, mailfrom, mailto, subject, body, files, folder) \
                         values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
     else:
-        return False
+        return (False, 'Invalid protocol')
 
     connection.commit()
     connection.close()
 
-    return True
+    return (True, 'Script built')
 
 def db_update_ftp_host(options, cursor):
     """ Update an existing script definition: FTP Host """
@@ -749,11 +748,13 @@ def db_update_script(options):
         db_update_smtp_body(options, cursor)
         db_update_smtp_files(options, cursor)
         db_update_smtp_folder(options, cursor)
+    else:
+        return (False, 'Invalid protocol')
 
     connection.commit()
     connection.close()
 
-    return True
+    return (True, 'Script updated')
 
 def db_init():
     """ Checks if the database exists and returns the current level
