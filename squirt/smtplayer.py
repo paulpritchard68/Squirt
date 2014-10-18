@@ -23,7 +23,6 @@ import smtplib
 import mimetypes
 
 from email import encoders
-from email.message import Message
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 from email.mime.image import MIMEImage
@@ -78,19 +77,19 @@ def smtp_send(script):
                 ctype = 'application/octet-stream'
             maintype, subtype = ctype.split('/', 1)
             if maintype == 'text':
-                with open(path) as fp:
+                with open(path) as file_path:
                     # Note: we should handle calculating the charset
-                    msg = MIMEText(fp.read(), _subtype=subtype)
+                    msg = MIMEText(file_path.read(), _subtype=subtype)
             elif maintype == 'image':
-                with open(path, 'rb') as fp:
-                    msg = MIMEImage(fp.read(), _subtype=subtype)
+                with open(path, 'rb') as file_path:
+                    msg = MIMEImage(file_path.read(), _subtype=subtype)
             elif maintype == 'audio':
-                with open(path, 'rb') as fp:
-                    msg = MIMEAudio(fp.read(), _subtype=subtype)
+                with open(path, 'rb') as file_path:
+                    msg = MIMEAudio(file_path.read(), _subtype=subtype)
             else:
-                with open(path, 'rb') as fp:
+                with open(path, 'rb') as file_path:
                     msg = MIMEBase(maintype, subtype)
-                    msg.set_payload(fp.read())
+                    msg.set_payload(file_path.read())
                 # Encode the payload using Base64
                 encoders.encode_base64(msg)
             # Set the filename parameter
