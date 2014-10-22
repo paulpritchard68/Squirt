@@ -1,7 +1,7 @@
 #! /usr/bin/python
 """ Squirt FTP layer
 
-Copyright (C) 2012 - Paul Pritchard
+Copyright (C) 2012 - 2014 Paul Pritchard
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,9 +17,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
 import os
-from os.path import isabs, expanduser
 from ftplib import FTP
 import re
+from squtils import retrieve_local_path
 
 
 def ftp_chmod(script):
@@ -91,11 +91,7 @@ def ftp_get(ftp, local_path, remote_path, script):
         else:
             pattern = re.compile('')
 
-        if local_path == None:
-            local_path = os.getcwd()
-        else:
-            if not isabs(local_path):
-                local_path = expanduser(local_path)
+        local_path = retrieve_local_path(local_path)
 
         ftp = FTP(script.get('host'), \
                   script.get('user'), script.get('password'))
@@ -166,9 +162,7 @@ def ftp_put(script):
 
     # Position to the local folder
     if script.get('local') != None:
-        local = script.get('local')
-        if not isabs(local):
-            local = expanduser(local)
+        local = retrieve_local_path(script.get('local'))
         os.chdir(local)
     else:
         local = os.getcwd()
