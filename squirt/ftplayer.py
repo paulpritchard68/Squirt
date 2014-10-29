@@ -119,9 +119,10 @@ def ftp_get(ftp, local_path, remote_path, script):
                 remote_file = remote_path + '/' + entry[0]
                 yield remote_file
                 if script.get('test') == False:
-                    with open(local_file, 'wb') as f:
+                    with open(local_file, 'wb') as file_get:
                         ftp.retrbinary('RETR %s' % \
-                                       remote_file, lambda data: f.write(data))
+                                       remote_file, \
+                                       lambda data: file_get.write(data))
     except:
         pass
 
