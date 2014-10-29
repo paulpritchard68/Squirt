@@ -170,10 +170,7 @@ def ftp_put(script):
     local_root = len(local)
 
     # Remote positioning
-    if script.get('remote') != None:
-        remote = script.get('remote')
-    else:
-        remote = ''
+    remote = script.get('remote') or ''
 
     # Build the list of files to send
     entries = os.listdir(local)
