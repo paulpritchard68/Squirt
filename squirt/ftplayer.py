@@ -174,11 +174,7 @@ def ftp_put(script):
 
     # Build the list of files to send
     entries = os.listdir(local)
-
-    if script.get('files') != None:
-        pattern = re.compile(script.get('files'))
-    else:
-        pattern = re.compile('')
+    pattern = re.compile(script.get('files') or '')
 
     # And start sending
     for dirname, dirnames, filenames in os.walk(local):
