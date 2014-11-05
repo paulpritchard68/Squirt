@@ -40,9 +40,11 @@ def build_script(options):
     script.update(port=options.port)
     script.update(mailfrom=options.mailfrom)
     script.update(mailto=options.mailto)
-    script.update(subject=options.subject)
-    script.update(body=options.body)
     script.update(folder=options.folder)
+    if options.subject != None:
+        script.update(subject=" ".join(options.subject))
+    if options.body != None:
+        script.update(body=" ".join(options.body))
 
     can_we_build_it = fn_build_script(script)
     print("%s: Script %s" % (can_we_build_it[1], script.get('script')))
@@ -65,9 +67,11 @@ def copy_script(settings):
     script.update(port=settings.port)
     script.update(mailfrom=settings.mailfrom)
     script.update(mailto=settings.mailto)
-    script.update(subject=settings.subject)
-    script.update(body=settings.body)
     script.update(folder=settings.folder)
+    if settings.subject != None:
+        script.update(subject=" ".join(settings.subject))
+    if settings.body != None:
+        script.update(body=" ".join(settings.body))
 
     if fn_copy_script(script) == True:
         print("Script %s successfully copied to %s" % (script.get('cf'), script.get('ct')))
@@ -139,10 +143,12 @@ def execute_script(options):
     script.update(port=options.port)
     script.update(mailfrom=options.mailfrom)
     script.update(mailto=options.mailto)
-    script.update(subject=options.subject)
-    script.update(body=options.body)
     script.update(folder=options.folder)
     script.update(test=options.test)
+    if options.subject != None:
+        script.update(subject=" ".join(options.subject))
+    if options.body != None:
+        script.update(body=" ".join(options.body))
 
     for filename in fn_execute_script(script):
         print(filename)
@@ -170,8 +176,8 @@ def main():
     build_parser.add_argument('--port', action='store', help='SMTP server port')
     build_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
     build_parser.add_argument('--mailto', action='store', help='SMTP to email address')
-    build_parser.add_argument('--subject', action='store', help='SMTP email subject')
-    build_parser.add_argument('--body', action='store', help='SMTP email message body')
+    build_parser.add_argument('--subject', nargs='*', action='store', help='SMTP email subject')
+    build_parser.add_argument('--body', nargs='*', action='store', help='SMTP email message body')
     build_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
     build_parser.set_defaults(command='build')
 
@@ -192,8 +198,8 @@ def main():
     copy_parser.add_argument('--port', action='store', help='SMTP server port')
     copy_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
     copy_parser.add_argument('--mailto', action='store', help='SMTP to email address')
-    copy_parser.add_argument('--subject', action='store', help='SMTP email subject')
-    copy_parser.add_argument('--body', action='store', help='SMTP email message body')
+    copy_parser.add_argument('--subject', nargs='*', action='store', help='SMTP email subject')
+    copy_parser.add_argument('--body', nargs='*', action='store', help='SMTP email message body')
     copy_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
     copy_parser.set_defaults(command='copy')
 
@@ -228,8 +234,8 @@ def main():
     exec_parser.add_argument('--port', action='store', help='SMTP server port')
     exec_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
     exec_parser.add_argument('--mailto', action='store', help='SMTP to email address')
-    exec_parser.add_argument('--subject', action='store', help='SMTP email subject')
-    exec_parser.add_argument('--body', action='store', help='SMTP email message body')
+    exec_parser.add_argument('--subject', nargs='*', action='store', help='SMTP email subject')
+    exec_parser.add_argument('--body', nargs='*', action='store', help='SMTP email message body')
     exec_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
     exec_parser.add_argument('--test', action='store_const', const=True, default=False, help='Run in test mode')
     exec_parser.set_defaults(command='exec')
