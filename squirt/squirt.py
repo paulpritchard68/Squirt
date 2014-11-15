@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#is the! /usr/bin/python
 """ An FTP automation utility
 
 squirt.py
@@ -20,7 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
 import sys
 import argparse
-from funlayer import *
+from funlayer import fn_build_script, fn_copy_script, fn_delete_script, \
+                     fn_retrieve_script, fn_list_scripts, fn_execute_script
 
 def build_script(options):
     """ Build a reusable FTP script
@@ -74,9 +75,11 @@ def copy_script(settings):
         script.update(body=" ".join(settings.body))
 
     if fn_copy_script(script) == True:
-        print("Script %s successfully copied to %s" % (script.get('cf'), script.get('ct')))
+        print("Script %s successfully copied to %s" \
+            % (script.get('cf'), script.get('ct')))
     else:
-        print("Copy of script %s to %s failed. Check your settings" % (script.get('cf'), script.get('ct')))
+        print("Copy of script %s to %s failed. Check your settings" \
+            % (script.get('cf'), script.get('ct')))
 
 def delete_script(options):
     """ Delete an existing script """
@@ -128,7 +131,8 @@ def list_scripts():
 
 def execute_script(options):
     """ Execute a built script
-        options is the dictionary of optional overrides applied to the script """
+        options provides a dictionary of optional overrides that
+        can be applied to the script """
     script = dict(script=options.script)
     script.update(host=options.host)
     script.update(user=options.user)
@@ -167,18 +171,31 @@ def main():
     build_parser.add_argument('--user', action='store', help='User ID')
     build_parser.add_argument('--password', action='store', help='Password')
     build_parser.add_argument('--local', action='store', help='FTP local path')
-    build_parser.add_argument('--remote', action='store', help='FTP remote path')
+    build_parser.add_argument('--remote', action='store', \
+                                help='FTP remote path')
     build_parser.add_argument('--do', action='store', help='FTP Do action')
-    build_parser.add_argument('--files', action='store', help='The files to be acted on')
-    build_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
-    build_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
-    build_parser.add_argument('--server', action='store', help='SMTP mail server')
+    build_parser.add_argument('--files', action='store', \
+                                help='The files to be acted on')
+    build_parser.add_argument('--mode', action='store', \
+                                help='Transfer mode (ascii or binary). \
+                                      This option is not currently supported')
+    build_parser.add_argument('--namefmt', action='store', \
+                                help='File naming format (0 or 1). \
+                                You will need this when accessing an IBM i \
+                                on Power.')
+    build_parser.add_argument('--server', action='store', \
+                                help='SMTP mail server')
     build_parser.add_argument('--port', action='store', help='SMTP server port')
-    build_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
-    build_parser.add_argument('--mailto', action='store', help='SMTP to email address')
-    build_parser.add_argument('--subject', nargs='*', action='store', help='SMTP email subject')
-    build_parser.add_argument('--body', nargs='*', action='store', help='SMTP email message body')
-    build_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
+    build_parser.add_argument('--mailfrom', action='store', \
+                                help='SMTP from email address')
+    build_parser.add_argument('--mailto', action='store', \
+                                help='SMTP to email address')
+    build_parser.add_argument('--subject', nargs='*', action='store', \
+                                help='SMTP email subject')
+    build_parser.add_argument('--body', nargs='*', action='store', \
+                                help='SMTP email message body')
+    build_parser.add_argument('--folder', action='store', \
+                                help='SMTP: local folder for attachments')
     build_parser.set_defaults(command='build')
 
     # The copy command
@@ -191,16 +208,28 @@ def main():
     copy_parser.add_argument('--local', action='store', help='FTP local path')
     copy_parser.add_argument('--remote', action='store', help='FTP remote path')
     copy_parser.add_argument('--do', action='store', help='FTP action')
-    copy_parser.add_argument('--files', action='store', help='The files to be acted on')
-    copy_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
-    copy_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
-    copy_parser.add_argument('--server', action='store', help='SMTP mail server')
+    copy_parser.add_argument('--files', action='store', \
+                                help='The files to be acted on')
+    copy_parser.add_argument('--mode', action='store', \
+                                help='Transfer mode (ascii or binary). \
+                                This option is not currently supported')
+    copy_parser.add_argument('--namefmt', action='store', \
+                                help='File naming format (0 or 1). \
+                                You will need this when accessing an IBM i \
+                                on Power.')
+    copy_parser.add_argument('--server', action='store', \
+                                help='SMTP mail server')
     copy_parser.add_argument('--port', action='store', help='SMTP server port')
-    copy_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
-    copy_parser.add_argument('--mailto', action='store', help='SMTP to email address')
-    copy_parser.add_argument('--subject', nargs='*', action='store', help='SMTP email subject')
-    copy_parser.add_argument('--body', nargs='*', action='store', help='SMTP email message body')
-    copy_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
+    copy_parser.add_argument('--mailfrom', action='store', \
+                                help='SMTP from email address')
+    copy_parser.add_argument('--mailto', action='store', \
+                                help='SMTP to email address')
+    copy_parser.add_argument('--subject', nargs='*', action='store', \
+                                help='SMTP email subject')
+    copy_parser.add_argument('--body', nargs='*', action='store', \
+                                help='SMTP email message body')
+    copy_parser.add_argument('--folder', action='store', \
+                                help='SMTP: local folder for attachments')
     copy_parser.set_defaults(command='copy')
 
     # The delete command
@@ -211,11 +240,13 @@ def main():
     # The display command
     display_parser = subparsers.add_parser('display', help='Display script')
     display_parser.add_argument('script', action='store', help='Script name')
-    display_parser.add_argument('--showpass', action='store', help='Show password (yes/no)')
+    display_parser.add_argument('--showpass', action='store', \
+                                help='Show password (yes/no)')
     display_parser.set_defaults(command='display')
 
     # The list command
-    list_parser = subparsers.add_parser('list', help='List currently defined scripts')
+    list_parser = subparsers.add_parser('list', \
+                                        help='List currently defined scripts')
     list_parser.set_defaults(command='list')
 
     # The exec command
@@ -227,17 +258,30 @@ def main():
     exec_parser.add_argument('--local', action='store', help='Set local path')
     exec_parser.add_argument('--remote', action='store', help='Set remote path')
     exec_parser.add_argument('--do', action='store', help='Do action')
-    exec_parser.add_argument('--files', action='store', help='The files to be acted on')
-    exec_parser.add_argument('--mode', action='store', help='Transfer mode (ascii or binary). This option is not currently supported')
-    exec_parser.add_argument('--namefmt', action='store', help='File naming format (0 or 1). You will need this when accessing an IBM i on Power.')
-    exec_parser.add_argument('--server', action='store', help='SMTP mail server')
+    exec_parser.add_argument('--files', action='store', \
+                                help='The files to be acted on')
+    exec_parser.add_argument('--mode', action='store', \
+                                help='Transfer mode (ascii or binary). \
+                                This option is not currently supported')
+    exec_parser.add_argument('--namefmt', action='store', \
+                                help='File naming format (0 or 1). \
+                                You will need this when accessing an IBM i \
+                                on Power.')
+    exec_parser.add_argument('--server', action='store', \
+                                help='SMTP mail server')
     exec_parser.add_argument('--port', action='store', help='SMTP server port')
-    exec_parser.add_argument('--mailfrom', action='store', help='SMTP from email address')
-    exec_parser.add_argument('--mailto', action='store', help='SMTP to email address')
-    exec_parser.add_argument('--subject', nargs='*', action='store', help='SMTP email subject')
-    exec_parser.add_argument('--body', nargs='*', action='store', help='SMTP email message body')
-    exec_parser.add_argument('--folder', action='store', help='SMTP: local folder for attachments')
-    exec_parser.add_argument('--test', action='store_const', const=True, default=False, help='Run in test mode')
+    exec_parser.add_argument('--mailfrom', action='store', \
+                                help='SMTP from email address')
+    exec_parser.add_argument('--mailto', action='store', \
+                                help='SMTP to email address')
+    exec_parser.add_argument('--subject', nargs='*', action='store', \
+                                help='SMTP email subject')
+    exec_parser.add_argument('--body', nargs='*', action='store', \
+                                help='SMTP email message body')
+    exec_parser.add_argument('--folder', action='store', \
+                                help='SMTP: local folder for attachments')
+    exec_parser.add_argument('--test', action='store_const', const=True, \
+                                default=False, help='Run in test mode')
     exec_parser.set_defaults(command='exec')
 
     try:
