@@ -4,6 +4,8 @@ Squirt started as an attempt to provide a simple way of maintain frequently used
 ## An incomplete list of dependencies ##
 Squirt requires Python3 and includes the following dependencies:
 - SQLite
+- ftplib
+- smtplib
 
 ## Using Squirt ##
 Everything is done via the `squirt` command. Full help should be provided and can be accessed by entering `squirt [command] --help`
