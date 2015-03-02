@@ -27,7 +27,12 @@ def ftp_chmod(script):
         Parameter script is a dictionary object
         returns True if successful
         Failure is not an option """
-    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+    if script.get('port') == None:
+        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+    else:
+        ftp = FTP()
+        ftp.connect(script.get('host'), script.get('port'))
+        ftp.login(script.get('user'), script.get('password'))
 
     if script.get('namefmt') != None:
         sndcmd = 'site namefmt ' + str(script.get('namefmt'))
@@ -58,7 +63,12 @@ def ftp_del(script):
     """ Deletes remote files matching file mask
         Parameter script is a dictionary object
         Returns file names as they are deleted """
-    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+    if script.get('port') == None:
+        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+    else:
+        ftp = FTP()
+        ftp.connect(script.get('host'), script.get('port'))
+        ftp.login(script.get('user'), script.get('password'))
 
     if script.get('namefmt') != None:
         sndcmd = 'site namefmt ' + str(script.get('namefmt'))
@@ -93,8 +103,13 @@ def ftp_get(ftp, local_path, remote_path, script):
 
         local_path = retrieve_local_path(local_path)
 
-        ftp = FTP(script.get('host'), \
-                  script.get('user'), script.get('password'))
+        if script.get('port') == None:
+            ftp = FTP(script.get('host'), \
+                      script.get('user'), script.get('password'))
+        else:
+            ftp = FTP()
+            ftp.connect(script.get('host'), script.get('port'))
+            ftp.login(script.get('user'), script.get('password'))
 
         if script.get('namefmt') != None:
             sndcmd = 'site namefmt ' + str(script.get('namefmt'))
@@ -133,7 +148,13 @@ def ftp_ls(script):
         Parameter script is a dictionary object
         Yields each of the found files """
 
-    ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+    if script.get('port') == None:
+        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+    else:
+        ftp = FTP()
+        ftp.connect(script.get('host'), script.get('port'))
+        ftp.login(script.get('user'), script.get('password'))
+
 
     if script.get('namefmt') != None:
         sndcmd = 'site namefmt ' + str(script.get('namefmt'))
@@ -183,8 +204,13 @@ def ftp_put(script):
         remote_full_path = remote + remote_dir
         os.chdir(dirname)
         if remote_dir != '':
-            ftp = FTP(script.get('host'), \
-                      script.get('user'), script.get('password'))
+            if script.get('port') == None:
+                ftp = FTP(script.get('host'), \
+                          script.get('user'), script.get('password'))
+            else:
+                ftp = FTP()
+                ftp.connect(script.get('host'), script.get('port'))
+                ftp.login(script.get('user'), script.get('password'))
 
             if script.get('namefmt') != None:
                 sndcmd = 'site namefmt ' + str(script.get('namefmt'))
@@ -202,8 +228,13 @@ def ftp_put(script):
             if pattern.search(filename) != None \
             or script.get('files') == None:
                 try:
-                    ftp = FTP(script.get('host'), \
-                              script.get('user'), script.get('password'))
+                    if script.get('port') == None:
+                        ftp = FTP(script.get('host'), \
+                                  script.get('user'), script.get('password'))
+                    else:
+                        ftp = FTP()
+                        ftp.connect(script.get('host'), script.get('port'))
+                        ftp.login(script.get('user'), script.get('password'))
                     ftp.cwd(remote_full_path)
                     if script.get('test') == False:
                         ftp.storbinary('STOR %s' % \
@@ -216,8 +247,13 @@ def ftp_put(script):
 def ftp_tree(ftp, path, script):
     """ Returns the directory tree starting at path """
     if not hasattr(ftp, 'attr_name'):
-        ftp = FTP(script.get('host'), \
-                  script.get('user'), script.get('password'))
+        if script.get('port') == None:
+            ftp = FTP(script.get('host'), \
+                      script.get('user'), script.get('password'))
+        else:
+            ftp = FTP()
+            ftp.connect(script.get('host'), script.get('port'))
+            ftp.login(script.get('user'), script.get('password'))
 
         if script.get('namefmt') != None:
             sndcmd = 'site namefmt ' + str(script.get('namefmt'))

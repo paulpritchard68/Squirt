@@ -99,6 +99,7 @@ def display_script(options):
         print("Protocol:      %s " % script.get('protocol'))
         if script.get('protocol') == 'FTP':
             print("Host:          %s " % script.get('host'))
+            print("Port:          %s " % script.get('port'))
             print("User:          %s " % script.get('user'))
             if options.showpass == 'yes':
                 print("Password:      %s " % script.get('password'))
@@ -185,7 +186,7 @@ def main():
                                 on Power.')
     build_parser.add_argument('--server', action='store', \
                                 help='SMTP mail server')
-    build_parser.add_argument('--port', action='store', help='SMTP server port')
+    build_parser.add_argument('--port', action='store', help='FTP/SMTP server port.')
     build_parser.add_argument('--mailfrom', action='store', \
                                 help='SMTP from email address')
     build_parser.add_argument('--mailto', action='store', \

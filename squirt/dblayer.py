@@ -157,7 +157,10 @@ def db_retrieve_script_user(script):
 def db_retrieve_script_password(script):
     """ Retrieves a script value """
 
-    # First check the protocol
+    # First check the database is current
+    db_init()
+
+    # Then check the protocol
     protocol = db_retrieve_script_protocol(script)
 
     # Then the function
@@ -341,15 +344,25 @@ def db_retrieve_script_port(script):
     # First check the database is current
     db_init()
 
+    # Check the protocol
+    protocol = db_retrieve_script_protocol(script)
+
     # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
     parameters = (script, )
-    cursor.execute('select port \
-                    from squirt_smtp f \
-                    join squirt_scripts s on f.script_id = s.script_id \
-                    where script = ?', parameters)
+    parameters = (script, )
+    if protocol == 'FTP':
+        cursor.execute('select port \
+                        from squirt_ftp f \
+                        join squirt_scripts s on f.script_id = s.script_id \
+                        where script = ?', parameters)
+    if protocol == 'SMTP':
+        cursor.execute('select port \
+                        from squirt_smtp f \
+                        join squirt_scripts s on f.script_id = s.script_id \
+                        where script = ?', parameters)
 
     rows = cursor.fetchall()
     for row in rows:
@@ -476,10 +489,10 @@ def db_write_script(options):
                       options.get('password'), options.get('local'), \
                       options.get('remote'), options.get('do'), \
                       options.get('files'), options.get('mode'), \
-                      options.get('namefmt'))
+                      options.get('namefmt'), options.get('port'))
         cursor.execute('insert into squirt_ftp \
-                        (script_id, host, user, pass, local, remote, do, files, mode, namefmt) \
-                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
+                        (script_id, host, user, pass, local, remote, do, files, mode, namefmt, port) \
+                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
     elif protocol == 'SMTP':
         parameters = (script_id, options.get('server'), options.get('port'), \
                       options.get('user'), options.get('password'), \
@@ -591,6 +604,17 @@ def db_update_ftp_namefmt(options, cursor):
         parameters = (options.get('namefmt'), options.get('script'))
         cursor.execute('update squirt_ftp \
                         set namefmt = ? \
+                        where script_id in \
+                            (select script_id \
+                             from squirt_scripts where script = ?)' \
+                        , parameters)
+
+def db_update_ftp_port(options, cursor):
+    """ Update an existing script definition: FTP port """
+    if options.get('port') != None:
+        parameters = (options.get('port'), options.get('script'))
+        cursor.execute('update squirt_ftp \
+                        set port = ? \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -737,6 +761,7 @@ def db_update_script(options):
         db_update_ftp_do(options, cursor)
         db_update_ftp_files(options, cursor)
         db_update_ftp_namefmt(options, cursor)
+        db_update_ftp_port(options, cursor)
     elif protocol == 'SMTP':
         db_update_smtp_server(options, cursor)
         db_update_smtp_port(options, cursor)
@@ -867,6 +892,12 @@ def db_init():
         cursor.execute('alter table squirt_ftp add column namefmt integer')
         cursor.execute('update squirt_config set current_version = 6')
         database_version = 6
+
+    # Yet another FTP option: PORT
+    if database_version == 6:
+        cursor.execute('alter table squirt_ftp add column port INTEGER')
+        cursor.execute('update squirt_config set current_version = 7')
+        database_version = 7
 
     connection.commit()
     connection.close()
