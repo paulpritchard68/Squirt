@@ -1,7 +1,6 @@
 Other fixes
 -----------
 ftplayer.py
-    - needs to allow port selection
     - needs to support explicit mode switching (binary or ascii)
 
 dblayer.py
