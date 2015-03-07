@@ -1,6 +1,10 @@
-Bug
----
+Bugs
+----
 Squirt copy is returning a fail message even though the action is successful
+
+Undocumented Features
+---------------------
+Get felies on MLIST. Need to work around this for servers that don't support it.
 
 Testing and Refactoring
 -----------------------
