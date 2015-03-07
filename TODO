@@ -1,3 +1,12 @@
+Bug
+---
+Squirt copy is returning a fail message even though the action is successful
+
+Testing and Refactoring
+-----------------------
+Fully test the FTP Port Changes
+See if the FTPLAYER can be cleaned up a bit
+
 Other fixes
 -----------
 ftplayer.py
