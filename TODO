@@ -1,6 +1,6 @@
 Undocumented Features
 ---------------------
-Get felies on MLIST. Need to work around this for servers that don't support it.
+Get fails on MLIST. Need to work around this for servers that don't support it.
 
 Testing and Refactoring
 -----------------------
