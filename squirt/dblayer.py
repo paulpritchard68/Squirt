@@ -899,6 +899,16 @@ def db_init():
         cursor.execute('update squirt_config set current_version = 7')
         database_version = 7
 
+    # More functionality: DELETE. 
+    # If this option is set to yes, files will be deleted once sent/received
+    if database_version == 7:
+        cursor.execute('alter table squirt_ftp \
+                        add column delete_files integer not null default 0 check(delete_files in (0, 1))')
+        cursor.execute('alter table squirt_smtp \
+                        add column delete_files integer not null default 0 check(delete_files in (0, 1))')
+        cursor.execute('update squirt_config set current_version = 8')
+        database_version = 8
+
     connection.commit()
     connection.close()
 

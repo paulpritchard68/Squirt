@@ -1,10 +1,16 @@
+New Feature
+-----------
+New database option: Delete - Once a file is sent or retrieved, delete the source copy
+    - New column added to database table
+    - TODO: Make it visible/maintainable from squirt.py
+    - TODO: Start checking the value in ftp_put, ftp_get and ftp_send
+
 Undocumented Features
 ---------------------
 Get fails on MLIST. Need to work around this for servers that don't support it.
 
 Testing and Refactoring
 -----------------------
-Fully test the FTP Port Changes
 See if the FTPLAYER can be cleaned up a bit
 
 Other fixes
