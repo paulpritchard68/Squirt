@@ -5,16 +5,16 @@ New database option: Delete - Once a file is sent or retrieved, delete the sourc
     - TODO: Make it visible/maintainable from squirt.py
     - TODO: Start checking the value in ftp_put, ftp_get and ftp_send
 
-Undocumented Features
----------------------
-Get fails on MLIST. Need to work around this for servers that don't support it.
-
 Testing and Refactoring
 -----------------------
 See if the FTPLAYER can be cleaned up a bit
 
 Other fixes
 -----------
+squirt.py
+    - There really should be a bit of validation to ensure that the options are meaningful for the actions
+    - validation.py?
+
 ftplayer.py
     - needs to support explicit mode switching (binary or ascii)
 
@@ -28,9 +28,9 @@ ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
 
-The Database
-------------
-Clean up and improve consistency
+Undocumented Features
+---------------------
+Get fails on MLIST. Need to work around this for servers that don't support it.
 
 New functionality
 -----------------
