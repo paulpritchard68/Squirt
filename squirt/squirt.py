@@ -42,6 +42,7 @@ def build_script(options):
     script.update(mailfrom=options.mailfrom)
     script.update(mailto=options.mailto)
     script.update(folder=options.folder)
+    script.update(delete=options.delete)
     if options.subject != None:
         script.update(subject=" ".join(options.subject))
     if options.body != None:
@@ -111,6 +112,11 @@ def display_script(options):
             print("Files:         %s " % script.get('files'))
             if script.get('mode') != None:
                 print("Mode:          %s " % script.get('mode'))
+            if script.get('delete') == True:
+                delete_files = 'Yes'
+            else:
+                delete_files = 'No'
+            print("Delete files:  %s " % delete_files)
         elif script.get('protocol') == 'SMTP':
             print("Server:        %s " % script.get('server'))
             print("Port:          %s " % script.get('port'))
@@ -123,6 +129,11 @@ def display_script(options):
             print("Body:          %s " % script.get('body'))
             print("Files:         %s " % script.get('files'))
             print("Folder:        %s " % script.get('folder'))
+            if script.get('delete') == True:
+                delete_files = 'Yes'
+            else:
+                delete_files = 'No'
+            print("Delete files:  %s " % delete_files)
 
 def list_scripts():
     """ Lists the currently defined set of scripts
@@ -197,6 +208,9 @@ def main():
                                 help='SMTP email message body')
     build_parser.add_argument('--folder', action='store', \
                                 help='SMTP: local folder for attachments')
+    build_parser.add_argument('--delete', action='store', \
+                                choices=['yes', 'no'], \
+                                help='Delete files after sending (not yet implemented')
     build_parser.set_defaults(command='build')
 
     # The copy command

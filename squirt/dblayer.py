@@ -368,6 +368,36 @@ def db_retrieve_script_port(script):
     for row in rows:
         return row[0]
 
+def db_retrieve_script_delete(script):
+    """ Retrieves a script value """
+
+    # First check the database is current
+    db_init()
+
+    # Check the protocol
+    protocol = db_retrieve_script_protocol(script)
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(DB_PATH))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    parameters = (script, )
+    if protocol == 'FTP':
+        cursor.execute('select delete_files \
+                        from squirt_ftp f \
+                        join squirt_scripts s on f.script_id = s.script_id \
+                        where script = ?', parameters)
+    if protocol == 'SMTP':
+        cursor.execute('select delete_files \
+                        from squirt_smtp f \
+                        join squirt_scripts s on f.script_id = s.script_id \
+                        where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
 def db_retrieve_script_mailfrom(script):
     """ Retrieves a script value """
 
@@ -485,23 +515,27 @@ def db_write_script(options):
     script_id = cursor.lastrowid
 
     if protocol == 'FTP':
+        delete_flag = options.get('delete')=='yes'
         parameters = (script_id, options.get('host'), options.get('user'), \
                       options.get('password'), options.get('local'), \
                       options.get('remote'), options.get('do'), \
                       options.get('files'), options.get('mode'), \
-                      options.get('namefmt'), options.get('port'))
+                      options.get('namefmt'), options.get('port'), \
+                      delete_flag);
         cursor.execute('insert into squirt_ftp \
-                        (script_id, host, user, pass, local, remote, do, files, mode, namefmt, port) \
-                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
+                        (script_id, host, user, pass, local, remote, do, files, mode, namefmt, port, delete_files) \
+                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
     elif protocol == 'SMTP':
+        delete_flag = options.get('delete')=='yes'
         parameters = (script_id, options.get('server'), options.get('port'), \
                       options.get('user'), options.get('password'), \
                       options.get('mailfrom'), options.get('mailto'), \
                       options.get('subject'), options.get('body'), \
-                      options.get('files'), options.get('folder'))
+                      options.get('files'), options.get('folder'), \
+                      delete_flag);
         cursor.execute('insert into squirt_smtp \
-                        (script_id, server, port, user, pass, mailfrom, mailto, subject, body, files, folder) \
-                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
+                        (script_id, server, port, user, pass, mailfrom, mailto, subject, body, files, folder, delete_files) \
+                        values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
     else:
         return (False, 'Invalid protocol')
 
@@ -620,6 +654,17 @@ def db_update_ftp_port(options, cursor):
                              from squirt_scripts where script = ?)' \
                         , parameters)
 
+def db_update_ftp_delete(options, cursor):
+    """ Update an existing script definition: FTP delete flag """
+    if options.get('delete') != None:
+        parameters = (options.get('delete')=='yes', options.get('script'))
+        cursor.execute('update squirt_ftp \
+                        set delete_files = ? \
+                        where script_id in \
+                            (select script_id \
+                             from squirt_scripts where script = ?)' \
+                        , parameters)
+
 def db_update_smtp_server(options, cursor):
     """ Update an existing script definition: SMTP Server """
     if options.get('server') != None:
@@ -730,6 +775,17 @@ def db_update_smtp_folder(options, cursor):
                              from squirt_scripts where script = ?)' \
                         , parameters)
 
+def db_update_smtp_delete(options, cursor):
+    """ Update an existing script definition: SMTP delete flag """
+    if options.get('delete') != None:
+        parameters = (options.get('delete')=='yes', options.get('script'))
+        cursor.execute('update squirt_smtp \
+                        set delete_files = ? \
+                        where script_id in \
+                            (select script_id \
+                             from squirt_scripts where script = ?)' \
+                        , parameters)
+
 def db_update_script(options):
     """ Update an existing script definition """
 
@@ -762,6 +818,7 @@ def db_update_script(options):
         db_update_ftp_files(options, cursor)
         db_update_ftp_namefmt(options, cursor)
         db_update_ftp_port(options, cursor)
+        db_update_ftp_delete(options, cursor)
     elif protocol == 'SMTP':
         db_update_smtp_server(options, cursor)
         db_update_smtp_port(options, cursor)
@@ -773,6 +830,7 @@ def db_update_script(options):
         db_update_smtp_body(options, cursor)
         db_update_smtp_files(options, cursor)
         db_update_smtp_folder(options, cursor)
+        db_update_smtp_delete(options, cursor)
     else:
         return (False, 'Invalid protocol')
 

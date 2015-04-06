@@ -183,6 +183,7 @@ def fn_retrieve_script(script_name):
             script.update(mode=db_retrieve_script_mode(script_name))
             script.update(namefmt=db_retrieve_script_namefmt(script_name))
             script.update(port=db_retrieve_script_port(script_name))
+            script.update(delete=db_retrieve_script_delete(script_name))
         elif script.get('protocol') == 'SMTP':
             script.update(server=db_retrieve_script_server(script_name))
             script.update(port=db_retrieve_script_port(script_name))
@@ -194,6 +195,8 @@ def fn_retrieve_script(script_name):
             script.update(body=db_retrieve_script_body(script_name))
             script.update(files=db_retrieve_script_files(script_name))
             script.update(folder=db_retrieve_script_folder(script_name))
+            script.update(port=db_retrieve_script_delete(script_name))
+            script.update(delete=db_retrieve_script_delete(script_name))
     return script
 
 def fn_list_scripts():
