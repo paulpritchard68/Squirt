@@ -177,7 +177,9 @@ def main():
 
     # The build command
     build_parser = subparsers.add_parser('build', help='Build script')
-    build_parser.add_argument('protocol', action='store', help='Protocol')
+    build_parser.add_argument('protocol', action='store', \
+                                choices=['FTP', 'SMTP'], \
+                                help='Protocol')
     build_parser.add_argument('script', action='store', help='Script name')
     build_parser.add_argument('--host', action='store', help='FTP Host name')
     build_parser.add_argument('--user', action='store', help='User ID')
