@@ -5,7 +5,7 @@ New database option: Delete - Once a file is sent or retrieved, delete the sourc
     - TODO: Make it visible/maintainable from squirt.py
         - Build: DONE
         - Display: DONE
-        - Copy:
+        - Copy: DONE
     - TODO: Start checking the value in ftp_put, ftp_get and ftp_send
         - Exec
 

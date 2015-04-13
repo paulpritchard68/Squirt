@@ -87,6 +87,9 @@ def fn_copy_script(settings):
         if settings.get('folder') == None:
             settings.update(folder=db_retrieve_script_folder(settings.get('cf')))
 
+        if settings.get('delete') == None:
+            settings.update(folder=db_retrieve_script_delete(settings.get('cf')))
+
         return db_write_script(settings)[0]
     else:
         return False

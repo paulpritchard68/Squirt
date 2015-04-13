@@ -1,4 +1,4 @@
-#is the! /usr/bin/python
+#! /usr/bin/python
 """ An FTP automation utility
 
 squirt.py
@@ -70,6 +70,7 @@ def copy_script(settings):
     script.update(mailfrom=settings.mailfrom)
     script.update(mailto=settings.mailto)
     script.update(folder=settings.folder)
+    script.update(delete=settings.delete)
     if settings.subject != None:
         script.update(subject=" ".join(settings.subject))
     if settings.body != None:
@@ -247,6 +248,9 @@ def main():
                                 help='SMTP email message body')
     copy_parser.add_argument('--folder', action='store', \
                                 help='SMTP: local folder for attachments')
+    copy_parser.add_argument('--delete', action='store', \
+                                choices=['yes', 'no'], \
+                                help='Delete files after sending (not yet implemented')
     copy_parser.set_defaults(command='copy')
 
     # The delete command
