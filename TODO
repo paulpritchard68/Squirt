@@ -9,6 +9,8 @@ New database option: Delete - Once a file is sent or retrieved, delete the sourc
     - TODO: Start checking the value in ftp_put, ftp_get and ftp_send
         - Exec
 
+Get and Put should support changing the name of the target file.
+
 Testing and Refactoring
 -----------------------
 See if the FTPLAYER can be cleaned up a bit
