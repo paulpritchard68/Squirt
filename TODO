@@ -11,6 +11,8 @@ New database option: Delete - Once a file is sent or retrieved, delete the sourc
 
 Get and Put should support changing the name of the target file.
 
+Provide support for clearing a field (set column = Null)
+
 Testing and Refactoring
 -----------------------
 See if the FTPLAYER can be cleaned up a bit
