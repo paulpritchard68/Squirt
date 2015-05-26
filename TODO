@@ -7,7 +7,9 @@ New database option: Delete - Once a file is sent or retrieved, delete the sourc
         - Display: DONE
         - Copy: DONE
     - TODO: Start checking the value in ftp_put, ftp_get and smtp_send
-        - Exec
+        - smtp_send: DONE
+        - ftp_put
+        - ftp_get
 
 Get and Put should support changing the name of the target file.
 

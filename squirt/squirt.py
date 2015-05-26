@@ -162,6 +162,8 @@ def execute_script(options):
     script.update(mailto=options.mailto)
     script.update(folder=options.folder)
     script.update(test=options.test)
+    if options.delete != None:
+        script.update(delete=options.delete=='yes')
     if options.subject != None:
         script.update(subject=" ".join(options.subject))
     if options.body != None:
@@ -250,7 +252,7 @@ def main():
                                 help='SMTP: local folder for attachments')
     copy_parser.add_argument('--delete', action='store', \
                                 choices=['yes', 'no'], \
-                                help='Delete files after sending (not yet implemented')
+                                help='Delete files after sending (partially implemented')
     copy_parser.set_defaults(command='copy')
 
     # The delete command
@@ -303,6 +305,9 @@ def main():
                                 help='SMTP: local folder for attachments')
     exec_parser.add_argument('--test', action='store_const', const=True, \
                                 default=False, help='Run in test mode')
+    exec_parser.add_argument('--delete', action='store', \
+                                choices=['yes', 'no'], \
+                                help='Delete files after sending (partially implemented')
     exec_parser.set_defaults(command='exec')
 
     try:

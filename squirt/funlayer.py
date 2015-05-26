@@ -139,6 +139,8 @@ def fn_execute_script(script):
         script.update(body=db_retrieve_script_body(script.get('script')))
     if script.get('folder') == None:
         script.update(folder=db_retrieve_script_folder(script.get('script')))
+    if script.get('delete')==None:
+        script.update(delete=db_retrieve_script_delete(script.get('script')))
 
     if db_retrieve_script_protocol(script.get('script')) == 'FTP':
         if script.get('do').split('-')[0] == 'chmod':

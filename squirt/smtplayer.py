@@ -97,6 +97,9 @@ def smtp_send(script):
                            filename=filename)
             outer.attach(msg)
 
+            if script.get('delete')==True:
+                os.remove(path)
+
     # And then send the message
     smtp_message = outer.as_string()
 
