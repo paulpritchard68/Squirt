@@ -239,6 +239,8 @@ def ftp_put(script):
                     if script.get('test') == False:
                         ftp.storbinary('STOR %s' % \
                                        filename, open(filename, 'rb'), 1024)
+                        if script.get('delete')==True:
+                            os.remove(filename)
                     yield remote_full_path + '/' + filename
                     ftp.quit()
                 except:
