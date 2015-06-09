@@ -1,3 +1,7 @@
+Bugs
+----
+Copy SMTP function is missing some parameters. Check and fix.
+
 New Feature
 -----------
 New database option: Delete - Once a file is sent or retrieved, delete the source copy
