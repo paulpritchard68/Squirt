@@ -200,7 +200,7 @@ def fn_retrieve_script(script_name):
             script.update(body=db_retrieve_script_body(script_name))
             script.update(files=db_retrieve_script_files(script_name))
             script.update(folder=db_retrieve_script_folder(script_name))
-            script.update(port=db_retrieve_script_delete(script_name))
+            script.update(port=db_retrieve_script_port(script_name))
             script.update(delete=db_retrieve_script_delete(script_name))
     return script
 
