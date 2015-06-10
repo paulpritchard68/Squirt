@@ -352,7 +352,6 @@ def db_retrieve_script_port(script):
     cursor = connection.cursor()
 
     parameters = (script, )
-    parameters = (script, )
     if protocol == 'FTP':
         cursor.execute('select port \
                         from squirt_ftp f \
@@ -381,7 +380,6 @@ def db_retrieve_script_delete(script):
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
-    parameters = (script, )
     parameters = (script, )
     if protocol == 'FTP':
         cursor.execute('select delete_files \
