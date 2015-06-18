@@ -1,5 +1,5 @@
 # SQUIRT #
-Squirt started as an attempt to provide a simple way of maintain frequently used simple FTP scripts. The FTP functionality is far from complete but I have expanded the scope a little with the aim of developing a simple mechanism for managing scripts across a variety of protocols. In the longer term, I have also been thinking in terms of coming up with a mechanism for piping these scripts together.
+Squirt started as an attempt to provide a simple way of maintain frequently used simple FTP scripts. The FTP functionality is far from complete but I have expanded the scope a little with the aim of developing a simple mechanism for managing scripts across a variety of protocols. 
 
 ## An incomplete list of dependencies ##
 Squirt requires Python3 and includes the following dependencies:
