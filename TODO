@@ -41,16 +41,3 @@ ftplayer.py
 Undocumented Features
 ---------------------
 Get fails on MLIST. Need to work around this for servers that don't support it.
-
-New functionality
------------------
-New table: squirt_streams
-    ID          integer
-    stream_name text
-
-New table: squirt_stream_detail
-    ID          integer
-    streamID    integer; foreign key: squirt_streams
-    scriptID    integer; foreign key: squirt_scripts
-
-Then figure out how to string scripts together into streams
