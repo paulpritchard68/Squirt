@@ -259,7 +259,6 @@ def ftp_tree(ftp, path, script):
 
         if script.get('namefmt') != None:
             sndcmd = 'site namefmt ' + str(script.get('namefmt'))
-            print(sndcmd)
             try:
                 ftp.sendcmd(sndcmd)
             except:
