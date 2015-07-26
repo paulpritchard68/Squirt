@@ -21,10 +21,6 @@ Provide some functionality to export and import scripts as text (XML) files.
     - squirt export [script]
     - squirt import [script]
 
-Testing and Refactoring
------------------------
-See if the FTPLAYER can be cleaned up a bit
-
 Other fixes
 -----------
 squirt.py
