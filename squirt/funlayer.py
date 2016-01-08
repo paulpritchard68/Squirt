@@ -39,6 +39,9 @@ def fn_copy_script(settings):
         if settings.get('protocol') == None:
             settings.update(protocol=db_retrieve_script_protocol(settings.get('cf')))
 
+        if settings.get('description') == None:
+            settings.update(description=db_retrieve_script_description(settings.get('cf')))
+
         if settings.get('host') == None:
             settings.update(host=db_retrieve_script_host(settings.get('cf')))
 
@@ -107,6 +110,8 @@ def fn_delete_script(script):
 
 def fn_execute_script(script):
     """ Retrieve script defaults and overrides and execute """
+    if script.get('desctiption') == None:
+        script.update(description=db_retrieve_script_description(script.get('script')))
     if script.get('host') == None:
         script.update(host=db_retrieve_script_host(script.get('script')))
     if script.get('user') == None:
@@ -177,6 +182,7 @@ def fn_retrieve_script(script_name):
     else:
         script.update(exists=True)
         script.update(protocol=db_retrieve_script_protocol(script_name))
+        script.update(description=db_retrieve_script_description(script_name))
         if script.get('protocol') == 'FTP':
             script.update(host=db_retrieve_script_host(script_name))
             script.update(user=db_retrieve_script_user(script_name))

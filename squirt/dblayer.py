@@ -79,11 +79,12 @@ def db_list_scripts():
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
-    cursor.execute('select script from squirt_scripts order by script')
+    cursor.execute('select script, description \
+                    from squirt_scripts order by script')
 
     rows = cursor.fetchall()
     for row in rows:
-        yield row[0]
+        yield row[0], row[1]
 
 def db_retrieve_script_protocol(script):
     """ Retrieves a script value """
@@ -496,6 +497,25 @@ def db_retrieve_script_folder(script):
     for row in rows:
         return row[0]
 
+def db_retrieve_script_description(script):
+    """ Retrieves the description for a script """
+
+    # First check the database is current
+    db_init()
+
+    # Then the function
+    connection = sqlite3.connect(os.path.expanduser(DB_PATH))
+    cursor = connection.cursor()
+
+    parameters = (script, )
+    cursor.execute('select description \
+                    from squirt_scripts \
+                    where script = ?', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        return row[0]
+
 def db_write_script(options):
     """ Write a new script definition to database """
 
@@ -507,9 +527,9 @@ def db_write_script(options):
     cursor = connection.cursor()
 
     protocol = options.get('protocol')
-    parameters = (options.get('script'), protocol)
-    cursor.execute('insert into squirt_scripts (script, protocol) \
-                    values(?, ?)', parameters)
+    parameters = (options.get('script'), protocol, options.get('description'))
+    cursor.execute('insert into squirt_scripts (script, protocol, description) \
+                    values(?, ?, ?)', parameters)
     script_id = cursor.lastrowid
 
     if protocol == 'FTP':
@@ -541,6 +561,15 @@ def db_write_script(options):
     connection.close()
 
     return (True, 'Script built')
+
+def db_update_script_description(options, cursor):
+    """ Update an existing script description """
+    if options.get('description') != None:
+        parameters = (options.get('description'), options.get('script'))
+        cursor.execute('update squirt_scripts \
+                        set description = ? \
+                        where script = ?' \
+                        , parameters)
 
 def db_update_ftp_host(options, cursor):
     """ Update an existing script definition: FTP Host """
@@ -806,6 +835,9 @@ def db_update_script(options):
     if options.get('protocol') != None and options.get('protocol') != protocol:
         return False  # Mismatched protocol
 
+    # Update the description
+    db_update_script_description(options, cursor)
+
     if protocol == 'FTP':
         db_update_ftp_host(options, cursor)
         db_update_ftp_user(options, cursor)
@@ -955,7 +987,7 @@ def db_init():
         cursor.execute('update squirt_config set current_version = 7')
         database_version = 7
 
-    # More functionality: DELETE. 
+    # More functionality: DELETE.
     # If this option is set to yes, files will be deleted once sent/received
     if database_version == 7:
         cursor.execute('alter table squirt_ftp \
@@ -964,6 +996,13 @@ def db_init():
                         add column delete_files integer not null default 0 check(delete_files in (0, 1))')
         cursor.execute('update squirt_config set current_version = 8')
         database_version = 8
+
+    # Add a description column to the database
+    if database_version == 8:
+        cursor.execute('alter table squirt_scripts \
+                        add column description text')
+        cursor.execute('update squirt_config set current_version = 9')
+        database_version = 9
 
     connection.commit()
     connection.close()

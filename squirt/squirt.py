@@ -43,6 +43,8 @@ def build_script(options):
     script.update(mailto=options.mailto)
     script.update(folder=options.folder)
     script.update(delete=options.delete)
+    if options.description != None:
+        script.update(description=" ".join(options.description))
     if options.subject != None:
         script.update(subject=" ".join(options.subject))
     if options.body != None:
@@ -71,6 +73,8 @@ def copy_script(settings):
     script.update(mailto=settings.mailto)
     script.update(folder=settings.folder)
     script.update(delete=settings.delete)
+    if settings.description != None:
+        script.update(description=" ".join(settings.description))
     if settings.subject != None:
         script.update(subject=" ".join(settings.subject))
     if settings.body != None:
@@ -98,6 +102,7 @@ def display_script(options):
         print("Script %s not defined" % script.get('script'))
     else:
         print("Script:        %s " % script.get('script'))
+        print("Description:   %s " % script.get('description'))
         print("Protocol:      %s " % script.get('protocol'))
         if script.get('protocol') == 'FTP':
             print("Host:          %s " % script.get('host'))
@@ -140,7 +145,10 @@ def list_scripts():
     """ Lists the currently defined set of scripts
         No paramerters this time """
     for script in  fn_list_scripts():
-        print(script)
+        if script[1] != None:
+            print(script[0], '/', script[1])
+        else:
+            print(script[0])
 
 def execute_script(options):
     """ Execute a built script
@@ -184,6 +192,8 @@ def main():
                                 choices=['FTP', 'SMTP'], \
                                 help='Protocol')
     build_parser.add_argument('script', action='store', help='Script name')
+    build_parser.add_argument('--description', nargs='*', action='store', \
+                                help='Description')
     build_parser.add_argument('--host', action='store', help='FTP Host name')
     build_parser.add_argument('--user', action='store', help='User ID')
     build_parser.add_argument('--password', action='store', help='Password')
@@ -222,6 +232,7 @@ def main():
     copy_parser = subparsers.add_parser('copy', help='Copy script')
     copy_parser.add_argument('cf', action='store', help='Copy from script')
     copy_parser.add_argument('ct', action='store', help='Copy to script')
+    copy_parser.add_argument('--description', nargs='*', action='store', help='Description')
     copy_parser.add_argument('--host', action='store', help='FTP Host name')
     copy_parser.add_argument('--user', action='store', help='User ID')
     copy_parser.add_argument('--password', action='store', help='Password')
