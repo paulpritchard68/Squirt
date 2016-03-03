@@ -15,17 +15,13 @@ Get and Put should support changing the name of the target file.
 
 Provide support for clearing a field (set column = Null)
 
-Portability
------------
-Provide some functionality to export and import scripts as text (XML) files.
-    - squirt export [script]
-    - squirt import [script]
-
 Other fixes
 -----------
+smtplayer.py
+    - Mail body should be switchable between free text or a file
+
 squirt.py
-    - There really should be a bit of validation to ensure that the options are meaningful for the actions
-    - validation.py?
+    - Tighten up the parameters so that illogical options can't be entered
 
 ftplayer.py
     - needs to support explicit mode switching (binary or ascii)
@@ -39,6 +35,12 @@ funlayer.py
 ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
+
+Portability
+-----------
+Provide some functionality to export and import scripts as text (XML) files.
+    - squirt export [script]
+    - squirt import [script]
 
 Undocumented Features
 ---------------------
