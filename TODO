@@ -1,22 +1,5 @@
-New Feature
------------
-New database option: Delete - Once a file is sent or retrieved, delete the source copy
-    - New column added to database table
-    - TODO: Make it visible/maintainable from squirt.py
-        - Build: DONE
-        - Display: DONE
-        - Copy: DONE
-    - TODO: Start checking the value in ftp_put, ftp_get and smtp_send
-        - smtp_send: DONE
-        - ftp_put: DONE
-        - ftp_get
-
-Get and Put should support changing the name of the target file.
-
-Provide support for clearing a field (set column = Null)
-
-Other fixes
------------
+New features and Other fixes
+----------------------------
 smtplayer.py
     - Mail body should be switchable between free text or a file
 
@@ -27,6 +10,7 @@ ftplayer.py
     - needs to support explicit mode switching (binary or ascii)
 
 dblayer.py
+    - Provide support for clearing a field (set column = Null)
     - Start returning more useful error codes
 
 funlayer.py
@@ -35,6 +19,7 @@ funlayer.py
 ftplayer.py
     - Support some more actions
         - GetNew    Like Get but only retrieves new files
+    -Get and Put should support changing the name of the target file.
 
 Portability
 -----------

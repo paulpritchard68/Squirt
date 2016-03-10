@@ -138,6 +138,9 @@ def ftp_get(ftp, local_path, remote_path, script):
                         ftp.retrbinary('RETR %s' % \
                                        remote_file, \
                                        lambda data: file_get.write(data))
+                    if script.get('delete') == True:
+                        ftp.delete(remote_file)
+
     except:
         pass
 
