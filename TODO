@@ -1,8 +1,5 @@
 New features and Other fixes
 ----------------------------
-smtplayer.py
-    - Mail body should be switchable between free text or a file
-
 squirt.py
     - Tighten up the parameters so that illogical options can't be entered
 
