@@ -138,7 +138,7 @@ def ftp_get(ftp, local_path, remote_path, script):
                         ftp.retrbinary('RETR %s' % \
                                        remote_file, \
                                        lambda data: file_get.write(data))
-                    if script.get('delete') is True:
+                    if script.get('delete') is True and script.get('test') is False:
                         ftp.delete(remote_file)
 
     except:
@@ -242,7 +242,7 @@ def ftp_put(script):
                     if script.get('test') is False:
                         ftp.storbinary('STOR %s' % \
                                        filename, open(filename, 'rb'), 1024)
-                        if script.get('delete') is True:
+                        if script.get('delete') is True and script.get('test') is False:
                             os.remove(filename)
                     yield remote_full_path + '/' + filename
                     ftp.quit()
