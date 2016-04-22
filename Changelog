@@ -1,5 +1,6 @@
 0.3 (In Progress) 
 ===
+Clearing fields (setting the value to null) is now supported
 New option --delete. This deletes the source file once it has been transferred. Applies to ftp_put, ftp_get and smtp_send. Use with caution
 FTP Port selection enabled
 

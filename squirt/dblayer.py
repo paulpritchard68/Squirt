@@ -565,18 +565,22 @@ def db_write_script(options):
 def db_update_script_description(options, cursor):
     """ Update an existing script description """
     if options.get('description') != None:
-        parameters = (options.get('description'), options.get('script'))
+        setnull = options.get('description') == '*Null'
+        parameters = (setnull, options.get('description'), options.get('script'))
         cursor.execute('update squirt_scripts \
-                        set description = ? \
+                        set description = \
+                        case when ? = 1 then null else ? end \
                         where script = ?' \
                         , parameters)
 
 def db_update_ftp_host(options, cursor):
     """ Update an existing script definition: FTP Host """
     if options.get('host') != None:
-        parameters = (options.get('host'), options.get('script'))
+        setnull = options.get('host') == '*Null'
+        parameters = (setnull, options.get('host'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set host = ? \
+                        set host = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -585,9 +589,11 @@ def db_update_ftp_host(options, cursor):
 def db_update_ftp_user(options, cursor):
     """ Update an existing script definition: FTP User """
     if options.get('user') != None:
-        parameters = (options.get('user'), options.get('script'))
+        setnull = options.get('user') == '*Null'
+        parameters = (setnull, options.get('user'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set user = ? \
+                        set user = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -596,9 +602,11 @@ def db_update_ftp_user(options, cursor):
 def db_update_ftp_password(options, cursor):
     """ Update an existing script definition: FTP Password """
     if options.get('password') != None:
-        parameters = (options.get('password'), options.get('script'))
+        setnull = options.get('password') == '*Null'
+        parameters = (setnull, options.get('password'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set pass = ? \
+                        set pass = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -607,9 +615,11 @@ def db_update_ftp_password(options, cursor):
 def db_update_ftp_local(options, cursor):
     """ Update an existing script definition: FTP Local Path """
     if options.get('local') != None:
-        parameters = (options.get('local'), options.get('script'))
+        setnull = options.get('local') == '*Null'
+        parameters = (setnull, options.get('local'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set local = ? \
+                        set local = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -618,9 +628,11 @@ def db_update_ftp_local(options, cursor):
 def db_update_ftp_remote(options, cursor):
     """ Update an existing script definition: FTP Remote Path """
     if options.get('remote') != None:
-        parameters = (options.get('remote'), options.get('script'))
+        setnull = options.get('remote') == '*Null'
+        parameters = (setnull, options.get('remote'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set remote = ? \
+                        set remote = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -629,9 +641,11 @@ def db_update_ftp_remote(options, cursor):
 def db_update_ftp_do(options, cursor):
     """ Update an existing script definition: FTP action """
     if options.get('do') != None:
-        parameters = (options.get('do'), options.get('script'))
+        setnull = options.get('do') == '*Null'
+        parameters = (setnull, options.get('do'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set do = ? \
+                        set do = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -640,9 +654,11 @@ def db_update_ftp_do(options, cursor):
 def db_update_ftp_files(options, cursor):
     """ Update an existing script definition: FTP files """
     if options.get('files') != None:
-        parameters = (options.get('files'), options.get('script'))
+        setnull = options.get('files') == '*Null'
+        parameters = (setnull, options.get('files'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set files = ? \
+                        set files = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -651,9 +667,11 @@ def db_update_ftp_files(options, cursor):
 def db_update_ftp_mode(options, cursor):
     """ Update an existing script definition: FTP mode """
     if options.get('mode') != None:
-        parameters = (options.get('mode'), options.get('script'))
+        setnull = options.get('mode') == '*Null'
+        parameters = (setnull, options.get('mode'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set mode = ? \
+                        set mode = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -662,9 +680,11 @@ def db_update_ftp_mode(options, cursor):
 def db_update_ftp_namefmt(options, cursor):
     """ Update an existing script definition: FTP namefmt for i """
     if options.get('namefmt') != None:
-        parameters = (options.get('namefmt'), options.get('script'))
+        setnull = options.get('namefmt') == '*Null'
+        parameters = (setnull, options.get('namefmt'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set namefmt = ? \
+                        set namefmt = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -673,9 +693,11 @@ def db_update_ftp_namefmt(options, cursor):
 def db_update_ftp_port(options, cursor):
     """ Update an existing script definition: FTP port """
     if options.get('port') != None:
-        parameters = (options.get('port'), options.get('script'))
+        setnull = options.get('port') == '*Null'
+        parameters = (setnull, options.get('port'), options.get('script'))
         cursor.execute('update squirt_ftp \
-                        set port = ? \
+                        set port = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -695,9 +717,11 @@ def db_update_ftp_delete(options, cursor):
 def db_update_smtp_server(options, cursor):
     """ Update an existing script definition: SMTP Server """
     if options.get('server') != None:
-        parameters = (options.get('server'), options.get('script'))
+        setnull = options.get('server') == '*Null'
+        parameters = (setnull, options.get('server'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set server = ? \
+                        set server = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -706,9 +730,11 @@ def db_update_smtp_server(options, cursor):
 def db_update_smtp_port(options, cursor):
     """ Update an existing script definition: SMTP Port """
     if options.get('port') != None:
-        parameters = (options.get('port'), options.get('script'))
+        setnull = options.get('port') == '*Null'
+        parameters = (setnull, options.get('port'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set port = ? \
+                        set port = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -717,9 +743,11 @@ def db_update_smtp_port(options, cursor):
 def db_update_smtp_user(options, cursor):
     """ Update an existing script definition: SMTP User """
     if options.get('user') != None:
-        parameters = (options.get('user'), options.get('script'))
+        setnull = options.get('user') == '*Null'
+        parameters = (setnull, options.get('user'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set user = ? \
+                        set user = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -728,9 +756,11 @@ def db_update_smtp_user(options, cursor):
 def db_update_smtp_password(options, cursor):
     """ Update an existing script definition: SMTP Password """
     if options.get('password') != None:
-        parameters = (options.get('password'), options.get('script'))
+        setnull = options.get('password') == '*Null'
+        parameters = (setnull, options.get('password'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set pass = ? \
+                        set pass = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -739,9 +769,11 @@ def db_update_smtp_password(options, cursor):
 def db_update_smtp_mailfrom(options, cursor):
     """ Update an existing script definition: SMTP From address """
     if options.get('mailfrom') != None:
-        parameters = (options.get('mailfrom'), options.get('script'))
+        setnull = options.get('mailfrom') == '*Null'
+        parameters = (setnull, options.get('mailfrom'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set mailfrom = ? \
+                        set mailfrom = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -750,9 +782,11 @@ def db_update_smtp_mailfrom(options, cursor):
 def db_update_smtp_mailto(options, cursor):
     """ Update an existing script definition: SMTP To address """
     if options.get('mailto') != None:
-        parameters = (options.get('mailto'), options.get('script'))
+        setnull = options.get('mailto') == '*Null'
+        parameters = (setnull, options.get('mailto'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set mailto = ? \
+                        set mailto = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -761,9 +795,11 @@ def db_update_smtp_mailto(options, cursor):
 def db_update_smtp_subject(options, cursor):
     """ Update an existing script definition: SMTP Subject """
     if options.get('subject') != None:
-        parameters = (options.get('subject'), options.get('script'))
+        setnull = options.get('subject') == '*Null'
+        parameters = (setnull, options.get('subject'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set subject = ? \
+                        set subject = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -772,9 +808,11 @@ def db_update_smtp_subject(options, cursor):
 def db_update_smtp_body(options, cursor):
     """ Update an existing script definition: SMTP Body """
     if options.get('body') != None:
-        parameters = (options.get('body'), options.get('script'))
+        setnull = options.get('body') == '*Null'
+        parameters = (setnull, options.get('body'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set body = ? \
+                        set body = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -783,9 +821,11 @@ def db_update_smtp_body(options, cursor):
 def db_update_smtp_files(options, cursor):
     """ Update an existing script definition: SMTP Files to send """
     if options.get('files') != None:
-        parameters = (options.get('files'), options.get('script'))
+        setnull = options.get('files') == '*Null'
+        parameters = (setnull, options.get('files'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set files = ? \
+                        set files = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -794,9 +834,11 @@ def db_update_smtp_files(options, cursor):
 def db_update_smtp_folder(options, cursor):
     """ Update an existing script definition: SMTP Folder """
     if options.get('folder') != None:
-        parameters = (options.get('folder'), options.get('script'))
+        setnull = options.get('folder') == '*Null'
+        parameters = (setnull, options.get('folder'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set folder = ? \
+                        set folder = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
@@ -805,9 +847,11 @@ def db_update_smtp_folder(options, cursor):
 def db_update_smtp_delete(options, cursor):
     """ Update an existing script definition: SMTP delete flag """
     if options.get('delete') != None:
-        parameters = (options.get('delete')=='yes', options.get('script'))
+        setnull = options.get('delete') == '*Null'
+        parameters = (osetnull, ptions.get('delete')=='yes', options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set delete_files = ? \
+                        set delete_files = \
+                        case when ? = 1 then null else ? end \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \

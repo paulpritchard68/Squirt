@@ -7,7 +7,6 @@ ftplayer.py
     - needs to support explicit mode switching (binary or ascii)
 
 dblayer.py
-    - Provide support for clearing a field (set column = Null)
     - Start returning more useful error codes
 
 funlayer.py

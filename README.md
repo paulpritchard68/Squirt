@@ -14,6 +14,8 @@ The core of this is pretty straightforward. You use `squirt build` to define (bu
 
 A `copy` command is also available. This will create a new script (ct = copy to) based on an existing script (cf = copy from). Again, this command allows for the same options as `build` - if entered, these will be applied to the new script.
  
+To clear a field, set the value to *Null
+
 ## Currently supported FTP Actions ##
 The --do option on the build and exec commands defines the action to be performed. At present, the following actions are supported:
 - chmod-xxx   Changes the access permissions of the file.

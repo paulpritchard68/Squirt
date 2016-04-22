@@ -27,3 +27,10 @@ def retrieve_local_path(relative_path):
         return expanduser(relative_path)
     else:
         return relative_path
+
+def replace_special(script):
+    """ Scans script dictionary for special options and replace accoringly """
+    for skey in script:
+        if script.get(skey)  == '*Null':
+            script[skey] = None
+    return script        

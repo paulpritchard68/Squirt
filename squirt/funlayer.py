@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>. """
 from dblayer import *
 from ftplayer import *
 from smtplayer import *
+from squtils import replace_special
 
 def fn_build_script(script):
     """ Build a new script or update an existing script """
@@ -28,7 +29,7 @@ def fn_build_script(script):
 
         return db_update_script(script)
     else:
-        return db_write_script(script)
+        return db_write_script(replace_special(script))
 
 def fn_copy_script(settings):
     """ Copy a script definition
@@ -93,7 +94,7 @@ def fn_copy_script(settings):
         if settings.get('delete') == None:
             settings.update(folder=db_retrieve_script_delete(settings.get('cf')))
 
-        return db_write_script(settings)[0]
+        return db_write_script(replace_special(settings))[0]
     else:
         return False
 
