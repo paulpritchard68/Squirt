@@ -21,7 +21,7 @@ from os.path import isabs, expanduser
 
 def retrieve_local_path(relative_path):
     """ Finds the absolute local path for relative path names """
-    if relative_path == None:
+    if relative_path is None:
         return os.getcwd('')
     elif not isabs(relative_path):
         return expanduser(relative_path)
@@ -31,6 +31,6 @@ def retrieve_local_path(relative_path):
 def replace_special(script):
     """ Scans script dictionary for special options and replace accoringly """
     for skey in script:
-        if script.get(skey)  == '*Null':
+        if script.get(skey) == '*Null':
             script[skey] = None
-    return script        
+    return script

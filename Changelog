@@ -1,6 +1,8 @@
 0.3 (In Progress) 
 ===
 Clearing fields (setting the value to null) is now supported
+A --description has now been added. Helpful when you are trying to remember what the script was supposed to do.
+The --delete flag is ignored when the --test flag is True
 New option --delete. This deletes the source file once it has been transferred. Applies to ftp_put, ftp_get and smtp_send. Use with caution
 FTP Port selection enabled
 

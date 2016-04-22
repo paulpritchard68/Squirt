@@ -27,7 +27,7 @@ def ftp_chmod(script):
         Parameter script is a dictionary object
         returns True if successful
         Failure is not an option """
-    if script.get('port') == None:
+    if script.get('port') is None:
         ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
     else:
         ftp = FTP()
@@ -50,8 +50,8 @@ def ftp_chmod(script):
         pattern = re.compile('')
 
     for entry in entries:
-        if pattern.search(entry) != None or script.get('files') == None:
-            if script.get('test') == False:
+        if pattern.search(entry) != None or script.get('files') is None:
+            if script.get('test') is False:
                 ftp.sendcmd('site chmod %s %s' % \
                 (script.get('do').split('-')[-1], entry.split(' ')[-1]))
             yield entry
@@ -63,7 +63,7 @@ def ftp_del(script):
     """ Deletes remote files matching file mask
         Parameter script is a dictionary object
         Returns file names as they are deleted """
-    if script.get('port') == None:
+    if script.get('port') is None:
         ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
     else:
         ftp = FTP()
@@ -86,8 +86,8 @@ def ftp_del(script):
         pattern = re.compile('')
 
     for entry in entries:
-        if pattern.search(entry) != None or script.get('files') == None:
-            if script.get('test') == False:
+        if pattern.search(entry) != None or script.get('files') is None:
+            if script.get('test') is False:
                 ftp.delete(entry.split(' ')[-1])
             yield entry
 
@@ -103,7 +103,7 @@ def ftp_get(ftp, local_path, remote_path, script):
 
         local_path = retrieve_local_path(local_path)
 
-        if script.get('port') == None:
+        if script.get('port') is None:
             ftp = FTP(script.get('host'), \
                       script.get('user'), script.get('password'))
         else:
@@ -121,7 +121,7 @@ def ftp_get(ftp, local_path, remote_path, script):
                 new_remote_path = remote_path + '/' + entry[0]
                 new_local_path = local_path + '/' + entry[0]
                 if not os.path.exists(new_local_path) \
-                and script.get('test') == False:
+                and script.get('test') is False:
                     os.makedirs(new_local_path)
                 for new_entry in ftp_get(ftp, new_local_path, \
                                          new_remote_path, script):
@@ -129,16 +129,16 @@ def ftp_get(ftp, local_path, remote_path, script):
 
             if entry[1].get('type') == 'file' \
             and (pattern.search(entry[0]) != None \
-                 or script.get('files') == None):
+                 or script.get('files') is None):
                 local_file = os.path.join(local_path, entry[0])
                 remote_file = remote_path + '/' + entry[0]
                 yield remote_file
-                if script.get('test') == False:
+                if script.get('test') is False:
                     with open(local_file, 'wb') as file_get:
                         ftp.retrbinary('RETR %s' % \
                                        remote_file, \
                                        lambda data: file_get.write(data))
-                    if script.get('delete') == True:
+                    if script.get('delete') is True:
                         ftp.delete(remote_file)
 
     except:
@@ -151,7 +151,7 @@ def ftp_ls(script):
         Parameter script is a dictionary object
         Yields each of the found files """
 
-    if script.get('port') == None:
+    if script.get('port') is None:
         ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
     else:
         ftp = FTP()
@@ -175,7 +175,7 @@ def ftp_ls(script):
         pattern = re.compile('')
 
     for entry in entries:
-        if pattern.search(entry) != None or script.get('files') == None:
+        if pattern.search(entry) != None or script.get('files') is None:
             yield entry
 
     ftp.quit()
@@ -207,7 +207,7 @@ def ftp_put(script):
         remote_full_path = remote + remote_dir
         os.chdir(dirname)
         if remote_dir != '':
-            if script.get('port') == None:
+            if script.get('port') is None:
                 ftp = FTP(script.get('host'), \
                           script.get('user'), script.get('password'))
             else:
@@ -222,16 +222,16 @@ def ftp_put(script):
             try:
                 ftp.cwd(remote_full_path)
             except:
-                if script.get('test') == False:
+                if script.get('test') is False:
                     ftp.mkd(remote_full_path)
                 yield remote_full_path
             ftp.quit()
 
         for filename in filenames:
             if pattern.search(filename) != None \
-            or script.get('files') == None:
+            or script.get('files') is None:
                 try:
-                    if script.get('port') == None:
+                    if script.get('port') is None:
                         ftp = FTP(script.get('host'), \
                                   script.get('user'), script.get('password'))
                     else:
@@ -239,10 +239,10 @@ def ftp_put(script):
                         ftp.connect(script.get('host'), script.get('port'))
                         ftp.login(script.get('user'), script.get('password'))
                     ftp.cwd(remote_full_path)
-                    if script.get('test') == False:
+                    if script.get('test') is False:
                         ftp.storbinary('STOR %s' % \
                                        filename, open(filename, 'rb'), 1024)
-                        if script.get('delete') == True:
+                        if script.get('delete') is True:
                             os.remove(filename)
                     yield remote_full_path + '/' + filename
                     ftp.quit()
@@ -252,7 +252,7 @@ def ftp_put(script):
 def ftp_tree(ftp, path, script):
     """ Returns the directory tree starting at path """
     if not hasattr(ftp, 'attr_name'):
-        if script.get('port') == None:
+        if script.get('port') is None:
             ftp = FTP(script.get('host'), \
                       script.get('user'), script.get('password'))
         else:
