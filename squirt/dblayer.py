@@ -848,7 +848,7 @@ def db_update_smtp_delete(options, cursor):
     """ Update an existing script definition: SMTP delete flag """
     if options.get('delete') != None:
         setnull = options.get('delete') == '*Null'
-        parameters = (osetnull, ptions.get('delete')=='yes', options.get('script'))
+        parameters = (setnull, options.get('delete')=='yes', options.get('script'))
         cursor.execute('update squirt_smtp \
                         set delete_files = \
                         case when ? = 1 then null else ? end \
