@@ -97,7 +97,7 @@ def smtp_send(script):
                            filename=filename)
             outer.attach(msg)
 
-            if script.get('delete')==True and script.get('test')==False:
+            if script.get('delete') is True and script.get('test')==False:
                 os.remove(path)
 
     # And then send the message

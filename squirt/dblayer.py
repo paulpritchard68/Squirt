@@ -533,7 +533,7 @@ def db_write_script(options):
     script_id = cursor.lastrowid
 
     if protocol == 'FTP':
-        delete_flag = options.get('delete')=='yes'
+        delete_flag = options.get('delete')
         parameters = (script_id, options.get('host'), options.get('user'), \
                       options.get('password'), options.get('local'), \
                       options.get('remote'), options.get('do'), \
@@ -544,7 +544,7 @@ def db_write_script(options):
                         (script_id, host, user, pass, local, remote, do, files, mode, namefmt, port, delete_files) \
                         values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', parameters)
     elif protocol == 'SMTP':
-        delete_flag = options.get('delete')=='yes'
+        delete_flag = options.get('delete')
         parameters = (script_id, options.get('server'), options.get('port'), \
                       options.get('user'), options.get('password'), \
                       options.get('mailfrom'), options.get('mailto'), \
@@ -706,7 +706,7 @@ def db_update_ftp_port(options, cursor):
 def db_update_ftp_delete(options, cursor):
     """ Update an existing script definition: FTP delete flag """
     if options.get('delete') != None:
-        parameters = (options.get('delete')=='yes', options.get('script'))
+        parameters = (options.get('delete'), options.get('script'))
         cursor.execute('update squirt_ftp \
                         set delete_files = ? \
                         where script_id in \
@@ -847,8 +847,7 @@ def db_update_smtp_folder(options, cursor):
 def db_update_smtp_delete(options, cursor):
     """ Update an existing script definition: SMTP delete flag """
     if options.get('delete') != None:
-        setnull = options.get('delete') == '*Null'
-        parameters = (setnull, options.get('delete')=='yes', options.get('script'))
+        parameters = (options.get('delete'), options.get('script'))
         cursor.execute('update squirt_smtp \
                         set delete_files = \
                         case when ? = 1 then null else ? end \

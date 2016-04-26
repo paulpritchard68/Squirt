@@ -42,7 +42,7 @@ def build_script(options):
     script.update(mailfrom=options.mailfrom)
     script.update(mailto=options.mailto)
     script.update(folder=options.folder)
-    script.update(delete=options.delete)
+    script.update(delete=options.delete=='yes')
     if options.description != None:
         script.update(description=" ".join(options.description))
     if options.subject != None:
@@ -72,7 +72,7 @@ def copy_script(settings):
     script.update(mailfrom=settings.mailfrom)
     script.update(mailto=settings.mailto)
     script.update(folder=settings.folder)
-    script.update(delete=settings.delete)
+    script.update(delete=settings.delete=='yes')
     if settings.description != None:
         script.update(description=" ".join(settings.description))
     if settings.subject != None:
@@ -118,7 +118,7 @@ def display_script(options):
             print("Files:         %s " % script.get('files'))
             if script.get('mode') != None:
                 print("Mode:          %s " % script.get('mode'))
-            if script.get('delete') == True:
+            if script.get('delete') is True:
                 delete_files = 'Yes'
             else:
                 delete_files = 'No'
@@ -135,7 +135,7 @@ def display_script(options):
             print("Body:          %s " % script.get('body'))
             print("Files:         %s " % script.get('files'))
             print("Folder:        %s " % script.get('folder'))
-            if script.get('delete') == True:
+            if script.get('delete') is True:
                 delete_files = 'Yes'
             else:
                 delete_files = 'No'
