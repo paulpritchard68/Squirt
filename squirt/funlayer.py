@@ -111,7 +111,7 @@ def fn_delete_script(script):
 
 def fn_execute_script(script):
     """ Retrieve script defaults and overrides and execute """
-    if script.get('desctiption') == None:
+    if script.get('description') == None:
         script.update(description=db_retrieve_script_description(script.get('script')))
     if script.get('host') == None:
         script.update(host=db_retrieve_script_host(script.get('script')))

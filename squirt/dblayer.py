@@ -395,7 +395,7 @@ def db_retrieve_script_delete(script):
 
     rows = cursor.fetchall()
     for row in rows:
-        return row[0]
+        return row[0]==1
 
 def db_retrieve_script_mailfrom(script):
     """ Retrieves a script value """
