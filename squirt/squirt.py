@@ -295,6 +295,7 @@ def main():
     exec_parser.add_argument('--files', action='store', \
                                 help='The files to be acted on')
     exec_parser.add_argument('--mode', action='store', \
+                                choices=['ascii', 'binary'], \
                                 help='Transfer mode (ascii or binary). \
                                 This option is not currently supported')
     exec_parser.add_argument('--namefmt', action='store', \
