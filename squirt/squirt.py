@@ -42,7 +42,8 @@ def build_script(options):
     script.update(mailfrom=options.mailfrom)
     script.update(mailto=options.mailto)
     script.update(folder=options.folder)
-    script.update(delete=options.delete=='yes')
+    if options.delete != None:
+        script.update(delete=options.delete=='yes')
     if options.description != None:
         script.update(description=" ".join(options.description))
     if options.subject != None:
@@ -72,7 +73,8 @@ def copy_script(settings):
     script.update(mailfrom=settings.mailfrom)
     script.update(mailto=settings.mailto)
     script.update(folder=settings.folder)
-    script.update(delete=settings.delete=='yes')
+    if script.options != None:
+        script.update(delete=settings.delete=='yes')
     if settings.description != None:
         script.update(description=" ".join(settings.description))
     if settings.subject != None:
