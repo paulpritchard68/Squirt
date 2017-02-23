@@ -44,6 +44,8 @@ def build_script(options):
     script.update(folder=options.folder)
     if options.delete != None:
         script.update(delete=options.delete=='yes')
+    else:
+        script.update(delete='0')
     if options.description != None:
         script.update(description=" ".join(options.description))
     if options.subject != None:
