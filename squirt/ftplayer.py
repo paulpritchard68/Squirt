@@ -117,6 +117,7 @@ def ftp_get(ftp, local_path, remote_path, script):
 
     try:
         for entry in ftp.mlsd(remote_path, facts=["type"]):
+            print (entry)
             if entry[1].get('type') == 'dir':
                 new_remote_path = remote_path + '/' + entry[0]
                 new_local_path = local_path + '/' + entry[0]
@@ -126,7 +127,7 @@ def ftp_get(ftp, local_path, remote_path, script):
                 for new_entry in ftp_get(ftp, new_local_path, \
                                          new_remote_path, script):
                     yield new_entry
-
+    
             if entry[1].get('type') == 'file' \
             and (pattern.search(entry[0]) != None \
                  or script.get('files') is None):
@@ -140,9 +141,9 @@ def ftp_get(ftp, local_path, remote_path, script):
                                        lambda data: file_get.write(data))
                     if script.get('delete') is True:
                         ftp.delete(remote_file)
-
+    
     except:
-        pass
+        yield 'Error: MLSD command not supported by this server'
 
     ftp.quit()
 
