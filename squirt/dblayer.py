@@ -849,8 +849,7 @@ def db_update_smtp_delete(options, cursor):
     if options.get('delete') != None:
         parameters = (options.get('delete'), options.get('script'))
         cursor.execute('update squirt_smtp \
-                        set delete_files = \
-                        case when ? = 1 then null else ? end \
+                        set delete_files = ? \
                         where script_id in \
                             (select script_id \
                              from squirt_scripts where script = ?)' \
