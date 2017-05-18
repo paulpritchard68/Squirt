@@ -21,7 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>. """
 import sys
 import argparse
 from funlayer import fn_build_script, fn_copy_script, fn_delete_script, \
-                     fn_retrieve_script, fn_list_scripts, fn_execute_script
+                     fn_retrieve_script, fn_list_scripts, fn_execute_script, \
+                     fn_export_script
 
 def build_script(options):
     """ Build a reusable FTP script
@@ -184,6 +185,13 @@ def execute_script(options):
     for filename in fn_execute_script(script):
         print(filename)
 
+def export_script(options):
+    """ Export a script """
+    if fn_export_script(options.script) == True:
+        print("Script %s exported" % options.script)
+    else:
+        print("Error: Script %s not exported" % options.script)
+
 def main():
     """ The main event
         Parses the entered arguments and figures out what to do with them """
@@ -326,6 +334,11 @@ def main():
                                 help='Delete files after sending (partially implemented')
     exec_parser.set_defaults(command='exec')
 
+    # The export command
+    export_parser = subparsers.add_parser('export', help='Export script')
+    export_parser.add_argument('script', action='store', help='Script name')
+    export_parser.set_defaults(command='export')
+
     try:
         command_line = parser.parse_args()
     except:
@@ -343,6 +356,8 @@ def main():
         list_scripts()
     elif command_line.command == 'exec':
         execute_script(command_line)
+    elif command_line.command == 'export':
+        export_script(command_line)
     else:
         print("Command not recognised. Try using --help")
         sys.exit(2)

@@ -123,7 +123,8 @@ def xml_export(script):
         folder_element = SubElement(script_element, 'folder')
         folder_element.text = folder
 
-    with open('Test.xml', 'w') as xml_file:
+    file_name = "%s.xml" % script_name
+    with open(file_name, 'w') as xml_file:
         xml_file.write(xml_prettify(root))
 
 def xml_prettify(element):

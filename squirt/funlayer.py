@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>. """
 from dblayer import *
 from ftplayer import *
 from smtplayer import *
+from xmllayer import *
 from squtils import replace_special
 
 def fn_build_script(script):
@@ -217,3 +218,8 @@ def fn_list_scripts():
     for script in db_list_scripts():
         script_list.append(script)
     return script_list
+
+def fn_export_script(script):
+    """ Export a script definition as XML """
+    xml_export(fn_retrieve_script(script))
+    return True
