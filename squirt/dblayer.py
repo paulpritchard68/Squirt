@@ -22,7 +22,7 @@ import os
 DB_PATH = '~/.squirt.db'
 
 def db_delete_script(script):
-    """ Delete an existng script
+    """ Delete an existing script
         Parameter script is the script name (character) """
 
     # First check the database is current
