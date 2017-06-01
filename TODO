@@ -17,12 +17,6 @@ ftplayer.py
         - GetNew    Like Get but only retrieves new files
     -Get and Put should support changing the name of the target file.
 
-Portability
------------
-Provide some functionality to export and import scripts as text (XML) files.
-    - squirt export [script]
-    - squirt import [script]
-
 Undocumented Features
 ---------------------
 Get fails on MLIST. Need to work around this for servers that don't support it.
