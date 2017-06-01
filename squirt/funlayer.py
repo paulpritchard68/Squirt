@@ -223,3 +223,9 @@ def fn_export_script(script):
     """ Export a script definition as XML """
     xml_export(fn_retrieve_script(script))
     return True
+
+def fn_import_script(filename):
+    """ Import a script definition from XML """
+    for script in xml_import(filename):
+        fn_build_script(script)
+    return True

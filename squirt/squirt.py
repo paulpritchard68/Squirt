@@ -22,7 +22,7 @@ import sys
 import argparse
 from funlayer import fn_build_script, fn_copy_script, fn_delete_script, \
                      fn_retrieve_script, fn_list_scripts, fn_execute_script, \
-                     fn_export_script
+                     fn_export_script, fn_import_script
 
 def build_script(options):
     """ Build a reusable FTP script
@@ -192,6 +192,13 @@ def export_script(options):
     else:
         print("Error: Script %s not exported" % options.script)
 
+def import_script(options):
+    """ Import a script """
+    if fn_import_script(options.filename) == True:
+        print("Script successfully imported")
+    else:
+        print("Import failed")
+
 def main():
     """ The main event
         Parses the entered arguments and figures out what to do with them """
@@ -339,6 +346,11 @@ def main():
     export_parser.add_argument('script', action='store', help='Script name')
     export_parser.set_defaults(command='export')
 
+    # The import command
+    import_parser = subparsers.add_parser('import', help='import script')
+    import_parser.add_argument('filename', action='store', help='File name')
+    import_parser.set_defaults(command='import')
+
     try:
         command_line = parser.parse_args()
     except:
@@ -358,6 +370,8 @@ def main():
         execute_script(command_line)
     elif command_line.command == 'export':
         export_script(command_line)
+    elif command_line.command == 'import':
+        import_script(command_line)
     else:
         print("Command not recognised. Try using --help")
         sys.exit(2)

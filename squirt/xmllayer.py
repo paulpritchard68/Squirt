@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
 from xml.etree.ElementTree import Element, SubElement, tostring
+import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
 def xml_export(script):
@@ -132,3 +133,56 @@ def xml_prettify(element):
     raw_string = tostring(element, 'utf-8')
     pretty_string = minidom.parseString(raw_string)
     return pretty_string.toprettyxml(indent="    ")
+
+def xml_import(filename):
+    """ Import a settings XML and insert it into the database """
+    tree = ET.parse(filename)
+    root = tree.getroot()
+
+    for child in root:
+        script = dict()
+        if child.tag == 'script':
+            script.update(script=child.attrib['Name'])
+        for element in child:
+            if element.tag == 'protocol':
+                script.update(protocol=element.text)
+            elif element.tag == 'description':
+                script.update(description=element.text)
+            elif element.tag == 'host':
+                script.update(host=element.text)
+            elif element.tag == 'user':
+                script.update(user=element.text)
+            elif element.tag == 'pasword':
+                script.update(password=element.text)
+            elif element.tag == 'local':
+                script.update(local=element.text)
+            elif element.tag == 'remote':
+                script.update(remote=element.text)
+            elif element.tag == 'action':
+                script.update(do=element.text)
+            elif element.tag == 'files':
+                script.update(files=element.text)
+            elif element.tag == 'mode':
+                script.update(mode=element.text)
+            elif element.tag == 'namefmt':
+                script.update(namefmt=element.text)
+            elif element.tag == 'port':
+                script.update(port=element.text)
+            elif element.tag == 'delete':
+                if element.text == 'Yes':
+                    script.update(delete=True)
+                else:
+                    script.update(delete=False)
+            elif element.tag=='server':
+                script.update(server=element.text)
+            elif element.tag=='mailfrom':
+                script.update(mailfrom=element.text)
+            elif element.tag=='mailto':
+                script.update(mailto=element.text)
+            elif element.tag=='subject':
+                script.update(subject=element.text)
+            elif element.tag=='body':
+                script.update(body=element.text)
+            elif element.tag=='folder':
+                script.update(folder=element.text)
+        yield script
