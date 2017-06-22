@@ -39,7 +39,11 @@ def ftp_chmod(script):
         ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
-        ftp.cwd(script.get('remote'))
+        try:
+            ftp.cwd(script.get('remote'))
+        except:
+            yield 'Invalid remote folder: Unable to connect'
+            return
 
     entries = []
     ftp.retrlines('LIST', lambda data: entries.append(data))
@@ -75,7 +79,11 @@ def ftp_del(script):
         ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
-        ftp.cwd(script.get('remote'))
+        try:
+            ftp.cwd(script.get('remote'))
+        except:
+            yield 'Invalid remote folder: Unable to connect'
+            return
 
     entries = []
     ftp.retrlines('LIST', lambda data: entries.append(data))
@@ -165,7 +173,11 @@ def ftp_ls(script):
         ftp.sendcmd(sndcmd)
 
     if script.get('remote') != None:
-        ftp.cwd(script.get('remote'))
+        try:
+            ftp.cwd(script.get('remote'))
+        except:
+            yield 'Invalid remote folder: Unable to connect'
+            return
 
     entries = []
     ftp.retrlines('LIST', lambda data: entries.append(data))
