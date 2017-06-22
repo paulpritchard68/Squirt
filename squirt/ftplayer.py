@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>. """
 
 import os
-from ftplib import FTP
+import ftplib
 import re
 from squtils import retrieve_local_path
 
@@ -28,9 +28,9 @@ def ftp_chmod(script):
         returns True if successful
         Failure is not an option """
     if script.get('port') is None:
-        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+        ftp = ftplib.FTP(script.get('host'), script.get('user'), script.get('password'))
     else:
-        ftp = FTP()
+        ftp = ftplib.FTP()
         ftp.connect(script.get('host'), script.get('port'))
         ftp.login(script.get('user'), script.get('password'))
 
@@ -41,8 +41,8 @@ def ftp_chmod(script):
     if script.get('remote') != None:
         try:
             ftp.cwd(script.get('remote'))
-        except:
-            yield 'Invalid remote folder: Unable to connect'
+        except ftplib.all_errors as err:
+            yield 'FTP error: %s' % err
             return
 
     entries = []
@@ -68,9 +68,9 @@ def ftp_del(script):
         Parameter script is a dictionary object
         Returns file names as they are deleted """
     if script.get('port') is None:
-        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+        ftp = ftplib.FTP(script.get('host'), script.get('user'), script.get('password'))
     else:
-        ftp = FTP()
+        ftp = ftplib.FTP()
         ftp.connect(script.get('host'), script.get('port'))
         ftp.login(script.get('user'), script.get('password'))
 
@@ -81,8 +81,8 @@ def ftp_del(script):
     if script.get('remote') != None:
         try:
             ftp.cwd(script.get('remote'))
-        except:
-            yield 'Invalid remote folder: Unable to connect'
+        except ftplib.all_errors as err:
+            yield 'FTP error: %s' % err
             return
 
     entries = []
@@ -112,10 +112,10 @@ def ftp_get(ftp, local_path, remote_path, script):
         local_path = retrieve_local_path(local_path)
 
         if script.get('port') is None:
-            ftp = FTP(script.get('host'), \
+            ftp = ftplib.FTP(script.get('host'), \
                       script.get('user'), script.get('password'))
         else:
-            ftp = FTP()
+            ftp = ftplib.FTP()
             ftp.connect(script.get('host'), script.get('port'))
             ftp.login(script.get('user'), script.get('password'))
 
@@ -125,7 +125,6 @@ def ftp_get(ftp, local_path, remote_path, script):
 
     try:
         for entry in ftp.mlsd(remote_path, facts=["type"]):
-            print (entry)
             if entry[1].get('type') == 'dir':
                 new_remote_path = remote_path + '/' + entry[0]
                 new_local_path = local_path + '/' + entry[0]
@@ -135,7 +134,7 @@ def ftp_get(ftp, local_path, remote_path, script):
                 for new_entry in ftp_get(ftp, new_local_path, \
                                          new_remote_path, script):
                     yield new_entry
-    
+
             if entry[1].get('type') == 'file' \
             and (pattern.search(entry[0]) != None \
                  or script.get('files') is None):
@@ -149,7 +148,7 @@ def ftp_get(ftp, local_path, remote_path, script):
                                        lambda data: file_get.write(data))
                     if script.get('delete') is True:
                         ftp.delete(remote_file)
-    
+
     except:
         yield 'Error: MLSD command not supported by this server'
 
@@ -161,9 +160,9 @@ def ftp_ls(script):
         Yields each of the found files """
 
     if script.get('port') is None:
-        ftp = FTP(script.get('host'), script.get('user'), script.get('password'))
+        ftp = ftplib.FTP(script.get('host'), script.get('user'), script.get('password'))
     else:
-        ftp = FTP()
+        ftp = ftplib.FTP()
         ftp.connect(script.get('host'), script.get('port'))
         ftp.login(script.get('user'), script.get('password'))
 
@@ -175,8 +174,8 @@ def ftp_ls(script):
     if script.get('remote') != None:
         try:
             ftp.cwd(script.get('remote'))
-        except:
-            yield 'Invalid remote folder: Unable to connect'
+        except ftplib.all_errors as err:
+            yield 'FTP error: %s' % err
             return
 
     entries = []
@@ -221,10 +220,10 @@ def ftp_put(script):
         os.chdir(dirname)
         if remote_dir != '':
             if script.get('port') is None:
-                ftp = FTP(script.get('host'), \
+                ftp = ftplib.FTP(script.get('host'), \
                           script.get('user'), script.get('password'))
             else:
-                ftp = FTP()
+                ftp = ftplib.FTP()
                 ftp.connect(script.get('host'), script.get('port'))
                 ftp.login(script.get('user'), script.get('password'))
 
@@ -245,10 +244,10 @@ def ftp_put(script):
             or script.get('files') is None:
                 try:
                     if script.get('port') is None:
-                        ftp = FTP(script.get('host'), \
+                        ftp = ftplib.FTP(script.get('host'), \
                                   script.get('user'), script.get('password'))
                     else:
-                        ftp = FTP()
+                        ftp = ftplib.FTP()
                         ftp.connect(script.get('host'), script.get('port'))
                         ftp.login(script.get('user'), script.get('password'))
                     ftp.cwd(remote_full_path)
@@ -266,10 +265,10 @@ def ftp_tree(ftp, path, script):
     """ Returns the directory tree starting at path """
     if not hasattr(ftp, 'attr_name'):
         if script.get('port') is None:
-            ftp = FTP(script.get('host'), \
+            ftp = ftplib.FTP(script.get('host'), \
                       script.get('user'), script.get('password'))
         else:
-            ftp = FTP()
+            ftp = ftplib.FTP()
             ftp.connect(script.get('host'), script.get('port'))
             ftp.login(script.get('user'), script.get('password'))
 
