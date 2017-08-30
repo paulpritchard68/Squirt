@@ -24,11 +24,6 @@ DB_PATH = '~/.squirt.db'
 def db_delete_script(script):
     """ Delete an existing script
         Parameter script is the script name (character) """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -50,11 +45,6 @@ def db_delete_script(script):
 
 def db_script_exists(script):
     """ Returns True if the named script exists, else False """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -71,11 +61,6 @@ def db_script_exists(script):
 
 def db_list_scripts():
     """ Lists all of the currently defined scripts """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -88,11 +73,6 @@ def db_list_scripts():
 
 def db_retrieve_script_protocol(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -106,11 +86,6 @@ def db_retrieve_script_protocol(script):
 
 def db_retrieve_script_host(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -158,10 +133,7 @@ def db_retrieve_script_user(script):
 def db_retrieve_script_password(script):
     """ Retrieves a script value """
 
-    # First check the database is current
-    db_init()
-
-    # Then check the protocol
+    # Check the protocol
     protocol = db_retrieve_script_protocol(script)
 
     # Then the function
@@ -188,11 +160,6 @@ def db_retrieve_script_password(script):
 
 def db_retrieve_script_local(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -209,11 +176,6 @@ def db_retrieve_script_local(script):
 
 def db_retrieve_script_remote(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -230,11 +192,6 @@ def db_retrieve_script_remote(script):
 
 def db_retrieve_script_do(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -281,11 +238,6 @@ def db_retrieve_script_files(script):
 
 def db_retrieve_script_mode(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -301,9 +253,6 @@ def db_retrieve_script_mode(script):
 
 def db_retrieve_script_namefmt(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
 
     # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
@@ -321,11 +270,6 @@ def db_retrieve_script_namefmt(script):
 
 def db_retrieve_script_server(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -341,9 +285,6 @@ def db_retrieve_script_server(script):
 
 def db_retrieve_script_port(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
 
     # Check the protocol
     protocol = db_retrieve_script_protocol(script)
@@ -371,9 +312,6 @@ def db_retrieve_script_port(script):
 def db_retrieve_script_delete(script):
     """ Retrieves a script value """
 
-    # First check the database is current
-    db_init()
-
     # Check the protocol
     protocol = db_retrieve_script_protocol(script)
 
@@ -399,11 +337,6 @@ def db_retrieve_script_delete(script):
 
 def db_retrieve_script_mailfrom(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -419,11 +352,6 @@ def db_retrieve_script_mailfrom(script):
 
 def db_retrieve_script_mailto(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -439,11 +367,6 @@ def db_retrieve_script_mailto(script):
 
 def db_retrieve_script_subject(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -459,11 +382,6 @@ def db_retrieve_script_subject(script):
 
 def db_retrieve_script_body(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -479,11 +397,6 @@ def db_retrieve_script_body(script):
 
 def db_retrieve_script_folder(script):
     """ Retrieves a script value """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -499,11 +412,6 @@ def db_retrieve_script_folder(script):
 
 def db_retrieve_script_description(script):
     """ Retrieves the description for a script """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -518,11 +426,6 @@ def db_retrieve_script_description(script):
 
 def db_write_script(options):
     """ Write a new script definition to database """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
@@ -857,11 +760,6 @@ def db_update_smtp_delete(options, cursor):
 
 def db_update_script(options):
     """ Update an existing script definition """
-
-    # First check the database is current
-    db_init()
-
-    # Then the function
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 

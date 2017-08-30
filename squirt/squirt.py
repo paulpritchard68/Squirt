@@ -22,7 +22,7 @@ import sys
 import argparse
 from funlayer import fn_build_script, fn_copy_script, fn_delete_script, \
                      fn_retrieve_script, fn_list_scripts, fn_execute_script, \
-                     fn_export_script, fn_import_script
+                     fn_export_script, fn_import_script, fn_check_database
 
 def build_script(options):
     """ Build a reusable FTP script
@@ -202,6 +202,11 @@ def import_script(options):
 def main():
     """ The main event
         Parses the entered arguments and figures out what to do with them """
+
+    # Before you begin, chech the database is up to date
+    fn_check_database()
+
+    # And then start parsing the arguments
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help='Commands')
 

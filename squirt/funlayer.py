@@ -32,6 +32,10 @@ def fn_build_script(script):
     else:
         return db_write_script(replace_special(script))
 
+def fn_check_database():
+    """ Check database level and upgrade if necessary """
+    return db_init()
+
 def fn_copy_script(settings):
     """ Copy a script definition
         Any optional settings are applied to the new script """
