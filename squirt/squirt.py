@@ -22,7 +22,8 @@ import sys
 import argparse
 from funlayer import fn_build_script, fn_copy_script, fn_delete_script, \
                      fn_retrieve_script, fn_list_scripts, fn_execute_script, \
-                     fn_export_script, fn_import_script, fn_check_database
+                     fn_export_script, fn_import_script, fn_check_database, \
+                     fn_change_multiple_scripts
 
 def build_script(options):
     """ Build a reusable FTP script
@@ -57,9 +58,25 @@ def build_script(options):
     can_we_build_it = fn_build_script(script)
     print("%s: Script %s" % (can_we_build_it[1], script.get('script')))
 
+def change_multiple_scripts(settings):
+    """ Change multiple scripts based on host 
+        settings is the dictionary of options that define the changes """
+    script = dict(host=settings.host)
+    script.update(newhost=settings.newhost)
+    script.update(newuser=settings.newuser)
+    script.update(newpassword=settings.newpassword)
+    script.update(newlocal=settings.newlocal)
+    script.update(newremote=settings.newremote)
+
+    for row in fn_change_multiple_scripts(script):
+        if row[0] == True:
+            print("%s successfully changed" % row[1])
+        else:
+            print("Change of script %s FAILED" % row[1])
+    
 def copy_script(settings):
     """ Copy an existing script
-        options is the dictionary of options that define the script """
+        settings is the dictionary of options that define the script """
     script = dict(cf=settings.cf)
     script.update(ct=settings.ct)
     script.update(host=settings.host)
@@ -252,6 +269,16 @@ def main():
                                 help='Delete files after sending (not yet implemented')
     build_parser.set_defaults(command='build')
 
+    # The chgm (Change Many)
+    chgm_parser = subparsers.add_parser('chgm', help='Change multiple scripts based on host')
+    chgm_parser.add_argument('host', action='store', help='Host for which scripts should be changed')
+    chgm_parser.add_argument('--newhost', action='store', help='New FTP Host name')
+    chgm_parser.add_argument('--newuser', action='store', help='New User ID')
+    chgm_parser.add_argument('--newpassword', action='store', help='New Password')
+    chgm_parser.add_argument('--newlocal', action='store', help='New FTP local path')
+    chgm_parser.add_argument('--newremote', action='store', help='New FTP remote path')
+    chgm_parser.set_defaults(command='chgm')
+
     # The copy command
     copy_parser = subparsers.add_parser('copy', help='Copy script')
     copy_parser.add_argument('cf', action='store', help='Copy from script')
@@ -363,6 +390,8 @@ def main():
 
     if command_line.command == 'build':
         build_script(command_line)
+    elif command_line.command == 'chgm':
+        change_multiple_scripts(command_line)
     elif command_line.command == 'copy':
         copy_script(command_line)
     elif command_line.command == 'delete':

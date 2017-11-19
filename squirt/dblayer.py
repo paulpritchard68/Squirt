@@ -71,6 +71,22 @@ def db_list_scripts():
     for row in rows:
         yield row[0], row[1]
 
+def db_list_scripts_by_host(host):
+    """ Lists all of the currently defined scripts for a selected host """
+    connection = sqlite3.connect(os.path.expanduser(DB_PATH))
+    cursor = connection.cursor()
+
+    parameters = (host, host)
+    cursor.execute('select a.script_id, a.script, a.protocol \
+                    from squirt_scripts a \
+                    left outer join squirt_ftp b on b.script_id = a.script_id and b.host = ? \
+                    left outer join squirt_smtp c on c.script_id = a.script_id and c.server = ? \
+                    where b.script_id is not null or c.script_id is not null', parameters)
+
+    rows = cursor.fetchall()
+    for row in rows:
+        yield row[0], row[1], row[2]
+
 def db_retrieve_script_protocol(script):
     """ Retrieves a script value """
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))

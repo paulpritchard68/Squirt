@@ -1,5 +1,6 @@
 0.5 (In progress)
 =================
+New command added - chgm (change multiple scripts)
 Check the database once only
 Exit nicely if invalid remote FTP folder is entered.
 

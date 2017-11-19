@@ -14,6 +14,8 @@ The core of this is pretty straightforward. You use `squirt build` to define (bu
 
 A `copy` command is also available. This will create a new script (ct = copy to) based on an existing script (cf = copy from). Again, this command allows for the same options as `build` - if entered, these will be applied to the new script.
  
+And for those of us that are really lazy, a `chgm` (change multiple) command is available. If you have multiple scripts all pointing at the same host, this command allows you to update them all in one go. Not all parameters are supported.
+
 To clear a field, set the value to *Null
 
 ## Currently supported FTP Actions ##

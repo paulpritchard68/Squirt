@@ -36,6 +36,31 @@ def fn_check_database():
     """ Check database level and upgrade if necessary """
     return db_init()
 
+def fn_change_multiple_scripts(settings):
+    """ Change multiple scripts based on host 
+        settings is the dictionary of options that define the changes """
+    host = settings.get('host')
+    for row in db_list_scripts_by_host(host):
+        changeScript = dict(script=row[1])
+        changeScript.update(protocol=row[2])
+        if settings.get('newhost') != None:
+            if row[2] == 'FTP':
+                changeScript.update(host=settings.get('newhost'))
+            elif row[2] == 'SMTP':
+                changeScript.update(server=settings.get('newhost'))
+        if settings.get('newuser') != None:
+            changeScript.update(user=settings.get('newuser'))
+        if settings.get('newpassword') != None:
+            changeScript.update(password=settings.get('newpassword'))
+        if settings.get('newlocal') != None:
+            changeScript.update(local=settings.get('newlocal'))
+        if settings.get('newremote') != None:
+            changeScript.update(remote=settings.get('newremote'))
+        if db_update_script(changeScript) == True:
+            yield True, row[1]
+        else:
+            yield True, row[1]
+
 def fn_copy_script(settings):
     """ Copy a script definition
         Any optional settings are applied to the new script """
