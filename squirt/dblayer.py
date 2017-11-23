@@ -64,12 +64,12 @@ def db_list_scripts():
     connection = sqlite3.connect(os.path.expanduser(DB_PATH))
     cursor = connection.cursor()
 
-    cursor.execute('select script, description \
+    cursor.execute('select script_id, script, description \
                     from squirt_scripts order by script')
 
     rows = cursor.fetchall()
     for row in rows:
-        yield row[0], row[1]
+        yield row[0], row[1], row[2]
 
 def db_list_scripts_by_host(host):
     """ Lists all of the currently defined scripts for a selected host """

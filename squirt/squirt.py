@@ -163,14 +163,11 @@ def display_script(options):
                 delete_files = 'No'
             print("Delete files:  %s " % delete_files)
 
-def list_scripts():
-    """ Lists the currently defined set of scripts
-        No paramerters this time """
-    for script in  fn_list_scripts():
-        if script[1] != None:
-            print(script[0], '/', script[1])
-        else:
-            print(script[0])
+def list_scripts(options):
+    """ Lists the currently defined set of scripts """
+    for script in fn_list_scripts(options.host):
+        information=fn_retrieve_script(script[1])
+        print(information.get('script'), '\t', information.get('description'))
 
 def execute_script(options):
     """ Execute a built script
@@ -332,6 +329,7 @@ def main():
     # The list command
     list_parser = subparsers.add_parser('list', \
                                         help='List currently defined scripts')
+    list_parser.add_argument('--host', action='store', help='Select scripts by host')
     list_parser.set_defaults(command='list')
 
     # The exec command
@@ -399,7 +397,7 @@ def main():
     elif command_line.command == 'display':
         display_script(command_line)
     elif command_line.command == 'list':
-        list_scripts()
+        list_scripts(command_line)
     elif command_line.command == 'exec':
         execute_script(command_line)
     elif command_line.command == 'export':

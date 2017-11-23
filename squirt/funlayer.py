@@ -241,11 +241,17 @@ def fn_retrieve_script(script_name):
             script.update(delete=db_retrieve_script_delete(script_name))
     return script
 
-def fn_list_scripts():
+def fn_list_scripts(selecthost):
     """ Returns a list of currently defined scripts """
     script_list = []
-    for script in db_list_scripts():
-        script_list.append(script)
+
+    if selecthost == None:
+        for script in db_list_scripts():
+            script_list.append(script)
+    else:
+        for script in db_list_scripts_by_host(selecthost):
+            script_list.append(script)
+
     return script_list
 
 def fn_export_script(script):
