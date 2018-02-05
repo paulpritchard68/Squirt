@@ -242,7 +242,7 @@ def main():
     """ The main event
         Parses the entered arguments and figures out what to do with them """
 
-    # Before you begin, chech the database is up to date
+    # Before you begin, check the database is up to date
     fn_check_database()
 
     # And then start parsing the arguments
