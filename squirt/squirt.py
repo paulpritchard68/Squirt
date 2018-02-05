@@ -26,7 +26,7 @@ from funlayer import fn_build_script, fn_copy_script, fn_delete_script, \
                      fn_change_multiple_scripts
 
 def build_script(options):
-    """ Build a reusable FTP script
+    """ Build a reusable FTP/SMTP script
         options is the dictionary of options that define the script """
     script = dict(script=options.script)
     script.update(protocol=options.protocol.upper())
@@ -54,6 +54,31 @@ def build_script(options):
         script.update(subject=" ".join(options.subject))
     if options.body != None:
         script.update(body=" ".join(options.body))
+
+    can_we_build_it = fn_build_script(script)
+    print("%s: Script %s" % (can_we_build_it[1], script.get('script')))
+
+def buildftp_script(options):
+    """ Build a reusable FTP script
+        options is the dictionary of options that define the script """
+    script = dict(script=options.script)
+    script.update(protocol='FTP')
+    script.update(host=options.host)
+    script.update(user=options.user)
+    script.update(password=options.password)
+    script.update(local=options.local)
+    script.update(remote=options.remote)
+    script.update(do=options.do)
+    script.update(files=options.files)
+    script.update(mode=options.mode)
+    script.update(namefmt=options.namefmt)
+    script.update(port=options.port)
+    if options.delete != None:
+        script.update(delete=options.delete=='yes')
+    else:
+        script.update(delete='0')
+    if options.description != None:
+        script.update(description=" ".join(options.description))
 
     can_we_build_it = fn_build_script(script)
     print("%s: Script %s" % (can_we_build_it[1], script.get('script')))
@@ -224,6 +249,33 @@ def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help='Commands')
 
+    # The buildftp command
+    buildftp_parser = subparsers.add_parser('buildftp', help='Build FTP script')
+    buildftp_parser.add_argument('script', action='store', help='Script name')
+    buildftp_parser.add_argument('--description', nargs='*', action='store', \
+                                help='Description')
+    buildftp_parser.add_argument('--host', action='store', help='FTP Host name')
+    buildftp_parser.add_argument('--user', action='store', help='User ID')
+    buildftp_parser.add_argument('--password', action='store', help='Password')
+    buildftp_parser.add_argument('--local', action='store', help='FTP local path')
+    buildftp_parser.add_argument('--remote', action='store', \
+                                help='FTP remote path')
+    buildftp_parser.add_argument('--do', action='store', help='FTP Do action')
+    buildftp_parser.add_argument('--files', action='store', \
+                                help='The files to be acted on')
+    buildftp_parser.add_argument('--mode', action='store', \
+                                help='Transfer mode (ascii or binary). \
+                                      This option is not currently supported')
+    buildftp_parser.add_argument('--namefmt', action='store', \
+                                help='File naming format (0 or 1). \
+                                You will need this when accessing an IBM i \
+                                on Power.')
+    buildftp_parser.add_argument('--port', action='store', help='FTP/SMTP server port.')
+    buildftp_parser.add_argument('--delete', action='store', \
+                                choices=['yes', 'no'], \
+                                help='Delete files after sending')
+    buildftp_parser.set_defaults(command='buildftp')
+
     # The build command
     build_parser = subparsers.add_parser('build', help='Build script')
     build_parser.add_argument('protocol', action='store', \
@@ -388,6 +440,8 @@ def main():
 
     if command_line.command == 'build':
         build_script(command_line)
+    elif command_line.command == 'buildftp':
+        buildftp_script(command_line)
     elif command_line.command == 'chgm':
         change_multiple_scripts(command_line)
     elif command_line.command == 'copy':
