@@ -1,5 +1,6 @@
 0.5 (In progress)
 =================
+New command added - buildSMTP. Build command for SMTP only.
 New command added - buildftp. Build command for FTP only.
 Squirt list command now supports a --host switch. When used, only the scripts for the selected host will be listed.
 New command added - chgm (change multiple scripts)

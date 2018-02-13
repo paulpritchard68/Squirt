@@ -83,6 +83,33 @@ def buildftp_script(options):
     can_we_build_it = fn_build_script(script)
     print("%s: Script %s" % (can_we_build_it[1], script.get('script')))
 
+def buildsmtp(options):
+    """ Build a reusable SMTP script
+        options is the dictionary of options that define the script """
+    script = dict(script=options.script)
+    script.update(protocol='SMTP')
+    script.update(server=options.server)
+    script.update(port=options.port)
+    script.update(user=options.user)
+    script.update(password=options.password)
+    script.update(mailfrom=options.mailfrom)
+    script.update(mailto=options.mailto)
+    script.update(files=options.files)
+    script.update(folder=options.folder)
+    if options.delete != None:
+        script.update(delete=options.delete=='yes')
+    else:
+        script.update(delete='0')
+    if options.description != None:
+        script.update(description=" ".join(options.description))
+    if options.subject != None:
+        script.update(subject=" ".join(options.subject))
+    if options.body != None:
+        script.update(body=" ".join(options.body))
+
+    can_we_build_it = fn_build_script(script)
+    print("%s: Script %s" % (can_we_build_it[1], script.get('script')))
+
 def change_multiple_scripts(settings):
     """ Change multiple scripts based on host 
         settings is the dictionary of options that define the changes """
@@ -270,11 +297,38 @@ def main():
                                 help='File naming format (0 or 1). \
                                 You will need this when accessing an IBM i \
                                 on Power.')
-    buildftp_parser.add_argument('--port', action='store', help='FTP/SMTP server port.')
+    buildftp_parser.add_argument('--port', action='store', help='FTP SMTP server port.')
     buildftp_parser.add_argument('--delete', action='store', \
                                 choices=['yes', 'no'], \
                                 help='Delete files after sending')
     buildftp_parser.set_defaults(command='buildftp')
+
+    # The buildsmtp command
+    buildsmtp_parser = subparsers.add_parser('buildsmtp', help='Build SMTP script')
+    buildsmtp_parser.add_argument('script', action='store', help='Script name')
+    buildsmtp_parser.add_argument('--description', nargs='*', action='store', \
+                                help='Description')
+    buildsmtp_parser.add_argument('--server', action='store', \
+                                help='SMTP mail server')
+    buildsmtp_parser.add_argument('--port', action='store', help='SMTP server port.')
+    buildsmtp_parser.add_argument('--user', action='store', help='User ID')
+    buildsmtp_parser.add_argument('--password', action='store', help='Password')
+    buildsmtp_parser.add_argument('--mailfrom', action='store', \
+                                help='SMTP from email address')
+    buildsmtp_parser.add_argument('--mailto', action='store', \
+                                help='SMTP to email address')
+    buildsmtp_parser.add_argument('--subject', nargs='*', action='store', \
+                                help='SMTP email subject')
+    buildsmtp_parser.add_argument('--body', nargs='*', action='store', \
+                                help='SMTP email message body')
+    buildsmtp_parser.add_argument('--files', action='store', \
+                                help='The files to be acted on')
+    buildsmtp_parser.add_argument('--folder', action='store', \
+                                help='SMTP: local folder for attachments')
+    buildsmtp_parser.add_argument('--delete', action='store', \
+                                choices=['yes', 'no'], \
+                                help='Delete files after sending')
+    buildsmtp_parser.set_defaults(command='buildsmtp')
 
     # The build command
     build_parser = subparsers.add_parser('build', help='Build script')
@@ -442,6 +496,8 @@ def main():
         build_script(command_line)
     elif command_line.command == 'buildftp':
         buildftp_script(command_line)
+    elif command_line.command == 'buildsmtp':
+        buildsmtp(command_line)
     elif command_line.command == 'chgm':
         change_multiple_scripts(command_line)
     elif command_line.command == 'copy':
