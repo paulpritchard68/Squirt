@@ -331,7 +331,7 @@ def main():
     buildsmtp_parser.set_defaults(command='buildsmtp')
 
     # The build command
-    build_parser = subparsers.add_parser('build', help='Build script')
+    build_parser = subparsers.add_parser('build', help='Deprecated: Use buildftp or buildsmtp instead')
     build_parser.add_argument('protocol', action='store', \
                                 choices=['FTP', 'SMTP'], \
                                 help='Protocol')

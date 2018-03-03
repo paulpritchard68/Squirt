@@ -10,7 +10,7 @@ Squirt requires Python3 and includes the following dependencies:
 ## Using Squirt ##
 Everything is done via the `squirt` command. Full help should be provided and can be accessed by entering `squirt [command] --help`
 
-The core of this is pretty straightforward. You use `squirt build` to define (build) a communication script, using the available options to specify whatever details need to be saved. Once this is done you can use `squirt exec` to execute the script. The `exec` command allows for the same options as `build` - all of these are optional and, if used, will allow you temporarily override the values defined in `build`.
+The core of this is pretty straightforward. You use either `squirt buildftp` or `squirt buildsmtp` to define (build) a communication script, using the available options to specify whatever details need to be saved. Once this is done you can use `squirt exec` to execute the script. The `exec` command allows for the same options as `build` - all of these are optional and, if used, will allow you temporarily override the values defined in `build`.
 
 A `copy` command is also available. This will create a new script (ct = copy to) based on an existing script (cf = copy from). Again, this command allows for the same options as `build` - if entered, these will be applied to the new script.
  
